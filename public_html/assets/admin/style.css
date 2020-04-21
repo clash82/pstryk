@@ -1,0 +1,44 @@
+* {
+    font-family: 'Open Sans', sans-serif
+}
+
+body {
+    background: #343A40;
+}
+
+main {
+    background: #f2f2f2;
+}
+
+.hide {
+    display: none;
+}
+
+main .container {
+    padding: 4em 0 4em 0;
+}
+
+.login-form input[type=text],
+.login-form input[type=password],
+.login-form button {
+    margin-bottom: 1em;
+}
+
+.login-form-remember-me {
+    font-size: 0.9em;
+}
+
+.card-header {
+    height: 3em;
+}
+
+footer {
+    padding-top: 1em;
+    color: #a2a2a2;
+    font-size: 0.9em;
+}
+
+footer a:link,
+footer a:visited {
+    color: inherit;
+}
