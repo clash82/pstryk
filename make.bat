@@ -6,6 +6,7 @@ if ["%1"] == [""] (
     echo.
     echo cache     - rebuild Symfony cache
     echo db-reload - drop/create database and create schema/validate
+    echo pass      - start user password generator
     echo prod      - install only `prod` dependencies and optimize build before deployment
     echo.
     echo Default ENV is: %APP_ENV%
@@ -20,6 +21,11 @@ if ["%1"] == ["db-reload"] (
     php bin\console doctrine:database:create
     php bin\console doctrine:schema:create
     php bin\console doctrine:schema:validate
+    php bin\console doctrine:fixtures:load -n
+)
+
+if ["%1"] == ["pass"] (
+    php bin/console security:encode-password
 )
 
 if ["%1"] == ["prod"] (
