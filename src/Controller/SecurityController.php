@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,7 +17,7 @@ class SecurityController extends AbstractController
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser()) {
-            return $this->redirectToRoute('app_admin_index');
+            return $this->redirectToRoute('app_admin_item_list');
         }
 
         // get the login error if there is one
@@ -29,7 +31,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/zaplecze/logout", name="app_admin_logout")
      */
-    public function logout()
+    public function logout(): void
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }

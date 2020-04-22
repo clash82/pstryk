@@ -77,6 +77,13 @@ class Item
     private $longitude;
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean", name="is_public", nullable=false)
+     */
+    private $isPublic = true;
+
+    /**
      *  @ORM\OneToMany(targetEntity="App\Entity\File", mappedBy="itemId")
      */
     private $files;
@@ -84,6 +91,8 @@ class Item
     public function setAlbum(string $album): self
     {
         $this->album = $album;
+
+        return $this;
     }
 
     public function setId(int $id): self
@@ -147,6 +156,13 @@ class Item
         return $this;
     }
 
+    public function setIsPublic(bool $isPublic): self
+    {
+        $this->isPublic = $isPublic;
+
+        return $this;
+    }
+
     public function getAlbum(): string
     {
         return $this->album;
@@ -161,6 +177,7 @@ class Item
     {
         return $this->slug;
     }
+
     public function getDate(): \DateTime
     {
         return $this->date;
@@ -179,5 +196,10 @@ class Item
     public function getLonitude(): float
     {
         return $this->longitude;
+    }
+
+    public function getIsPublic(): bool
+    {
+        return $this->isPublic;
     }
 }

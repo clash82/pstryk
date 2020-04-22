@@ -32,8 +32,22 @@ main .container {
     height: 3em;
 }
 
+.table-striped th {
+    border-top: 0;
+    padding: 0.3em;
+}
+
+.table-striped td {
+    padding: 0.3em;
+}
+
+.paginator {
+    margin-top: 1em;
+}
+
 footer {
     padding-top: 1em;
+    padding-bottom: 1em;
     color: #a2a2a2;
     font-size: 0.9em;
 }

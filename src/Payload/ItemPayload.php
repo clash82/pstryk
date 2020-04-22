@@ -56,7 +56,6 @@ class ItemPayload
      */
     private $date;
 
-
     public static function createFrom(Item $item)
     {
         $obj = new self();

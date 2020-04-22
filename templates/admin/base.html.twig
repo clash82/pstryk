@@ -16,7 +16,7 @@
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container">
-                <a class="navbar-brand" href="{{ path('app_admin_index') }}">Tron Mistrza</a>
+                <a class="navbar-brand" href="{{ path('app_admin_item_list') }}">Tron Mistrza</a>
 
                 {% if app.user %}
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -24,6 +24,12 @@
                     </button>
 
                     <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('app_admin_item_add') }}">Utwórz nowy wpis</a>
+                            </li>
+                        </ul>
+
                         <ul class="navbar-nav ml-auto">
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ path('app_admin_logout') }}">Wyloguj</a>

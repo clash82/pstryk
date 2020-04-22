@@ -1,0 +1,61 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Portfolio{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title text-center">Ostatnie wpisy</div>
+                </div>
+                <div class="card-body">
+                    {% if items|length %}
+                        <table class="table table-striped">
+                            <thead>
+                                <th class="text-center col-lg-1">#</th>
+                                <th class="text-center col-lg-2">Album</th>
+                                <th class="text-center col-lg-5">Tytuł</th>
+                                <th class="text-center col-lg-2">Data</th>
+                                <th class="col-lg-2"></th>
+                            </thead>
+                            <tbody>
+                                {% for item in items %}
+                                    <tr>
+                                        <td class="text-center align-middle">{{ item.id }}</td>
+                                        <td class="text-center align-middle">{{ item.album }}</td>
+                                        <td class="text-center align-middle">{{ item.title }}</td>
+                                        <td class="text-center align-middle">{{ item.date|date('Y-m-d H:i') }}</td>
+                                        <td class="text-center align-middle">
+                                            <a href="{{ path('app_admin_item_edit', {
+                                                'itemId': item.id,
+                                                'return': app.request.uri
+                                            }) }}" class="btn btn-primary" role="button">
+                                                edytuj
+                                            </a>
+                                            <button class="btn btn-danger action-delete"
+                                                    data-id="{{ item.id }}"
+                                                    data-title="title"
+                                                    data-toggle="modal"
+                                                    data-target="#confirm-delete">
+                                                usuń
+                                            </button>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <div class="col-lg-12 text-center">sory, ale nic tu nie ma</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row paginator">
+        <div class="col-lg-12">
+            {{ knp_pagination_render(items, viewParams = {'align': 'center'}) }}
+        </div>
+    </div>
+{% endblock %}

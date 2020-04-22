@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Security;
 
 use App\Entity\User;
@@ -96,7 +98,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
             return new RedirectResponse($targetPath);
         }
 
-        return new RedirectResponse($this->urlGenerator->generate('app_admin_index'));
+        return new RedirectResponse($this->urlGenerator->generate('app_admin_item_list'));
     }
 
     protected function getLoginUrl()

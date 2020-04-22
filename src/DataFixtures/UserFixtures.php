@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DataFixtures;
 
 use App\Entity\User;
@@ -9,6 +11,10 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserFixtures extends Fixture
 {
+    const DEFAULT_EMAIL = 'admin@toborek.info';
+    const DEFAULT_PASSWORD = 'admin';
+    const DEFAULT_ROLE = 'ROLE_ADMIN';
+
     private $passwordEncoder;
 
     public function __construct(UserPasswordEncoderInterface $passwordEncoder)
@@ -16,17 +22,17 @@ class UserFixtures extends Fixture
         $this->passwordEncoder = $passwordEncoder;
     }
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $user = new User();
 
-        $user->setEmail('admin@toborek.info');
+        $user->setEmail(self::DEFAULT_EMAIL);
         $user->setPassword($this->passwordEncoder->encodePassword(
             $user,
-            'admin'
+            self::DEFAULT_PASSWORD
         ));
         $user->setRoles([
-            'ROLE_ADMIN',
+            self::DEFAULT_ROLE,
         ]);
 
         $manager->persist($user);
