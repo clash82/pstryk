@@ -30,14 +30,16 @@ class AlbumController extends AbstractController
 
         $album = $albums[$slug];
 
+        /*
         $items = $this->itemProvider->getAllByAlbum(
             $slug,
             'list' === $album['type'] ? null : $album['pagination_limit'],
             'list' === $album['type'] ? null : 0
         );
+        */
 
         return $this->render(sprintf('album/%s/index.html.twig', $slug), [
-            'items' => $items,
+            'items' => [],
         ]);
     }
 }

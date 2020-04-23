@@ -52,8 +52,29 @@ DATABASE_URL=mysql://db_user:db_pass@127.0.0.1:3306/db_name?serverVersion=5.7
 ###< doctrine/doctrine-bundle ###
 ```
 
-- create database structure:
+- create database structure and load fixtures:
 
 ```bash
 make db-reload
 ``` 
+
+- install Node.js and Yarn. After that install dependencies:
+
+```bash
+yarn install
+```
+
+- compile assets:
+
+```bash
+make assets
+```
+
+Deployment
+----------
+
+- prepare deployment:
+
+```bash
+make prod
+```

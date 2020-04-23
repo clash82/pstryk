@@ -1,3 +1,4 @@
+.php_cs.cache
 
 ###> symfony/framework-bundle ###
 /.env.local
@@ -15,4 +16,9 @@
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
 
-.php_cs.cache
+###> symfony/webpack-encore-bundle ###
+/node_modules/
+/public_html/assets/
+npm-debug.log
+yarn-error.log
+###< symfony/webpack-encore-bundle ###
