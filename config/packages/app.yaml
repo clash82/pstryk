@@ -6,10 +6,9 @@ app:
         stalker:
             title: Stalker
             description: ~
-            type: list
-            pagination_limit: 10
+            pagination_limit: 1000
+            feed_limit: 10
             image_horizontal_max_width: 0
             image_horizontal_max_height: 0
             image_vertical_max_width: 0
             image_vertical_max_height: 0
-            feed_limit: 10

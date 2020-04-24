@@ -18,9 +18,9 @@ class AlbumController extends AbstractController
     }
 
     /**
-     * @Route("/{slug}", name="app_album_index")
+     * @Route("/{slug}/{page}", name="app_album_index", requirements={"page" = "\d+"}, defaults={"page" = "1"})
      */
-    public function index(string $slug)
+    public function index(string $slug, int $page)
     {
         $albums = $this->getParameter('app')['albums'];
 
@@ -30,16 +30,14 @@ class AlbumController extends AbstractController
 
         $album = $albums[$slug];
 
-        /*
         $items = $this->itemProvider->getAllByAlbum(
             $slug,
-            'list' === $album['type'] ? null : $album['pagination_limit'],
-            'list' === $album['type'] ? null : 0
+            $page,
+            $album['pagination_limit']
         );
-        */
 
         return $this->render(sprintf('album/%s/index.html.twig', $slug), [
-            'items' => [],
+            'items' => $items,
         ]);
     }
 }

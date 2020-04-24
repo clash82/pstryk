@@ -12,9 +12,6 @@ use Knp\Component\Pager\PaginatorInterface;
 
 class ItemRepository extends ServiceEntityRepository
 {
-    const DEFAULT_SORT_ORDER = 'DESC';
-    const DEFAULT_PAGE_LIMIT = 10;
-
     private $paginator;
 
     public function __construct(ManagerRegistry $registry, PaginatorInterface $paginator)
@@ -24,33 +21,33 @@ class ItemRepository extends ServiceEntityRepository
         parent::__construct($registry, Item::class);
     }
 
-    public function getAll(int $page): PaginationInterface
+    public function getAll(int $page, int $limit): PaginationInterface
     {
         $query = $this->getEntityManager()->getRepository(Item::class)
             ->createQueryBuilder('i')
-            ->orderBy('i.date', self::DEFAULT_SORT_ORDER)
+            ->orderBy('i.date', 'DESC')
             ->getQuery();
 
         return $this->paginator->paginate(
             $query,
             $page,
-            self::DEFAULT_PAGE_LIMIT
+            $limit
         );
     }
 
-    public function getAllByAlbum(string $album, int $page): PaginationInterface
+    public function getAllByAlbum(string $album, int $page, int $limit): PaginationInterface
     {
         $query = $this->getEntityManager()->getRepository(Item::class)
             ->createQueryBuilder('i')
             ->where('i.album = :album')
             ->setParameter('album', $album)
-            ->orderBy('i.date', self::DEFAULT_SORT_ORDER)
+            ->orderBy('i.date', 'DESC')
             ->getQuery();
 
         return $this->paginator->paginate(
             $query,
             $page,
-            self::DEFAULT_PAGE_LIMIT
+            $limit
         );
     }
 
