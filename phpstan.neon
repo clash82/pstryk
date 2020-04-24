@@ -1,0 +1,14 @@
+includes:
+    - vendor/phpstan/phpstan-symfony/extension.neon
+    - vendor/phpstan/phpstan-doctrine/extension.neon
+parameters:
+    checkMissingIterableValueType: false
+    symfony:
+        container_xml_path: '%rootDir%/../../../var/cache/dev/App_KernelDevDebugContainer.xml'
+    excludes_analyse:
+        - %rootDir%/tests
+    ignoreErrors:
+        - '#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition::children\(\).#'
+        - '#Method App\\Security\\LoginFormAuthenticator::getPassword\(\) has parameter \$credentials with no typehint specified.#'
+    doctrine:
+        objectManagerLoader: tests/object-manager.php

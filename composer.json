@@ -33,6 +33,9 @@
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.3",
+        "phpstan/phpstan": "^0.12.19",
+        "phpstan/phpstan-doctrine": "^0.12.10",
+        "phpstan/phpstan-symfony": "^0.12.6",
         "symfony/debug-pack": "*",
         "symfony/maker-bundle": "^1.0",
         "symfony/profiler-pack": "*",

@@ -9,6 +9,7 @@ if ["%1"] == [""] (
     echo pass         - start user password generator
     echo assets       - build assets using webpack-encore
     echo assets-watch - recompile assets automatically when files change
+    echo phpstan      - analyse code with phpstan tool
     echo prod         - install only `prod` dependencies and optimize build before deployment
     echo.
     echo Default ENV is: %APP_ENV%
@@ -36,6 +37,10 @@ if ["%1"] == ["assets"] (
 
 if ["%1"] == ["assets-watch"] (
     yarn encore dev --watch
+)
+
+if ["%1"] == ["phpstan"] (
+    php vendor\phpstan\phpstan\phpstan analyse src --level=max --memory-limit=1G
 )
 
 if ["%1"] == ["prod"] (
