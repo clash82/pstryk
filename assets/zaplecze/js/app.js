@@ -11,7 +11,6 @@ import '../css/bootstrap.css';
 import '../css/opensans.css';
 import '../css/app.css';
 
-// Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
 import $ from 'jquery';
 import bootstrap from 'bootstrap';
 

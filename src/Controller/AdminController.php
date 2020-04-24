@@ -4,17 +4,25 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Controller\Helper\Parameters;
+use App\Manager\ItemManager;
 use App\Provider\ItemProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class AdminController extends AbstractController
 {
     private $itemProvider;
+    private $itemManager;
+    private $parametersHelper;
 
-    public function __construct(ItemProvider $itemProvider)
+    public function __construct(ItemProvider $itemProvider, ItemManager $itemManager, Parameters $parametersHelper)
     {
         $this->itemProvider = $itemProvider;
+        $this->itemManager = $itemManager;
+        $this->parametersHelper = $parametersHelper;
     }
 
     /**
@@ -41,5 +49,32 @@ class AdminController extends AbstractController
     public function addItem()
     {
         return $this->render('admin/item_edit.html.twig');
+    }
+
+    /**
+     * @Route("/zaplecze/item/delete", name="app_admin_item_delete", condition="request.isXmlHttpRequest()")
+     */
+    public function deleteItem(Request $request)
+    {
+        $parameters = $this->parametersHelper->resolveParameters([
+            'itemId',
+        ], $request->request->all());
+
+        $errorCode = 0;
+        $errorDescription = null;
+
+        try {
+            $this->itemManager->deleteById((int) $parameters['itemId']);
+        } catch (\Exception $e) {
+            $errorCode = 1;
+            $errorDescription = $e->getMessage();
+        }
+
+        $jsonResponse = new JsonResponse([
+            'errorCode' => $errorCode,
+            'errorDescription' => $errorDescription,
+        ]);
+
+        return $jsonResponse;
     }
 }

@@ -12,6 +12,9 @@
         {% block stylesheets %}
             {{ encore_entry_link_tags('zaplecze') }}
         {% endblock %}
+        {% block javascripts %}
+            {{ encore_entry_script_tags('zaplecze') }}
+        {% endblock %}
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -51,9 +54,5 @@
             <br>
             Powered by Symfony Framework v5
         </footer>
-
-        {% block javascripts %}
-            {{ encore_entry_script_tags('zaplecze') }}
-        {% endblock %}
     </body>
 </html>

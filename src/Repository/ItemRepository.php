@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Item;
+use App\Exception\RecordNotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\Pagination\PaginationInterface;
@@ -63,5 +64,31 @@ class ItemRepository extends ServiceEntityRepository
 
         /* @noinspection PhpUnhandledExceptionInspection */
         return (int) $queryBuilder->getQuery()->getSingleScalarResult();
+    }
+
+    public function getById($itemId)
+    {
+        $item = $this->getEntityManager()->getRepository(Item::class)
+            ->find($itemId);
+
+        if (!$item) {
+            /* @noinspection PhpUnhandledExceptionInspection */
+            throw new RecordNotFoundException(
+                sprintf('No item found for id [%d]', $itemId)
+            );
+        }
+
+        return $item;
+    }
+
+    public function deleteById(int $itemId): void
+    {
+        /* @noinspection PhpUnhandledExceptionInspection */
+        $item = $this->getById($itemId);
+
+        /* @noinspection PhpUnhandledExceptionInspection */
+        $this->getEntityManager()->remove($item);
+        /* @noinspection PhpUnhandledExceptionInspection */
+        $this->getEntityManager()->flush();
     }
 }

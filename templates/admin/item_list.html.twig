@@ -3,6 +3,11 @@
 {% block title %}Portfolio{% endblock %}
 
 {% block body %}
+    {% include 'admin/parts/delete_dialog.html.twig' with {
+        'objectType': 'item',
+        'endpoint': path('app_admin_item_delete')
+    } %}
+
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
@@ -35,7 +40,7 @@
                                             </a>
                                             <button class="btn btn-danger action-delete"
                                                     data-id="{{ item.id }}"
-                                                    data-title="title"
+                                                    data-title="{{ item.title }}"
                                                     data-toggle="modal"
                                                     data-target="#confirm-delete">
                                                 <span class="fas fa-trash-alt"></span>

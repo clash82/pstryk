@@ -1,0 +1,54 @@
+<script>
+    $(document).ready(function() {
+        $('#confirm-delete').on('show.bs.modal', function(event) {
+            var {{ objectType }}Id = $(event.relatedTarget).data('id'),
+                    {{ objectType }}Title = $(event.relatedTarget).data('title'),
+                deleteBtn = $(this).find('.btn-danger');
+
+            deleteBtn.unbind().on('click', function() {
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ endpoint }}',
+                    data: {
+                        '{{ objectType }}Id': {{ objectType }}Id
+                    },
+                    success: function(data) {
+                        if (data.errorCode === Number('0')) {
+                            location.reload();
+
+                            return;
+                        }
+
+                        alert('Błąd: '+data.errorDescription);
+                    },
+                    dataType: 'json'
+                });
+            });
+
+            $('.{{ objectType }}-title').html({{ objectType }}Title);
+        });
+    });
+</script>
+
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Poślij w niebyt</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <p>Nazwa obiektu: <strong><span class="{{ objectType }}-title"></span></strong></p>
+                <p>Obiekt zostanie usunięty bezpowrotnie, czy kontynuować?</p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Niech cię ręka boska broni!</button>
+                <button type="button" class="btn btn-danger">Tak, nie potrzebuję go</button>
+            </div>
+        </div>
+    </div>
+</div>
