@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Traits\Id;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -15,25 +16,25 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    use Id;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="string", length=180, unique=true)
      */
     private $email;
 
     /**
+     * @var array
+     *
      * @ORM\Column(type="json")
      */
     private $roles = [];
 
     /**
-     * @var string The hashed password
+     * @var string
+     *
      * @ORM\Column(type="string")
      */
     private $password;
@@ -102,9 +103,10 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function getSalt(): void
+    public function getSalt(): string
     {
         // not needed when using the "bcrypt" algorithm in security.yaml
+        return '';
     }
 
     /**

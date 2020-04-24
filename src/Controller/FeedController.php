@@ -6,10 +6,14 @@ namespace App\Controller;
 
 use App\Provider\ItemProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class FeedController extends AbstractController
 {
+    /**
+     * @var ItemProvider
+     */
     private $itemProvider;
 
     public function __construct(ItemProvider $itemProvider)
@@ -20,7 +24,7 @@ class FeedController extends AbstractController
     /**
      * @Route("/{slug}/feed", name="app_feed_index")
      */
-    public function index(string $slug)
+    public function index(string $slug): Response
     {
         $albums = $this->getParameter('app')['albums'];
 

@@ -15,6 +15,9 @@ class UserFixtures extends Fixture
     const DEFAULT_PASSWORD = 'admin';
     const DEFAULT_ROLE = 'ROLE_ADMIN';
 
+    /**
+     * @var \Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface
+     */
     private $passwordEncoder;
 
     public function __construct(UserPasswordEncoderInterface $passwordEncoder)

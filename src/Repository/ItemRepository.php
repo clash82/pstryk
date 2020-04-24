@@ -13,6 +13,9 @@ use Knp\Component\Pager\PaginatorInterface;
 
 class ItemRepository extends ServiceEntityRepository
 {
+    /**
+     * @var PaginatorInterface
+     */
     private $paginator;
 
     public function __construct(ManagerRegistry $registry, PaginatorInterface $paginator)
@@ -66,7 +69,7 @@ class ItemRepository extends ServiceEntityRepository
         return (int) $queryBuilder->getQuery()->getSingleScalarResult();
     }
 
-    public function getById($itemId)
+    public function getById(int $itemId): object
     {
         $item = $this->getEntityManager()->getRepository(Item::class)
             ->find($itemId);

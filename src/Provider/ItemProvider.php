@@ -11,6 +11,9 @@ class ItemProvider
 {
     const DEFAULT_PAGE_LIMIT = 10;
 
+    /**
+     * @var ItemRepository
+     */
     private $itemRepository;
 
     public function __construct(ItemRepository $itemRepository)

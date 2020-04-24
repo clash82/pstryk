@@ -84,7 +84,9 @@ class Item
     private $isPublic = true;
 
     /**
-     *  @ORM\OneToMany(targetEntity="App\Entity\File", mappedBy="itemId")
+     * @var array
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\File", mappedBy="itemId")
      */
     private $files;
 

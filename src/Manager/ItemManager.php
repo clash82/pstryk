@@ -8,6 +8,9 @@ use App\Repository\ItemRepository;
 
 class ItemManager
 {
+    /**
+     * @var \App\Repository\ItemRepository
+     */
     private $itemRepository;
 
     public function __construct(ItemRepository $itemRepository)

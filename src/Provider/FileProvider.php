@@ -8,6 +8,9 @@ use App\Repository\FileRepository;
 
 class FileProvider
 {
+    /**
+     * @var FileRepository
+     */
     private $fileRepository;
 
     public function __construct(FileRepository $fileRepository)
