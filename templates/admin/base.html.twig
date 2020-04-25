@@ -28,8 +28,8 @@
 
                     <div class="collapse navbar-collapse" id="navbarNavDropdown">
                         <ul class="navbar-nav mr-auto">
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ path('app_admin_item_add') }}">Utwórz nowy wpis</a>
+                            <li class="nav-item{% if getControllerName() == 'admin' and getActionName() == 'addItem' %} active{% endif %}">
+                                <a class="nav-link" href="{{ path('app_admin_item_add', {'return': app.request.uri}) }}">Utwórz nowy wpis</a>
                             </li>
                         </ul>
 

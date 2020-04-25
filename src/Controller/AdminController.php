@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Controller\Helper\Parameters;
+use App\Controller\Helper\ParametersHelper;
+use App\Controller\Helper\RedirectHelper;
+use App\Entity\Item;
+use App\Form\ItemType;
 use App\Manager\ItemManager;
 use App\Provider\ItemProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,15 +29,25 @@ class AdminController extends AbstractController
     private $itemManager;
 
     /**
-     * @var Parameters
+     * @var ParametersHelper
      */
     private $parametersHelper;
 
-    public function __construct(ItemProvider $itemProvider, ItemManager $itemManager, Parameters $parametersHelper)
-    {
+    /**
+     * @var RedirectHelper
+     */
+    private $redirectHelper;
+
+    public function __construct(
+        ItemProvider $itemProvider,
+        ItemManager $itemManager,
+        ParametersHelper $parametersHelper,
+        RedirectHelper $redirectHelper
+    ) {
         $this->itemProvider = $itemProvider;
         $this->itemManager = $itemManager;
         $this->parametersHelper = $parametersHelper;
+        $this->redirectHelper = $redirectHelper;
     }
 
     /**
@@ -48,19 +61,53 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/zaplecze/item/edit", name="app_admin_item_edit")
+     * @Route("/zaplecze/item/edit/{itemId}", name="app_admin_item_edit", requirements={"itemId" = "\d+"})
      */
-    public function editItem(): Response
+    public function editItem(Request $request, int $itemId): Response
     {
-        return $this->render('admin/item_edit.html.twig');
+        $item = $this->itemProvider->getById($itemId);
+        $form = $this->createForm(ItemType::class, $item);
+
+        if ($request->isMethod('POST')) {
+            $form->submit($request->request->get($form->getName()));
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $this->itemManager->update($item);
+
+                $this->redirectHelper->redirectToList($request->query->get('return'), 'app_admin_item_list');
+            }
+        }
+
+        return $this->render('admin/parts/form.html.twig', [
+            'title' => 'Edytuj zestaw',
+            'form' => $form->createView(),
+        ]);
     }
 
     /**
      * @Route("/zaplecze/item/add", name="app_admin_item_add")
      */
-    public function addItem(): Response
+    public function addItem(Request $request): Response
     {
-        return $this->render('admin/item_edit.html.twig');
+        $item = new Item();
+        $form = $this->createForm(ItemType::class, $item, [
+            'creation_type' => 'create',
+        ]);
+
+        if ($request->isMethod('POST')) {
+            $form->submit($request->request->get($form->getName()));
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $this->itemManager->update($item);
+
+                $this->redirectHelper->redirectToList($request->query->get('return'), 'app_admin_item_list');
+            }
+        }
+
+        return $this->render('admin/parts/form.html.twig', [
+            'title' => 'Dodaj zestaw',
+            'form' => $form->createView(),
+        ]);
     }
 
     /**

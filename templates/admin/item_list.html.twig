@@ -22,7 +22,7 @@
                                 <th class="text-center col-lg-2 col-md-2 col-2">Album</th>
                                 <th class="text-center col-lg-5 col-md-2 col-2">Tytuł</th>
                                 <th class="text-center col-lg-2 col-md-2 col-2">Data</th>
-                                <th class="col-lg-2 col-md-2 col-3"></th>
+                                <th class="col-lg-3 col-md-3 col-4"></th>
                             </thead>
                             <tbody>
                                 {% for item in items %}
@@ -32,6 +32,9 @@
                                         <td class="text-center align-middle">{{ item.title }}</td>
                                         <td class="text-center align-middle">{{ item.date|date('Y-m-d H:i') }}</td>
                                         <td class="text-center align-middle">
+                                            <button class="btn btn-default" disabled>
+                                                <span class="fas fa-{% if item.isActive %}check{% else %}eye-slash{% endif %}"></span>
+                                            </button>
                                             <a href="{{ path('app_admin_item_edit', {
                                                 'itemId': item.id,
                                                 'return': app.request.uri

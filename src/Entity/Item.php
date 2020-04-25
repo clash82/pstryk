@@ -7,6 +7,7 @@ namespace App\Entity;
 use App\Entity\Traits\Id;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -47,10 +48,10 @@ class Item
     private $description;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(type="string", name="slug", nullable=false, length=191)
-     * @Assert\NotBlank()
+     * @Gedmo\Slug(fields={"title"}, updatable=false, separator="-")
+     * @ORM\Column(name="slug", nullable=true, length=191, unique=true)
      * @Assert\Type(type="string")
      */
     private $slug;
@@ -79,9 +80,9 @@ class Item
     /**
      * @var bool
      *
-     * @ORM\Column(type="boolean", name="is_public", nullable=false)
+     * @ORM\Column(type="boolean", name="is_active", nullable=false)
      */
-    private $isPublic = true;
+    private $isActive = true;
 
     /**
      * @var array
@@ -89,6 +90,11 @@ class Item
      * @ORM\OneToMany(targetEntity="App\Entity\File", mappedBy="itemId")
      */
     private $files;
+
+    public function __construct()
+    {
+        $this->date = new \DateTime();
+    }
 
     public function setAlbum(string $album): self
     {
@@ -104,7 +110,7 @@ class Item
         return $this;
     }
 
-    public function getTitle(): string
+    public function getTitle(): ?string
     {
         return $this->title;
     }
@@ -116,7 +122,7 @@ class Item
         return $this;
     }
 
-    public function setSlug(string $slug): self
+    public function setSlug(?string $slug): self
     {
         $this->slug = $slug;
 
@@ -158,29 +164,29 @@ class Item
         return $this;
     }
 
-    public function setIsPublic(bool $isPublic): self
+    public function setIsActive(bool $isActive): self
     {
-        $this->isPublic = $isPublic;
+        $this->isActive = $isActive;
 
         return $this;
     }
 
-    public function getAlbum(): string
+    public function getAlbum(): ?string
     {
         return $this->album;
     }
 
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    public function getSlug(): string
+    public function getSlug(): ?string
     {
         return $this->slug;
     }
 
-    public function getDate(): \DateTime
+    public function getDate(): ?\DateTime
     {
         return $this->date;
     }
@@ -192,16 +198,16 @@ class Item
 
     public function getLatitude(): float
     {
-        return $this->latitude;
+        return (float) $this->latitude;
     }
 
-    public function getLonitude(): float
+    public function getLongitude(): float
     {
-        return $this->longitude;
+        return (float) $this->longitude;
     }
 
-    public function getIsPublic(): bool
+    public function getIsActive(): bool
     {
-        return $this->isPublic;
+        return $this->isActive;
     }
 }

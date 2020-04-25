@@ -1,0 +1,30 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block body %}
+    <script>
+        $(document).ready(function() {
+            $('.form-datetimepicker').flatpickr({
+                enableTime: true,
+                dateFormat: 'Y-m-d H:i',
+                altInput: true,
+                altFormat: 'j F Y / H:i'
+            });
+
+            $('.btn-return').click(function() {
+                location.href = '{{ app.request.get('return')|raw }}';
+            });
+        })
+    </script>
+
+    {% import 'admin/parts/form_layout.html.twig' as editForm %}
+    {% form_theme form 'admin/parts/form_fields.html.twig' %}
+
+    {% if ownerName is defined %}
+        <div class="row sponsor-owner">
+            <div class="col-md-2 col-sm-4">{{ ownerTitle }}:</div>
+            <div class="col-md-10 col-sm-8">{{ ownerName }}</div>
+        </div>
+    {% endif %}
+
+    {{ editForm.display_form(form) }}
+{% endblock %}

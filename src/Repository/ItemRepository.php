@@ -69,7 +69,7 @@ class ItemRepository extends ServiceEntityRepository
         return (int) $queryBuilder->getQuery()->getSingleScalarResult();
     }
 
-    public function getById(int $itemId): object
+    public function getById(int $itemId): Item
     {
         $item = $this->getEntityManager()->getRepository(Item::class)
             ->find($itemId);
@@ -91,6 +91,14 @@ class ItemRepository extends ServiceEntityRepository
 
         /* @noinspection PhpUnhandledExceptionInspection */
         $this->getEntityManager()->remove($item);
+        /* @noinspection PhpUnhandledExceptionInspection */
+        $this->getEntityManager()->flush();
+    }
+
+    public function update(Item $item): void
+    {
+        /* @noinspection PhpUnhandledExceptionInspection */
+        $this->getEntityManager()->persist($item);
         /* @noinspection PhpUnhandledExceptionInspection */
         $this->getEntityManager()->flush();
     }

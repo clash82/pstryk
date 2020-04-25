@@ -1,4 +1,7 @@
 {
+    "behat/transliterator": {
+        "version": "v1.3.0"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -92,6 +95,9 @@
     },
     "egulias/email-validator": {
         "version": "2.1.17"
+    },
+    "gedmo/doctrine-extensions": {
+        "version": "v2.4.39"
     },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"

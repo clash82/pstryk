@@ -6,12 +6,18 @@
  */
 
 // any CSS you import will output into a single css file (app.css in this case)
-import '../css/fontawesome.css';
-import '../css/bootstrap.css';
-import '../css/opensans.css';
-import '../css/app.css';
+require('../css/fontawesome.css');
+require('../css/bootstrap.css');
+require('../css/opensans.css');
+require('../css/app.css');
+require('flatpickr/dist/themes/material_green.css');
 
-import $ from 'jquery';
-import bootstrap from 'bootstrap';
+const $ = require('jquery');
+global.$ = global.jQuery = $;
+
+require('bootstrap');
+const flatpickr = require('flatpickr');
+const flatpickrPL = require('flatpickr/dist/l10n/pl.js').default.pl;
+flatpickr.localize(flatpickrPL);
 
 console.log('Hello Webpack Encore! Edit me in assets/zaplecze/js/app.js');

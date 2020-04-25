@@ -28,7 +28,7 @@ class ItemFixtures extends Fixture
                 ->setSlug(sprintf(self::DEFAULT_SLUG, $i))
                 ->setLatitude(self::DEFAULT_latitude)
                 ->setLongitude(self::DEFAULT_longitude)
-                ->setIsPublic(true));
+                ->setIsActive(true));
         }
 
         $manager->flush();

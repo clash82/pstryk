@@ -7,7 +7,7 @@ namespace App\Controller\Helper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class Parameters extends AbstractController
+class ParametersHelper extends AbstractController
 {
     public function resolveParameters(array $required = [], array $available = []): array
     {

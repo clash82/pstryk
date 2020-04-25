@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Provider;
 
+use App\Entity\Item;
 use App\Repository\ItemRepository;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
@@ -34,5 +35,11 @@ class ItemProvider
     public function getTotalCountByAlbum(string $album): int
     {
         return $this->itemRepository->getTotalCountByAlbum($album);
+    }
+
+    public function getById(int $itemId): Item
+    {
+        /* @noinspection PhpUnhandledExceptionInspection */
+        return $this->itemRepository->getById($itemId);
     }
 }
