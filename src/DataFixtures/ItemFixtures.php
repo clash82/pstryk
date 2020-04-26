@@ -14,8 +14,8 @@ class ItemFixtures extends Fixture
     const DEFAULT_TITLE = 'Item title %d';
     const DEFAULT_DESCRIPTION = 'Description for item %d';
     const DEFAULT_SLUG = 'item-slug-%d';
-    const DEFAULT_latitude = 50.31406826596857;
-    const DEFAULT_longitude = 19.119177460670475;
+    const DEFAULT_LATITUDE = 50.31406826596857;
+    const DEFAULT_LONGITUDE = 19.119177460670475;
 
     public function load(ObjectManager $manager): void
     {
@@ -26,8 +26,8 @@ class ItemFixtures extends Fixture
                 ->setTitle(sprintf(self::DEFAULT_TITLE, $i))
                 ->setDescription(sprintf(self::DEFAULT_DESCRIPTION, $i))
                 ->setSlug(sprintf(self::DEFAULT_SLUG, $i))
-                ->setLatitude(self::DEFAULT_latitude)
-                ->setLongitude(self::DEFAULT_longitude)
+                ->setLatitude(self::DEFAULT_LATITUDE)
+                ->setLongitude(self::DEFAULT_LONGITUDE)
                 ->setIsActive(true));
         }
 
