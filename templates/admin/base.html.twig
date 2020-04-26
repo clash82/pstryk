@@ -8,7 +8,7 @@
         <meta name="author" content="Rafał Toborek">
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
         <base href="{{ app.request.server.getHeaders()['HOST'] }}">
-        <title>{% block title %}{% endblock %} ‒ Tron Mistrza</title>
+        <title>{% block title %}{% if title is defined %}{{ title }}{% endif %}{% endblock %} ‒ Tron Mistrza</title>
         {% block stylesheets %}
             {{ encore_entry_link_tags('zaplecze') }}
         {% endblock %}
@@ -29,7 +29,7 @@
                     <div class="collapse navbar-collapse" id="navbarNavDropdown">
                         <ul class="navbar-nav mr-auto">
                             <li class="nav-item{% if getControllerName() == 'admin' and getActionName() == 'addItem' %} active{% endif %}">
-                                <a class="nav-link" href="{{ path('app_admin_item_add', {'return': app.request.uri}) }}">Utwórz nowy wpis</a>
+                                <a class="nav-link" href="{{ path('app_admin_item_add', {'return': app.request.uri}) }}">Dodaj zestaw zdjęć</a>
                             </li>
                         </ul>
 

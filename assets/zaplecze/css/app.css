@@ -41,6 +41,39 @@ main .container {
     padding: 0.3em;
 }
 
+.vcenter {
+    display: flex;
+    align-items: center;
+}
+
+.form-textarea {
+    height: 10em !important;
+}
+
+.form-row-separator {
+    margin-top: 1em;
+}
+
+.form-required {
+    color: #c40000;
+}
+
+.form-help {
+    color: #0f896f;
+    margin-top: 0.7em;
+    margin-bottom: 0.7em;
+    font-size: 0.8em;
+}
+
+.form-error {
+    border: 1px solid #ed0000;
+    background: #ffeaea;
+    padding: 1em 1.5em;
+    list-style-type: none;
+    color: #ed0000;
+    font-weight: bold;
+}
+
 .paginator {
     margin-top: 1em;
 }

@@ -16,15 +16,19 @@
         })
     </script>
 
-    {% import 'admin/parts/form_layout.html.twig' as editForm %}
-    {% form_theme form 'admin/parts/form_fields.html.twig' %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title text-center">{{ title }}</div>
+                </div>
+                <div class="card-body">
+                    {% import 'admin/parts/form_layout.html.twig' as editForm %}
+                    {% form_theme form 'admin/parts/form_fields.html.twig' %}
 
-    {% if ownerName is defined %}
-        <div class="row sponsor-owner">
-            <div class="col-md-2 col-sm-4">{{ ownerTitle }}:</div>
-            <div class="col-md-10 col-sm-8">{{ ownerName }}</div>
+                    {{ editForm.display_form(form) }}
+                </div>
+            </div>
         </div>
-    {% endif %}
-
-    {{ editForm.display_form(form) }}
+    </div>
 {% endblock %}

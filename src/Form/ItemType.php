@@ -48,12 +48,15 @@ class ItemType extends AbstractType
                 'label' => 'Slug',
                 'required' => false,
                 'attr' => [
-                    'help' => 'Pozostaw pole puste, aby wygenerować nową wartość na podstawie tytułu',
+                    'help' => 'pozostaw pole puste, aby wygenerować nową wartość na podstawie tytułu',
                 ]
             ])
             ->add('description', TextareaType::class, [
                 'label' => 'Opis',
                 'required' => false,
+                'attr' => [
+                    'class' => 'form-textarea',
+                ],
             ])
             ->add('date', DateTimeType::class, [
                 'widget' => 'single_text',
@@ -65,14 +68,20 @@ class ItemType extends AbstractType
                 ],
             ])
             ->add('latitude', NumberType::class, [
-                'label' => 'Szerokość geograficzna (lat)',
+                'label' => 'Szerokość geograficzna',
                 'required' => false,
                 'scale' => 8,
+                'attr' => [
+                    'help' => 'latitude',
+                 ],
             ])
             ->add('longitude', NumberType::class, [
-                'label' => 'Długość geograficzna (long)',
+                'label' => 'Długość geograficzna',
                 'required' => false,
                 'scale' => 8,
+                'attr' => [
+                    'help' => 'longitude',
+                ],
             ])
             ->add('isActive', CheckboxType::class, [
                 'label' => 'Aktywny',

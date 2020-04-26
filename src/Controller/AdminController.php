@@ -79,7 +79,7 @@ class AdminController extends AbstractController
         }
 
         return $this->render('admin/parts/form.html.twig', [
-            'title' => 'Edytuj zestaw',
+            'title' => 'Edytuj zestaw zdjęć',
             'form' => $form->createView(),
         ]);
     }
@@ -105,7 +105,7 @@ class AdminController extends AbstractController
         }
 
         return $this->render('admin/parts/form.html.twig', [
-            'title' => 'Dodaj zestaw',
+            'title' => 'Dodaj zestaw zdjęć',
             'form' => $form->createView(),
         ]);
     }
