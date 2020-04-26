@@ -28,8 +28,8 @@ class ItemType extends AbstractType
     {
         $albums = $albumProvider->getAll();
 
-        foreach ($albums as $albumId => $albumSettings) {
-            $this->albums[sprintf('%s (%s)', $albumSettings['title'], $albumId)] = $albumId;
+        foreach ($albums as $album) {
+            $this->albums[sprintf('%s (%s)', $album->getTitle(), $album->getSlug())] = $album->getSlug();
         }
     }
 

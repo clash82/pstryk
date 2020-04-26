@@ -33,15 +33,15 @@ class FeedController extends AbstractController
      */
     public function index(string $slug): Response
     {
-        $albums = $this->albumProvider->getAll();
-
-        if (!isset($albums[$slug])) {
+        if (!$this->albumProvider->slugExists($slug)) {
             return $this->redirectToRoute('app_home_index');
         }
 
-        $album = $albums[$slug];
-
-        $items = $this->itemProvider->getAllByAlbum($slug, $album['feed_limit']);
+        /* @noinspection PhpUnhandledExceptionInspection */
+        $items = $this->itemProvider->getAllByAlbum(
+            $slug,
+            $this->albumProvider->getBySlug($slug)->getFeedLimit()
+        );
 
         return $this->render('feed/index.html.twig', [
             'items' => $items,

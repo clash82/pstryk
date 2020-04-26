@@ -1,16 +1,16 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Pstryk
+    Witaj w moim świecie
 {% endblock %}
 
 {% block body %}
-    Zapraszam:
+    Aktualne albumy:
     <ul>
-        <li>Blog</li>
-        <li><a href="/stalker">Stalker</a></li>
-        <li>Tora (archiwum)</li>
+        {% for album in albums %}
+            <li><a href="/{{ album.slug }}">{{ album.title }}</a></li>
+        {% endfor %}
     </ul>
 
-    Logowanie do zaplecza: <a href="{{ path('app_admin_item_list') }}">tutaj</a>
+    Logowanie do <a href="{{ path('app_admin_item_list') }}">zaplecza</a>
 {% endblock %}

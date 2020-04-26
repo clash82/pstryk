@@ -21,7 +21,6 @@ class Configuration implements ConfigurationInterface
                     ->arrayPrototype()
                         ->children()
                             ->scalarNode('title')->end()
-                            ->scalarNode('description')->end()
                             ->integerNode('pagination_limit')->end()
                             ->integerNode('image_horizontal_max_width')->end()
                             ->integerNode('image_horizontal_max_height')->end()

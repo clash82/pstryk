@@ -33,18 +33,20 @@ class FileFixtures extends Fixture implements DependentFixtureInterface
     {
         $albums = $this->albumProvider->getAll();
 
-        foreach ($albums as $album => $v) {
+        foreach ($albums as $album) {
             for ($item = 1; $item <= ItemFixtures::ITEM_LIMIT; ++$item) {
                 for ($i = 1; $i <= self::FILE_LIMIT; ++$i) {
+                    $slug = $album->getSlug();
+
                     /** @var Item $itemReference */
-                    $itemReference = $this->getReference(sprintf(ItemFixtures::ITEM_REFERENCE, $album, $item));
-                    $fileId = sha1(sprintf('%s-%d-%d', $album, $item, $i));
+                    $itemReference = $this->getReference(sprintf(ItemFixtures::ITEM_REFERENCE, $slug, $item));
+                    $fileId = sha1(sprintf('%s-%d-%d', $slug, $item, $i));
 
                     $file = (new File())
                         ->setItem($itemReference)
                         ->setExtension(self::DEFAULT_EXTENSION)
-                        ->setDescription(sprintf(self::DEFAULT_DESCRIPTION, $album, $item, $i))
-                        ->setName(sprintf(self::DEFAULT_NAME, $album, $item, $i))
+                        ->setDescription(sprintf(self::DEFAULT_DESCRIPTION, $slug, $item, $i))
+                        ->setName(sprintf(self::DEFAULT_NAME, $slug, $item, $i))
                         ->setFilename($fileId)
                         ->setPosition($i);
 

@@ -33,18 +33,15 @@ class AlbumController extends AbstractController
      */
     public function index(string $slug, int $page): Response
     {
-        $albums = $this->albumProvider->getAll();
-
-        if (!isset($albums[$slug])) {
+        if (!$this->albumProvider->slugExists($slug)) {
             return $this->redirectToRoute('app_home_index');
         }
 
-        $album = $albums[$slug];
-
+        /* @noinspection PhpUnhandledExceptionInspection */
         $items = $this->itemProvider->getAllByAlbum(
             $slug,
             $page,
-            $album['pagination_limit']
+            $this->albumProvider->getBySlug($slug)->getPaginationlimit()
         );
 
         return $this->render(sprintf('album/%s/index.html.twig', $slug), [
