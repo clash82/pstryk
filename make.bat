@@ -6,13 +6,19 @@ if ["%1"] == [""] (
     echo.
     echo cache        - rebuild Symfony cache
     echo db-reload    - rebuild database structure and load fixtures
-    echo pass         - start user password generator
     echo assets       - build assets using webpack-encore
     echo assets-watch - recompile assets automatically when files change
+    echo.
+    echo === Coding standards tools ===
     echo cs-fix       - fix coding standards using php-cs-fixer tool
     echo phpstan      - analyse code with phpstan tool
     echo phpmd        - analyse code with php md tool
+    echo phpcs        - analyse code with phpcs tool
+    echo phpcbf       - fix coding standards using phpcbf tool
+    echo.
+    echo === Deployment tools ===
     echo prod         - install only `prod` dependencies and optimize build before deployment
+    echo pass         - start user password generator
     echo.
     echo Default ENV is: %APP_ENV%
 )
@@ -51,6 +57,14 @@ if ["%1"] == ["phpstan"] (
 
 if ["%1"] == ["phpmd"] (
     php vendor\phpmd\phpmd\src\bin\phpmd src text controversial
+)
+
+if ["%1"] == ["phpcs"] (
+    php vendor\squizlabs\php_codesniffer\bin\phpcs src --standard=PSR2 -p -n
+)
+
+if ["%1"] == ["phpcbf"] (
+    php vendor\squizlabs\php_codesniffer\bin\phpcbf src --standard=PSR2 -p
 )
 
 if ["%1"] == ["prod"] (
