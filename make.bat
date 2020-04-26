@@ -11,6 +11,7 @@ if ["%1"] == [""] (
     echo assets-watch - recompile assets automatically when files change
     echo cs-fix       - fix coding standards using php-cs-fixer tool
     echo phpstan      - analyse code with phpstan tool
+    echo phpmd        - analyse code with php md tool
     echo prod         - install only `prod` dependencies and optimize build before deployment
     echo.
     echo Default ENV is: %APP_ENV%
@@ -46,6 +47,10 @@ if ["%1"] == ["cs-fix"] (
 
 if ["%1"] == ["phpstan"] (
     php vendor\phpstan\phpstan\phpstan analyse src --level=max --memory-limit=1G
+)
+
+if ["%1"] == ["phpmd"] (
+    php vendor\phpmd\phpmd\src\bin\phpmd src text controversial
 )
 
 if ["%1"] == ["prod"] (

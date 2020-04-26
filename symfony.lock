@@ -138,6 +138,9 @@
     "ocramius/proxy-manager": {
         "version": "2.2.3"
     },
+    "pdepend/pdepend": {
+        "version": "2.7.1"
+    },
     "php": {
         "version": "7.2"
     },
@@ -152,6 +155,9 @@
     },
     "phpdocumentor/type-resolver": {
         "version": "1.1.0"
+    },
+    "phpmd/phpmd": {
+        "version": "2.8.2"
     },
     "phpstan/phpstan": {
         "version": "0.12.19"
