@@ -9,6 +9,7 @@ if ["%1"] == [""] (
     echo pass         - start user password generator
     echo assets       - build assets using webpack-encore
     echo assets-watch - recompile assets automatically when files change
+    echo cs-fix       - fix coding standards using php-cs-fixer tool
     echo phpstan      - analyse code with phpstan tool
     echo prod         - install only `prod` dependencies and optimize build before deployment
     echo.
@@ -37,6 +38,10 @@ if ["%1"] == ["assets"] (
 
 if ["%1"] == ["assets-watch"] (
     yarn encore dev --watch
+)
+
+if ["%1"] == ["cs-fix"] (
+    php vendor\friendsofphp\php-cs-fixer\php-cs-fixer fix
 )
 
 if ["%1"] == ["phpstan"] (

@@ -34,6 +34,7 @@
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.3",
+        "friendsofphp/php-cs-fixer": "^2.16",
         "phpstan/phpstan": "^0.12.19",
         "phpstan/phpstan-doctrine": "^0.12.10",
         "phpstan/phpstan-symfony": "^0.12.6",
