@@ -23,28 +23,31 @@ class File
     /**
      * @var string
      *
-     * @ORM\Column(type="string", name="name", nullable=false, length=191)
+     * @ORM\Column(type="string", name="name", length=191, nullable=false)
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
+     * @Assert\Length(max=191)
      */
     private $name;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string", name="description", nullable=true)
+     * @ORM\Column(type="string", name="description", length=255, nullable=true)
      * @Assert\Type(type="string")
+     * @Assert\Length(max=255)
      */
     private $description;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string", name="file_id", nullable=false)
+     * @ORM\Column(type="string", name="filename", length=40, nullable=false, unique=true)
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
+     * @Assert\Length(max=40)
      */
-    private $fileId;
+    private $filename;
 
     /**
      * @var string
@@ -52,24 +55,24 @@ class File
      * @ORM\Column(type="string", name="extension", length=3, nullable=false)
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
-     * @Assert\Length(max="3")
+     * @Assert\Length(max=3)
      */
     private $extension;
 
     /**
      * @var int
      *
-     * @ORM\Column(type="integer", name="order")
+     * @ORM\Column(type="integer", name="position")
      */
-    private $order = 0;
+    private $position;
 
     /**
-     * @var int
+     * @var Item
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Item", inversedBy="files")
      * @ORM\JoinColumn(name="item_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
-    private $itemId;
+    private $item;
 
     public function getName(): string
     {
@@ -95,14 +98,14 @@ class File
         return $this;
     }
 
-    public function getFileId(): string
+    public function getFilename(): string
     {
-        return $this->fileId;
+        return $this->filename;
     }
 
-    public function setFileId(string $fileId): self
+    public function setFilename(string $filename): self
     {
-        $this->fileId = $fileId;
+        $this->filename = $filename;
 
         return $this;
     }
@@ -119,26 +122,26 @@ class File
         return $this;
     }
 
-    public function getOrder(): int
+    public function getPosition(): int
     {
-        return $this->order;
+        return $this->position;
     }
 
-    public function setOrder(int $order): self
+    public function setPosition(int $position): self
     {
-        $this->order = $order;
+        $this->position = $position;
 
         return $this;
     }
 
-    public function getItemId(): int
+    public function getItem(): Item
     {
-        return $this->itemId;
+        return $this->item;
     }
 
-    public function setItemId(int $itemId): self
+    public function setItem(Item $item): self
     {
-        $this->itemId = $itemId;
+        $this->item = $item;
 
         return $this;
     }

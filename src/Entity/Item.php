@@ -87,7 +87,7 @@ class Item
     /**
      * @var array
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\File", mappedBy="itemId")
+     * @ORM\OneToMany(targetEntity="App\Entity\File", mappedBy="item")
      */
     private $files;
 

@@ -10,11 +10,12 @@ if ["%1"] == [""] (
     echo assets-watch - recompile assets automatically when files change
     echo.
     echo === Coding standards tools ===
-    echo cs-fix       - fix coding standards using php-cs-fixer tool
     echo phpstan      - analyse code with phpstan tool
     echo phpmd        - analyse code with php md tool
     echo phpcs        - analyse code with phpcs tool
     echo phpcbf       - fix coding standards using phpcbf tool
+    echo cs-fix       - fix coding standards using php-cs-fixer tool
+    echo fix-all      - execute all available fixers
     echo.
     echo === Deployment tools ===
     echo prod         - install only `prod` dependencies and optimize build before deployment
@@ -65,6 +66,11 @@ if ["%1"] == ["phpcs"] (
 
 if ["%1"] == ["phpcbf"] (
     php vendor\squizlabs\php_codesniffer\bin\phpcbf src --standard=PSR2 -p
+)
+
+if ["%1"] == ["fix-all"] (
+    make cs-fix
+    make phpcbf
 )
 
 if ["%1"] == ["prod"] (

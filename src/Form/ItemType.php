@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Form;
 
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use App\Provider\AlbumProvider;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -24,9 +24,9 @@ class ItemType extends AbstractType
      */
     private $albums = [];
 
-    public function __construct(ParameterBagInterface $parameterBag)
+    public function __construct(AlbumProvider $albumProvider)
     {
-        $albums = $parameterBag->get('app')['albums'];
+        $albums = $albumProvider->getAll();
 
         foreach ($albums as $albumId => $albumSettings) {
             $this->albums[sprintf('%s (%s)', $albumSettings['title'], $albumId)] = $albumId;
