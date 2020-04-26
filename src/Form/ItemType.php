@@ -49,7 +49,7 @@ class ItemType extends AbstractType
                 'required' => false,
                 'attr' => [
                     'help' => 'pozostaw pole puste, aby wygenerować nową wartość na podstawie tytułu',
-                ]
+                ],
             ])
             ->add('description', TextareaType::class, [
                 'label' => 'Opis',

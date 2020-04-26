@@ -76,9 +76,7 @@ class ItemRepository extends ServiceEntityRepository
 
         if (!$item) {
             /* @noinspection PhpUnhandledExceptionInspection */
-            throw new RecordNotFoundException(
-                sprintf('No item found for id [%d]', $itemId)
-            );
+            throw new RecordNotFoundException(sprintf('No item found for id [%d]', $itemId));
         }
 
         return $item;
