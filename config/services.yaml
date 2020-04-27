@@ -32,7 +32,7 @@ services:
 
     App\EventListener\EntityListener:
         arguments:
-            - '@parameter_bag'
+            - '@App\Provider\StoragePathProvider'
         tags:
             - { name: doctrine.event_listener, event: postLoad }
             - { name: doctrine.event_listener, event: postPersist } # added because of the FileFixtures issues

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Traits\Id;
+use App\Provider\StoragePathProvider;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -19,9 +20,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 class File
 {
     use Id;
-
-    const PATH_RELATIVE_PATTERN = '%s/public_html/%s/%s.%s';
-    const PATH_PUBLIC_PATTERN = '%s/%s.%s';
 
     /**
      * @var string
@@ -77,28 +75,15 @@ class File
      */
     private $item;
 
-    /** @var string */
-    private $storageRawPath = '';
+    /** @var StoragePathProvider */
+    private $storagePathProvider;
 
-    /** @var string */
-    private $storageThumbsPath = '';
-
-    /** @var string */
-    private $storageImagesPath = '';
-
-    public function setStorageRawPath(string $storageRawPath): void
+    /**
+     * This setter is triggered in postLoad and postPersist events in EntityListener.
+     */
+    public function setStoragePathProvider(StoragePathProvider $storagePathProvider): void
     {
-        $this->storageRawPath = $storageRawPath;
-    }
-
-    public function setStorageThumbsPath(string $storageThumbsPath): void
-    {
-        $this->storageThumbsPath = $storageThumbsPath;
-    }
-
-    public function setStorageImagesPath(string $storageImagesPath): void
-    {
-        $this->storageImagesPath = $storageImagesPath;
+        $this->storagePathProvider = $storagePathProvider;
     }
 
     public function getName(): string
@@ -187,64 +172,36 @@ class File
 
     public function getRawRelativePath(): string
     {
-        return sprintf(
-            self::PATH_RELATIVE_PATTERN,
-            getcwd(),
-            $this->storageRawPath,
-            $this->filename,
-            $this->extension
-        );
+        return $this->createPath($this->storagePathProvider->getRelativeDir(StoragePathProvider::PATH_RAW));
     }
 
     public function getRawPublicPath(): string
     {
-        return sprintf(
-            self::PATH_PUBLIC_PATTERN,
-            $this->storageRawPath,
-            $this->filename,
-            $this->extension
-        );
+        return $this->createPath($this->storagePathProvider->getPublicDir(StoragePathProvider::PATH_RAW));
     }
 
     public function getThumbsRelativePath(): string
     {
-        return sprintf(
-            self::PATH_RELATIVE_PATTERN,
-            getcwd(),
-            $this->storageThumbsPath,
-            $this->filename,
-            $this->extension
-        );
+        return $this->createPath($this->storagePathProvider->getRelativeDir(StoragePathProvider::PATH_THUMBS));
     }
 
     public function getThumbsPublicPath(): string
     {
-        return sprintf(
-            self::PATH_PUBLIC_PATTERN,
-            $this->storageThumbsPath,
-            $this->filename,
-            $this->extension
-        );
+        return $this->createPath($this->storagePathProvider->getPublicDir(StoragePathProvider::PATH_THUMBS));
     }
 
     public function getImagesRelativePath(): string
     {
-        return sprintf(
-            self::PATH_RELATIVE_PATTERN,
-            getcwd(),
-            $this->storageImagesPath,
-            $this->filename,
-            $this->extension
-        );
+        return $this->createPath($this->storagePathProvider->getRelativeDir(StoragePathProvider::PATH_IMAGES));
     }
 
     public function getImagesPublicPath(): string
     {
-        return sprintf(
-            self::PATH_PUBLIC_PATTERN,
-            $this->storageImagesPath,
-            $this->filename,
-            $this->extension
-        );
+        return $this->createPath($this->storagePathProvider->getPublicDir(StoragePathProvider::PATH_IMAGES));
+    }
+
+    private function createPath(string $path): string
+    {
+        return sprintf('%s/%s.%s', $path, $this->filename, $this->extension);
     }
 }

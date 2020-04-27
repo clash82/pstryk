@@ -22,7 +22,7 @@ class ImageConverter
 
     public function convert(File $file): bool
     {
-        if ($this->album === null) {
+        if (null === $this->album) {
             /* @noinspection PhpUnhandledExceptionInspection */
             throw new AlbumNotSpecifiedException();
         }

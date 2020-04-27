@@ -8,15 +8,14 @@ use App\Entity\File;
 use App\Entity\Item;
 use App\Image\ImageConverter;
 use App\Provider\AlbumProvider;
+use App\Provider\StoragePathProvider;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class FileFixtures extends Fixture implements DependentFixtureInterface
 {
     const FILE_LIMIT = 5; // how many files should be generated per item
-    const PUBLIC_PATH_PATTERN = '%s/public_html/%s';
 
     const DEFAULT_EXTENSION = 'jpg';
     const DEFAULT_DESCRIPTION = 'Description for album %s, item %d, file %d';
@@ -24,53 +23,30 @@ class FileFixtures extends Fixture implements DependentFixtureInterface
     const DEFAULT_IMAGE_WIDTH = 1600;
     const DEFAULT_IMAGE_HEIGHT = 800;
 
-    /**
-     * @var AlbumProvider
-     */
+    /** @var AlbumProvider */
     private $albumProvider;
 
     /** @var ImageConverter */
     private $imageConverter;
 
-    /** @var string */
-    private $storageRawPath = '';
-
-    /** @var string */
-    private $storageThumbsPath = '';
-
-    /** @var string */
-    private $storageImagesPath = '';
+    /** @var StoragePathProvider */
+    private $storagePathProvider;
 
     public function __construct(
         AlbumProvider $albumProvider,
-        ParameterBagInterface $parameterBag,
+        StoragePathProvider $storagePathProvider,
         ImageConverter $imageConverter
     ) {
         $this->albumProvider = $albumProvider;
         $this->imageConverter = $imageConverter;
-
-        $this->storageRawPath = sprintf(
-            self::PUBLIC_PATH_PATTERN,
-            getcwd(),
-            $parameterBag->get('app')['storage_raw_path']
-        );
-        $this->storageThumbsPath = sprintf(
-            self::PUBLIC_PATH_PATTERN,
-            getcwd(),
-            $parameterBag->get('app')['storage_thumbs_path']
-        );
-        $this->storageImagesPath = sprintf(
-            self::PUBLIC_PATH_PATTERN,
-            getcwd(),
-            $parameterBag->get('app')['storage_images_path']
-        );
+        $this->storagePathProvider = $storagePathProvider;
     }
 
     public function load(ObjectManager $manager): void
     {
-        $this->removeFiles($this->storageRawPath);
-        $this->removeFiles($this->storageThumbsPath);
-        $this->removeFiles($this->storageImagesPath);
+        $this->removeFiles($this->storagePathProvider->getRelativeDir(StoragePathProvider::PATH_RAW));
+        $this->removeFiles($this->storagePathProvider->getRelativeDir(StoragePathProvider::PATH_IMAGES));
+        $this->removeFiles($this->storagePathProvider->getRelativeDir(StoragePathProvider::PATH_THUMBS));
 
         $albums = $this->albumProvider->getAll();
 
@@ -98,12 +74,13 @@ class FileFixtures extends Fixture implements DependentFixtureInterface
 
                     $filename = sprintf(
                         '%s/%s.%s',
-                        $this->storageRawPath,
+                        $this->storagePathProvider->getRelativeDir(StoragePathProvider::PATH_RAW),
                         $file->getFilename(),
                         $file->getExtension()
                     );
 
                     $this->createImage($filename, $file->getName());
+                    /* @noinspection PhpUnhandledExceptionInspection */
                     $this->imageConverter->convert($file);
                 }
             }

@@ -6,46 +6,30 @@ namespace App\EventListener;
 
 use App\Entity\File;
 use App\Entity\Item;
+use App\Provider\StoragePathProvider;
 use Doctrine\ORM\Event\LifecycleEventArgs;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class EntityListener
 {
-    /** @var string */
-    private $storageRawPath = '';
-
-    /** @var string */
-    private $storageThumbsPath = '';
-
-    /** @var string */
-    private $storageImagesPath = '';
+    /** @var StoragePathProvider */
+    private $storagePathProvider;
 
     /** @var array */
     private $filesToDelete = [];
 
-    public function __construct(ParameterBagInterface $parameterBag)
+    public function __construct(StoragePathProvider $storagePathProvider)
     {
-        $this->storageRawPath = $parameterBag->get('app')['storage_raw_path'];
-        $this->storageThumbsPath = $parameterBag->get('app')['storage_thumbs_path'];
-        $this->storageImagesPath = $parameterBag->get('app')['storage_images_path'];
+        $this->storagePathProvider = $storagePathProvider;
     }
 
     public function postLoad(LifecycleEventArgs $args): void
     {
-        $entity = $args->getEntity();
-
-        if ($entity instanceof File) {
-            $this->setStoragePaths($entity);
-        }
+        $this->injectStoragePathProvider($args->getEntity());
     }
 
     public function postPersist(LifecycleEventArgs $args): void
     {
-        $entity = $args->getEntity();
-
-        if ($entity instanceof File) {
-            $this->setStoragePaths($entity);
-        }
+        $this->injectStoragePathProvider($args->getEntity());
     }
 
     public function preRemove(LifecycleEventArgs $args): void
@@ -77,18 +61,10 @@ class EntityListener
         $this->filesToDelete = [];
     }
 
-    private function setStoragePaths(object $entity): void
+    private function injectStoragePathProvider(object $entity): void
     {
-        if (method_exists($entity, 'setStorageRawPath')) {
-            $entity->setStorageRawPath($this->storageRawPath);
-        }
-
-        if (method_exists($entity, 'setStorageThumbsPath')) {
-            $entity->setStorageThumbsPath($this->storageThumbsPath);
-        }
-
-        if (method_exists($entity, 'setStorageImagesPath')) {
-            $entity->setStorageImagesPath($this->storageImagesPath);
+        if ($entity instanceof File && method_exists($entity, 'setStoragePathProvider')) {
+            $entity->setStoragePathProvider($this->storagePathProvider);
         }
     }
 }

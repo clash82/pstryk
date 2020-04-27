@@ -1,7 +1,7 @@
 app:
-    storage_raw_path: /storage/raw
-    storage_images_path: /storage/images
-    storage_thumbs_path: /storage/thumbs
+    storage_raw_path: storage/raw
+    storage_images_path: storage/images
+    storage_thumbs_path: storage/thumbs
 
     albums:
         stalker:
