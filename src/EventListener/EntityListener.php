@@ -17,6 +17,9 @@ class EntityListener
     /** @var string */
     private $storageThumbsPath = '';
 
+    /** @var string */
+    private $storageImagesPath = '';
+
     /** @var array */
     private $filesToDelete = [];
 
@@ -24,6 +27,7 @@ class EntityListener
     {
         $this->storageRawPath = $parameterBag->get('app')['storage_raw_path'];
         $this->storageThumbsPath = $parameterBag->get('app')['storage_thumbs_path'];
+        $this->storageImagesPath = $parameterBag->get('app')['storage_images_path'];
     }
 
     public function postLoad(LifecycleEventArgs $args): void
@@ -37,6 +41,10 @@ class EntityListener
 
             if (method_exists($entity, 'setStorageThumbsPath')) {
                 $entity->setStorageThumbsPath($this->storageThumbsPath);
+            }
+
+            if (method_exists($entity, 'setStorageImagesPath')) {
+                $entity->setStorageImagesPath($this->storageImagesPath);
             }
         }
     }
@@ -64,6 +72,7 @@ class EntityListener
         foreach ($this->filesToDelete as $file) {
             @unlink($file->getRawRelativePath());
             @unlink($file->getThumbsRelativePath());
+            @unlink($file->getImagesRelativePath());
         }
 
         $this->filesToDelete = [];

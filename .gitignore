@@ -1,4 +1,5 @@
 /public_html/storage/raw/
+/public_html/storage/images/
 /public_html/storage/thumbs/
 
 ###> symfony/framework-bundle ###

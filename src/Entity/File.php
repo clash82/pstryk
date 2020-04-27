@@ -83,6 +83,9 @@ class File
     /** @var string */
     private $storageThumbsPath = '';
 
+    /** @var string */
+    private $storageImagesPath = '';
+
     public function setStorageRawPath(string $storageRawPath): void
     {
         $this->storageRawPath = $storageRawPath;
@@ -91,6 +94,11 @@ class File
     public function setStorageThumbsPath(string $storageThumbsPath): void
     {
         $this->storageThumbsPath = $storageThumbsPath;
+    }
+
+    public function setStorageImagesPath(string $storageImagesPath): void
+    {
+        $this->storageImagesPath = $storageImagesPath;
     }
 
     public function getName(): string
@@ -214,6 +222,27 @@ class File
         return sprintf(
             self::PATH_PUBLIC_PATTERN,
             $this->storageThumbsPath,
+            $this->filename,
+            $this->extension
+        );
+    }
+
+    public function getImagesRelativePath(): string
+    {
+        return sprintf(
+            self::PATH_RELATIVE_PATTERN,
+            getcwd(),
+            $this->storageImagesPath,
+            $this->filename,
+            $this->extension
+        );
+    }
+
+    public function getImagesPublicPath(): string
+    {
+        return sprintf(
+            self::PATH_PUBLIC_PATTERN,
+            $this->storageImagesPath,
             $this->filename,
             $this->extension
         );

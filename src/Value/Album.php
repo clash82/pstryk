@@ -32,6 +32,18 @@ class Album
     /** @var int */
     private $imageVerticalMaxHeight;
 
+    /** @var int */
+    private $thumbHorizontalMaxWidth;
+
+    /** @var int */
+    private $thumbHorizontalMaxHeight;
+
+    /** @var int */
+    private $thumbVerticalMaxWidth;
+
+    /** @var int */
+    private $thumbVerticalMaxHeight;
+
     public function __construct(string $slug, array $album = [])
     {
         $this->slug = $slug;
@@ -77,6 +89,30 @@ class Album
             throw new ArrayKeyNotExistsException('image_horizontal_max_width');
         }
         $this->imageVerticalMaxWidth = (int) $album['image_horizontal_max_width'];
+
+        if (!isset($album['thumb_horizontal_max_height'])) {
+            /* @noinspection PhpUnhandledExceptionInspection */
+            throw new ArrayKeyNotExistsException('thumb_horizontal_max_height');
+        }
+        $this->thumbHorizontalMaxHeight = (int) $album['thumb_horizontal_max_height'];
+
+        if (!isset($album['thumb_horizontal_max_width'])) {
+            /* @noinspection PhpUnhandledExceptionInspection */
+            throw new ArrayKeyNotExistsException('thumb_horizontal_max_width');
+        }
+        $this->thumbHorizontalMaxWidth = (int) $album['thumb_horizontal_max_width'];
+
+        if (!isset($album['thumb_horizontal_max_height'])) {
+            /* @noinspection PhpUnhandledExceptionInspection */
+            throw new ArrayKeyNotExistsException('thumb_horizontal_max_height');
+        }
+        $this->thumbVerticalMaxHeight = (int) $album['thumb_horizontal_max_height'];
+
+        if (!isset($album['thumb_horizontal_max_width'])) {
+            /* @noinspection PhpUnhandledExceptionInspection */
+            throw new ArrayKeyNotExistsException('thumb_horizontal_max_width');
+        }
+        $this->thumbVerticalMaxWidth = (int) $album['thumb_horizontal_max_width'];
     }
 
     public function getSlug(): string
@@ -117,5 +153,25 @@ class Album
     public function getImageVerticalMaxHeight(): int
     {
         return $this->imageVerticalMaxHeight;
+    }
+
+    public function getThumbHorizontalMaxWidth(): int
+    {
+        return $this->thumbHorizontalMaxWidth;
+    }
+
+    public function getThumbHorizontalMaxHeight(): int
+    {
+        return $this->thumbHorizontalMaxHeight;
+    }
+
+    public function getThumbVerticalMaxWidth(): int
+    {
+        return $this->thumbVerticalMaxWidth;
+    }
+
+    public function getThumbVerticalMaxHeight(): int
+    {
+        return $this->thumbVerticalMaxHeight;
     }
 }
