@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Traits\Id;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -85,16 +86,11 @@ class Item
     private $isActive = true;
 
     /**
-     * @var array
+     * @var Collection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\File", mappedBy="item")
      */
     private $files;
-
-    public function __construct()
-    {
-        $this->date = new \DateTime();
-    }
 
     public function setAlbum(string $album): self
     {
@@ -136,7 +132,7 @@ class Item
         return $this;
     }
 
-    public function setFiles(array $files = []): self
+    public function setFiles(Collection $files): self
     {
         $this->files = $files;
 
@@ -191,7 +187,7 @@ class Item
         return $this->date;
     }
 
-    public function getFiles(): array
+    public function getFiles(): Collection
     {
         return $this->files;
     }

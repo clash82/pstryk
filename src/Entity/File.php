@@ -20,6 +20,9 @@ class File
 {
     use Id;
 
+    const PATH_RELATIVE_PATTERN = '%s%s/%s.%s';
+    const PATH_PUBLIC_PATTERN = '%s/%s.%s';
+
     /**
      * @var string
      *
@@ -73,6 +76,22 @@ class File
      * @ORM\JoinColumn(name="item_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     private $item;
+
+    /** @var string */
+    private $storageRawPath = '';
+
+    /** @var string */
+    private $storageThumbsPath = '';
+
+    public function setStorageRawPath(string $storageRawPath): void
+    {
+        $this->storageRawPath = $storageRawPath;
+    }
+
+    public function setStorageThumbsPath(string $storageThumbsPath): void
+    {
+        $this->storageThumbsPath = $storageThumbsPath;
+    }
 
     public function getName(): string
     {
@@ -156,5 +175,47 @@ class File
         $this->id = $id;
 
         return $this;
+    }
+
+    public function getRawRelativePath(): string
+    {
+        return sprintf(
+            self::PATH_RELATIVE_PATTERN,
+            getcwd(),
+            $this->storageRawPath,
+            $this->filename,
+            $this->extension
+        );
+    }
+
+    public function getRawPublicPath(): string
+    {
+        return sprintf(
+            self::PATH_PUBLIC_PATTERN,
+            $this->storageRawPath,
+            $this->filename,
+            $this->extension
+        );
+    }
+
+    public function getThumbsRelativePath(): string
+    {
+        return sprintf(
+            self::PATH_RELATIVE_PATTERN,
+            getcwd(),
+            $this->storageThumbsPath,
+            $this->filename,
+            $this->extension
+        );
+    }
+
+    public function getThumbsPublicPath(): string
+    {
+        return sprintf(
+            self::PATH_PUBLIC_PATTERN,
+            $this->storageThumbsPath,
+            $this->filename,
+            $this->extension
+        );
     }
 }

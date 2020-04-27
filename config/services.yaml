@@ -29,3 +29,9 @@ services:
     App\Twig\:
         resource: '../src/Twig'
         tags: ['twig.extension']
+
+    App\EventListener\FileEntityListener:
+        arguments:
+            - '@parameter_bag'
+        tags:
+            - { name: doctrine.event_listener, event: postLoad }

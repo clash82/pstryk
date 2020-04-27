@@ -1,3 +1,6 @@
+/public_html/storage/raw/
+/public_html/storage/thumbs/
+
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
