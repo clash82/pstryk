@@ -20,7 +20,7 @@ class File
 {
     use Id;
 
-    const PATH_RELATIVE_PATTERN = '%s%s/%s.%s';
+    const PATH_RELATIVE_PATTERN = '%s/public_html/%s/%s.%s';
     const PATH_PUBLIC_PATTERN = '%s/%s.%s';
 
     /**

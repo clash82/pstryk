@@ -35,5 +35,6 @@ services:
             - '@parameter_bag'
         tags:
             - { name: doctrine.event_listener, event: postLoad }
+            - { name: doctrine.event_listener, event: postPersist } # added because of the FileFixtures issues
             - { name: doctrine.event_listener, event: postRemove }
             - { name: doctrine.event_listener, event: preRemove }

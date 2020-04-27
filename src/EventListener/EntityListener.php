@@ -35,17 +35,16 @@ class EntityListener
         $entity = $args->getEntity();
 
         if ($entity instanceof File) {
-            if (method_exists($entity, 'setStorageRawPath')) {
-                $entity->setStorageRawPath($this->storageRawPath);
-            }
+            $this->setStoragePaths($entity);
+        }
+    }
 
-            if (method_exists($entity, 'setStorageThumbsPath')) {
-                $entity->setStorageThumbsPath($this->storageThumbsPath);
-            }
+    public function postPersist(LifecycleEventArgs $args): void
+    {
+        $entity = $args->getEntity();
 
-            if (method_exists($entity, 'setStorageImagesPath')) {
-                $entity->setStorageImagesPath($this->storageImagesPath);
-            }
+        if ($entity instanceof File) {
+            $this->setStoragePaths($entity);
         }
     }
 
@@ -76,5 +75,20 @@ class EntityListener
         }
 
         $this->filesToDelete = [];
+    }
+
+    private function setStoragePaths(object $entity): void
+    {
+        if (method_exists($entity, 'setStorageRawPath')) {
+            $entity->setStorageRawPath($this->storageRawPath);
+        }
+
+        if (method_exists($entity, 'setStorageThumbsPath')) {
+            $entity->setStorageThumbsPath($this->storageThumbsPath);
+        }
+
+        if (method_exists($entity, 'setStorageImagesPath')) {
+            $entity->setStorageImagesPath($this->storageImagesPath);
+        }
     }
 }

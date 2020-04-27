@@ -6,6 +6,7 @@ namespace App\DataFixtures;
 
 use App\Entity\File;
 use App\Entity\Item;
+use App\Image\ImageConverter;
 use App\Provider\AlbumProvider;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -28,15 +29,25 @@ class FileFixtures extends Fixture implements DependentFixtureInterface
      */
     private $albumProvider;
 
+    /** @var ImageConverter */
+    private $imageConverter;
+
     /** @var string */
     private $storageRawPath = '';
 
     /** @var string */
     private $storageThumbsPath = '';
 
-    public function __construct(AlbumProvider $albumProvider, ParameterBagInterface $parameterBag)
-    {
+    /** @var string */
+    private $storageImagesPath = '';
+
+    public function __construct(
+        AlbumProvider $albumProvider,
+        ParameterBagInterface $parameterBag,
+        ImageConverter $imageConverter
+    ) {
         $this->albumProvider = $albumProvider;
+        $this->imageConverter = $imageConverter;
 
         $this->storageRawPath = sprintf(
             self::PUBLIC_PATH_PATTERN,
@@ -48,15 +59,24 @@ class FileFixtures extends Fixture implements DependentFixtureInterface
             getcwd(),
             $parameterBag->get('app')['storage_thumbs_path']
         );
+        $this->storageImagesPath = sprintf(
+            self::PUBLIC_PATH_PATTERN,
+            getcwd(),
+            $parameterBag->get('app')['storage_images_path']
+        );
     }
 
     public function load(ObjectManager $manager): void
     {
         $this->removeFiles($this->storageRawPath);
+        $this->removeFiles($this->storageThumbsPath);
+        $this->removeFiles($this->storageImagesPath);
 
         $albums = $this->albumProvider->getAll();
 
         foreach ($albums as $album) {
+            $this->imageConverter->setAlbum($album);
+
             for ($item = 1; $item <= ItemFixtures::ITEM_LIMIT; ++$item) {
                 for ($i = 1; $i <= self::FILE_LIMIT; ++$i) {
                     $slug = $album->getSlug();
@@ -84,6 +104,7 @@ class FileFixtures extends Fixture implements DependentFixtureInterface
                     );
 
                     $this->createImage($filename, $file->getName());
+                    $this->imageConverter->convert($file);
                 }
             }
         }
