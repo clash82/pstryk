@@ -30,8 +30,10 @@ services:
         resource: '../src/Twig'
         tags: ['twig.extension']
 
-    App\EventListener\FileEntityListener:
+    App\EventListener\EntityListener:
         arguments:
             - '@parameter_bag'
         tags:
             - { name: doctrine.event_listener, event: postLoad }
+            - { name: doctrine.event_listener, event: postRemove }
+            - { name: doctrine.event_listener, event: preRemove }
