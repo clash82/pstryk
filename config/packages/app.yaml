@@ -11,12 +11,8 @@ app:
 
             # normal
             image_horizontal_max_width: 0
-            image_horizontal_max_height: 0
-            image_vertical_max_width: 0
             image_vertical_max_height: 0
 
-            # thumbs
+            # thumb
             thumb_horizontal_max_width: 0
-            thumb_horizontal_max_height: 0
-            thumb_vertical_max_width: 0
             thumb_vertical_max_height: 0

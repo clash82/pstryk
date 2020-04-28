@@ -24,22 +24,10 @@ class Album
     private $imageHorizontalMaxWidth;
 
     /** @var int */
-    private $imageHorizontalMaxHeight;
-
-    /** @var int */
-    private $imageVerticalMaxWidth;
-
-    /** @var int */
     private $imageVerticalMaxHeight;
 
     /** @var int */
     private $thumbHorizontalMaxWidth;
-
-    /** @var int */
-    private $thumbHorizontalMaxHeight;
-
-    /** @var int */
-    private $thumbVerticalMaxWidth;
 
     /** @var int */
     private $thumbVerticalMaxHeight;
@@ -66,35 +54,17 @@ class Album
         }
         $this->feedLimit = (int) $album['feed_limit'];
 
-        if (!isset($album['image_horizontal_max_height'])) {
-            /* @noinspection PhpUnhandledExceptionInspection */
-            throw new ArrayKeyNotExistsException('image_horizontal_max_height');
-        }
-        $this->imageHorizontalMaxHeight = (int) $album['image_horizontal_max_height'];
-
         if (!isset($album['image_horizontal_max_width'])) {
             /* @noinspection PhpUnhandledExceptionInspection */
             throw new ArrayKeyNotExistsException('image_horizontal_max_width');
         }
         $this->imageHorizontalMaxWidth = (int) $album['image_horizontal_max_width'];
 
-        if (!isset($album['image_horizontal_max_height'])) {
+        if (!isset($album['image_vertical_max_height'])) {
             /* @noinspection PhpUnhandledExceptionInspection */
-            throw new ArrayKeyNotExistsException('image_horizontal_max_height');
+            throw new ArrayKeyNotExistsException('image_vertical_max_height');
         }
-        $this->imageVerticalMaxHeight = (int) $album['image_horizontal_max_height'];
-
-        if (!isset($album['image_horizontal_max_width'])) {
-            /* @noinspection PhpUnhandledExceptionInspection */
-            throw new ArrayKeyNotExistsException('image_horizontal_max_width');
-        }
-        $this->imageVerticalMaxWidth = (int) $album['image_horizontal_max_width'];
-
-        if (!isset($album['thumb_horizontal_max_height'])) {
-            /* @noinspection PhpUnhandledExceptionInspection */
-            throw new ArrayKeyNotExistsException('thumb_horizontal_max_height');
-        }
-        $this->thumbHorizontalMaxHeight = (int) $album['thumb_horizontal_max_height'];
+        $this->imageVerticalMaxHeight = (int) $album['image_vertical_max_height'];
 
         if (!isset($album['thumb_horizontal_max_width'])) {
             /* @noinspection PhpUnhandledExceptionInspection */
@@ -102,17 +72,11 @@ class Album
         }
         $this->thumbHorizontalMaxWidth = (int) $album['thumb_horizontal_max_width'];
 
-        if (!isset($album['thumb_horizontal_max_height'])) {
+        if (!isset($album['thumb_vertical_max_height'])) {
             /* @noinspection PhpUnhandledExceptionInspection */
-            throw new ArrayKeyNotExistsException('thumb_horizontal_max_height');
+            throw new ArrayKeyNotExistsException('thumb_vertical_max_height');
         }
-        $this->thumbVerticalMaxHeight = (int) $album['thumb_horizontal_max_height'];
-
-        if (!isset($album['thumb_horizontal_max_width'])) {
-            /* @noinspection PhpUnhandledExceptionInspection */
-            throw new ArrayKeyNotExistsException('thumb_horizontal_max_width');
-        }
-        $this->thumbVerticalMaxWidth = (int) $album['thumb_horizontal_max_width'];
+        $this->thumbVerticalMaxHeight = (int) $album['thumb_vertical_max_height'];
     }
 
     public function getSlug(): string
@@ -140,16 +104,6 @@ class Album
         return $this->imageHorizontalMaxWidth;
     }
 
-    public function getImageHorizontalMaxHeight(): int
-    {
-        return $this->imageHorizontalMaxHeight;
-    }
-
-    public function getImageVerticalMaxWidth(): int
-    {
-        return $this->imageVerticalMaxWidth;
-    }
-
     public function getImageVerticalMaxHeight(): int
     {
         return $this->imageVerticalMaxHeight;
@@ -158,16 +112,6 @@ class Album
     public function getThumbHorizontalMaxWidth(): int
     {
         return $this->thumbHorizontalMaxWidth;
-    }
-
-    public function getThumbHorizontalMaxHeight(): int
-    {
-        return $this->thumbHorizontalMaxHeight;
-    }
-
-    public function getThumbVerticalMaxWidth(): int
-    {
-        return $this->thumbVerticalMaxWidth;
     }
 
     public function getThumbVerticalMaxHeight(): int

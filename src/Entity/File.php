@@ -172,12 +172,18 @@ class File
 
     public function getRawRelativePath(): string
     {
-        return $this->createPath($this->storagePathProvider->getRelativeDir(StoragePathProvider::PATH_RAW));
+        return $this->createPath(
+            $this->storagePathProvider->getRelativeDir(StoragePathProvider::PATH_RAW),
+            $this->extension
+        );
     }
 
     public function getRawPublicPath(): string
     {
-        return $this->createPath($this->storagePathProvider->getPublicDir(StoragePathProvider::PATH_RAW));
+        return $this->createPath(
+            $this->storagePathProvider->getPublicDir(StoragePathProvider::PATH_RAW),
+            $this->extension
+        );
     }
 
     public function getThumbsRelativePath(): string
@@ -200,8 +206,8 @@ class File
         return $this->createPath($this->storagePathProvider->getPublicDir(StoragePathProvider::PATH_IMAGES));
     }
 
-    private function createPath(string $path): string
+    private function createPath(string $path, string $extension = 'jpg'): string
     {
-        return sprintf('%s/%s.%s', $path, $this->filename, $this->extension);
+        return sprintf('%s/%s.%s', $path, $this->filename, $extension);
     }
 }

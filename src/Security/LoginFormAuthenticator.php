@@ -31,7 +31,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
     /** @var EntityManagerInterface */
     private $entityManager;
 
-    /** @var UrlGeneratorInterface*/
+    /** @var UrlGeneratorInterface */
     private $urlGenerator;
 
     /** @var CsrfTokenManagerInterface */
