@@ -18,24 +18,16 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AdminController extends AbstractController
 {
-    /**
-     * @var ItemProvider
-     */
+    /** @var ItemProvider */
     private $itemProvider;
 
-    /**
-     * @var ItemManager
-     */
+    /** @var ItemManager */
     private $itemManager;
 
-    /**
-     * @var ParametersHelper
-     */
+    /** @var ParametersHelper */
     private $parametersHelper;
 
-    /**
-     * @var RedirectHelper
-     */
+    /** @var RedirectHelper */
     private $redirectHelper;
 
     public function __construct(

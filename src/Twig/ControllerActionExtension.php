@@ -10,9 +10,7 @@ use Twig\TwigFunction;
 
 class ControllerActionExtension extends AbstractExtension
 {
-    /**
-     * @var RequestStack
-     */
+    /** @var RequestStack */
     protected $requestStack;
 
     public function __construct(RequestStack $requestStack)

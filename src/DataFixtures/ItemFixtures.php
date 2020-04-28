@@ -20,9 +20,7 @@ class ItemFixtures extends Fixture
     const DEFAULT_LATITUDE = 50.31406826596857;
     const DEFAULT_LONGITUDE = 19.119177460670475;
 
-    /**
-     * @var AlbumProvider
-     */
+    /** @var AlbumProvider */
     private $albumProvider;
 
     public function __construct(AlbumProvider $albumProvider)

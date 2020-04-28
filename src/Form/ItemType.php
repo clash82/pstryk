@@ -19,9 +19,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ItemType extends AbstractType
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     private $albums = [];
 
     public function __construct(AlbumProvider $albumProvider)

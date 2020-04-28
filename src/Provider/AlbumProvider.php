@@ -10,9 +10,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class AlbumProvider
 {
-    /**
-     * @var Album[]
-     */
+    /** @var Album[] */
     private $albums = [];
 
     public function __construct(ParameterBagInterface $parameterBag)

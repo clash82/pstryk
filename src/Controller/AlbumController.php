@@ -12,14 +12,10 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AlbumController extends AbstractController
 {
-    /**
-     * @var ItemProvider
-     */
+    /** @var ItemProvider */
     private $itemProvider;
 
-    /**
-     * @var AlbumProvider
-     */
+    /** @var AlbumProvider */
     private $albumProvider;
 
     public function __construct(ItemProvider $itemProvider, AlbumProvider $albumProvider)
