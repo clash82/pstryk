@@ -6,7 +6,10 @@ namespace App\Image;
 
 use App\Entity\File;
 use App\Exception\AlbumNotSpecifiedException;
+use App\Provider\TagsProvider;
 use App\Value\Album;
+use iBudasov\Iptc\Domain\Tag;
+use iBudasov\Iptc\Manager;
 use Imagine\Gd\Imagine;
 use Imagine\Image\Box;
 
@@ -14,6 +17,14 @@ class ImageConverter
 {
     /** @var Album */
     private $album = null;
+
+    /** @var TagsProvider */
+    private $tagsProvider;
+
+    public function __construct(TagsProvider $tagsProvider)
+    {
+        $this->tagsProvider = $tagsProvider;
+    }
 
     public function setAlbum(Album $album): self
     {
@@ -83,5 +94,21 @@ class ImageConverter
         $image->save($destinationFile, [
             'jpeg_quality' => 90,
         ]);
+
+        // saving tags
+        $manager = Manager::create();
+        $manager->loadFile($destinationFile);
+
+        /* @noinspection PhpUnhandledExceptionInspection */
+        $tags = $this->tagsProvider->get($this->album);
+        $manager->addTag(new Tag(Tag::AUTHOR, [$tags->getAuthor()]));
+        $manager->addTag(new Tag(Tag::COPYRIGHT_STRING, [$tags->getCopyright()]));
+        $manager->addTag(new Tag(Tag::DESCRIPTION, [$tags->getDescription()]));
+
+        try {
+            $manager->write();
+        } catch (\Exception $e) {
+            // should be fine, but in any case we'll just skip
+        }
     }
 }

@@ -16,3 +16,9 @@ app:
             # thumb
             thumb_horizontal_max_width: 0
             thumb_vertical_max_height: 0
+
+            # IPTC tags
+            tags:
+                author: Rafal Toborek
+                copyright: Rafal Toborek
+                description: https://pstryk.toborek.info
