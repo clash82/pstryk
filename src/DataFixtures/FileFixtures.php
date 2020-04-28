@@ -12,6 +12,12 @@ use App\Provider\StoragePathProvider;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use Imagine\Gd\Font;
+use Imagine\Gd\Imagine;
+use Imagine\Image\Box;
+use Imagine\Image\Palette\Color\RGB;
+use Imagine\Image\Palette\RGB as PaletteRGB;
+use Imagine\Image\Point;
 
 class FileFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -22,6 +28,10 @@ class FileFixtures extends Fixture implements DependentFixtureInterface
     const DEFAULT_NAME = 'album_%s_item_%d_file_%d.jpg';
     const DEFAULT_IMAGE_WIDTH = 1600;
     const DEFAULT_IMAGE_HEIGHT = 800;
+    const DEFAULT_IMAGE_COLOR = '6F890F';
+    const DEFAULT_FONT_PATH = 'c:\windows\fonts\tahoma.ttf';
+    const DEFAULT_FONT_SIZE = 30;
+    const DEFAULT_FONT_COLOR = [255, 255, 255];
 
     /** @var AlbumProvider */
     private $albumProvider;
@@ -96,14 +106,23 @@ class FileFixtures extends Fixture implements DependentFixtureInterface
 
     private function createImage(string $filename, string $text): void
     {
-        /** @var resource $image */
-        $image = imagecreatetruecolor(self::DEFAULT_IMAGE_WIDTH, self::DEFAULT_IMAGE_HEIGHT);
-        $color = imagecolorallocate($image, 15, 137, 111);
-        imagefill($image, 0, 0, $color);
-        $textColor = imagecolorallocate($image, 255, 255, 255);
-        imagestring($image, 100, 5, 5, $text, $textColor);
-        imagejpeg($image, $filename);
-        imagedestroy($image);
+        $imagine = new Imagine();
+        $palette = new PaletteRGB();
+
+        $image = $imagine->create(
+            new Box(self::DEFAULT_IMAGE_WIDTH, self::DEFAULT_IMAGE_HEIGHT),
+            $palette->color(self::DEFAULT_IMAGE_COLOR, 100)
+        );
+
+        $image->draw()->text(
+            $text,
+            new Font(self::DEFAULT_FONT_PATH, self::DEFAULT_FONT_SIZE, new RGB($palette, self::DEFAULT_FONT_COLOR, 100)),
+            new Point(15, 15)
+        );
+
+        $image->save($filename, [
+            'jpeg_quality' => 90,
+        ]);
     }
 
     private function removeFiles(string $path): void
