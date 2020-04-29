@@ -34,7 +34,7 @@ class FeedController extends AbstractController
         }
 
         /* @noinspection PhpUnhandledExceptionInspection */
-        $items = $this->itemProvider->getAllByAlbum(
+        $items = $this->itemProvider->getAllByAlbumPaginated(
             $slug,
             $this->albumProvider->getBySlug($slug)->getFeedLimit()
         );

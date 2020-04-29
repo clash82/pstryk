@@ -20,14 +20,22 @@ class ItemProvider
         $this->itemRepository = $itemRepository;
     }
 
-    public function getAll(int $page = 1, int $limit = self::DEFAULT_PAGE_LIMIT): PaginationInterface
+    public function getAllPaginated(int $page = 1, int $limit = self::DEFAULT_PAGE_LIMIT): PaginationInterface
     {
-        return $this->itemRepository->getAll($page, $limit);
+        return $this->itemRepository->getAllPaginated($page, $limit);
     }
 
-    public function getAllByAlbum(string $album, int $page = 1, int $limit = self::DEFAULT_PAGE_LIMIT): PaginationInterface
+    public function getAllByAlbumPaginated(string $album, int $page = 1, int $limit = self::DEFAULT_PAGE_LIMIT): PaginationInterface
     {
-        return $this->itemRepository->getAllByAlbum($album, $page, $limit);
+        return $this->itemRepository->getAllByAlbumPaginated($album, $page, $limit);
+    }
+
+    /**
+     * @return Item[]
+     */
+    public function getAllByAlbum(string $album): array
+    {
+        return $this->itemRepository->getAllByAlbum($album);
     }
 
     public function getTotalCountByAlbum(string $album): int

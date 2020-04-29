@@ -48,7 +48,7 @@ class AdminController extends AbstractController
     public function list(int $page): Response
     {
         return $this->render('admin/item_list.html.twig', [
-            'items' => $this->itemProvider->getAll($page),
+            'items' => $this->itemProvider->getAllPaginated($page),
         ]);
     }
 

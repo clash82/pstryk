@@ -78,6 +78,11 @@ class File
     /** @var StoragePathProvider */
     private $storagePathProvider;
 
+    public function __toString(): string
+    {
+        return $this->name;
+    }
+
     /**
      * This setter is triggered in postLoad and postPersist events in EntityListener.
      */

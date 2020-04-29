@@ -23,7 +23,7 @@ class ItemRepository extends ServiceEntityRepository
         parent::__construct($registry, Item::class);
     }
 
-    public function getAll(int $page, int $limit): PaginationInterface
+    public function getAllPaginated(int $page, int $limit): PaginationInterface
     {
         $query = $this->getEntityManager()->getRepository(Item::class)
             ->createQueryBuilder('i')
@@ -37,7 +37,7 @@ class ItemRepository extends ServiceEntityRepository
         );
     }
 
-    public function getAllByAlbum(string $album, int $page, int $limit): PaginationInterface
+    public function getAllByAlbumPaginated(string $album, int $page, int $limit): PaginationInterface
     {
         $query = $this->getEntityManager()->getRepository(Item::class)
             ->createQueryBuilder('i')
@@ -51,6 +51,19 @@ class ItemRepository extends ServiceEntityRepository
             $page,
             $limit
         );
+    }
+
+    /**
+     * @return Item[]
+     */
+    public function getAllByAlbum(string $album): array
+    {
+        return $this->getEntityManager()->getRepository(Item::class)
+            ->createQueryBuilder('i')
+            ->where('i.album = :album')
+            ->setParameter('album', $album)
+            ->orderBy('i.date', 'DESC')
+            ->getQuery()->getResult();
     }
 
     public function getTotalCountByAlbum(string $album): int
