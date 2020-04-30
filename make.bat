@@ -57,7 +57,7 @@ if ["%1"] == ["phpstan"] (
 )
 
 if ["%1"] == ["phpmd"] (
-    php vendor\phpmd\phpmd\src\bin\phpmd src text controversial
+    php vendor\phpmd\phpmd\src\bin\phpmd src text cleancode
 )
 
 if ["%1"] == ["phpcs"] (
