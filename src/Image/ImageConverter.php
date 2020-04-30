@@ -13,13 +13,22 @@ use iBudasov\Iptc\Domain\Tag;
 use iBudasov\Iptc\Infrastructure\StandardPhpFileSystem;
 use iBudasov\Iptc\Infrastructure\StandardPhpImage;
 use iBudasov\Iptc\Manager;
+use Imagine\Gd\Image;
 use Imagine\Gd\Imagine;
 use Imagine\Image\Box;
+use ReflectionProperty;
 
 class ImageConverter
 {
+    use UnsharpMaskTrait;
+
+    const JPEG_QUALITY = 93;
+
     /** @var Album */
     private $album = null;
+
+    /** @var bool */
+    private $applyUnsharpMask = true;
 
     /** @var TagsProvider */
     private $tagsProvider;
@@ -32,6 +41,13 @@ class ImageConverter
     public function setAlbum(Album $album): self
     {
         $this->album = $album;
+
+        return $this;
+    }
+
+    public function setApplyUnsharpMask(bool $applyUnsharpMask): self
+    {
+        $this->applyUnsharpMask = $applyUnsharpMask;
 
         return $this;
     }
@@ -94,8 +110,19 @@ class ImageConverter
             $image->resize($newSize);
         }
 
+        if ($this->applyUnsharpMask) {
+            // very dirty way to replace Image resource
+            /* @noinspection PhpUnhandledExceptionInspection */
+            $reflectionProperty = new ReflectionProperty(Image::class, 'resource');
+            $reflectionProperty->setAccessible(true);
+            $resource = $reflectionProperty->getValue($image);
+
+            $updatedResource = $this->applyUnsharpMask($resource, 60, 1, 1);
+            $reflectionProperty->setValue($image, $updatedResource);
+        }
+
         $image->save($destinationFile, [
-            'jpeg_quality' => 90,
+            'jpeg_quality' => self::JPEG_QUALITY,
         ]);
 
         // saving tags
