@@ -6,6 +6,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Item;
 use App\Provider\AlbumProvider;
+use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -38,7 +39,7 @@ class ItemFixtures extends Fixture
             for ($i = 1; $i <= self::ITEM_LIMIT; ++$i) {
                 $item = (new Item())
                     ->setAlbum($slug)
-                    ->setDate((new \DateTime())->modify(sprintf('+%d day', $i)))
+                    ->setDate((new DateTime())->modify(sprintf('+%d day', $i)))
                     ->setTitle(sprintf(self::DEFAULT_TITLE, $slug, $i))
                     ->setDescription(sprintf(self::DEFAULT_DESCRIPTION, $slug, $i))
                     ->setSlug(sprintf(self::DEFAULT_SLUG, $slug, $i))

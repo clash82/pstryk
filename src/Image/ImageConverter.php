@@ -8,7 +8,10 @@ use App\Entity\File;
 use App\Exception\AlbumNotSpecifiedException;
 use App\Provider\TagsProvider;
 use App\Value\Album;
+use iBudasov\Iptc\Domain\Binary;
 use iBudasov\Iptc\Domain\Tag;
+use iBudasov\Iptc\Infrastructure\StandardPhpFileSystem;
+use iBudasov\Iptc\Infrastructure\StandardPhpImage;
 use iBudasov\Iptc\Manager;
 use Imagine\Gd\Imagine;
 use Imagine\Image\Box;
@@ -96,7 +99,7 @@ class ImageConverter
         ]);
 
         // saving tags
-        $manager = Manager::create();
+        $manager = new Manager(new StandardPhpFileSystem(), new StandardPhpImage(), new Binary());
         $manager->loadFile($destinationFile);
 
         /* @noinspection PhpUnhandledExceptionInspection */

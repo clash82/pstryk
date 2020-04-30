@@ -18,6 +18,8 @@ use Imagine\Image\Box;
 use Imagine\Image\Palette\Color\RGB;
 use Imagine\Image\Palette\RGB as PaletteRGB;
 use Imagine\Image\Point;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 
 class FileFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -127,9 +129,9 @@ class FileFixtures extends Fixture implements DependentFixtureInterface
 
     private function removeFiles(string $path): void
     {
-        foreach (new \RecursiveIteratorIterator(
-            new \RecursiveDirectoryIterator($path),
-            \RecursiveIteratorIterator::SELF_FIRST
+        foreach (new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($path),
+            RecursiveIteratorIterator::SELF_FIRST
         ) as $filename) {
             if (!$filename->isDir() && '.gitkeep' !== $filename->getFileName()) {
                 unlink(sprintf('%s/%s', $path, $filename->getFileName()));
