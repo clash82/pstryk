@@ -61,6 +61,7 @@ class FileFixtures extends Fixture implements DependentFixtureInterface
         $this->removeFiles($this->storagePathProvider->getRelativeDir(StoragePathProvider::PATH_THUMBS));
 
         $albums = $this->albumProvider->getAll();
+        $this->imageConverter->setApplyUnsharpMask(false);
 
         foreach ($albums as $album) {
             $this->imageConverter->setAlbum($album);
@@ -133,7 +134,9 @@ class FileFixtures extends Fixture implements DependentFixtureInterface
             new RecursiveDirectoryIterator($path),
             RecursiveIteratorIterator::SELF_FIRST
         ) as $filename) {
-            if (!$filename->isDir() && '.gitkeep' !== $filename->getFileName()) {
+            if (!$filename->isDir()
+                && '.gitkeep' !== $filename->getFileName()
+                && '.htaccess' !== $filename->getFileName()) {
                 unlink(sprintf('%s/%s', $path, $filename->getFileName()));
             }
         }
