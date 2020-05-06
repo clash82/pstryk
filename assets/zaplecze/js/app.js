@@ -16,8 +16,12 @@ const $ = require('jquery');
 global.$ = global.jQuery = $;
 
 require('bootstrap');
+require('jqueryui');
+require('symfony-collection');
 const flatpickr = require('flatpickr');
 const flatpickrPL = require('flatpickr/dist/l10n/pl.js').default.pl;
 flatpickr.localize(flatpickrPL);
+
+require('../images/placeholder.png');
 
 console.log('Hello Webpack Encore! Edit me in assets/zaplecze/js/app.js');

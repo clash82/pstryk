@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Provider;
 
-use App\Repository\FileRepository;
+use App\Repository\ImageRepository;
 
 class FileProvider
 {
-    /** @var FileRepository */
+    /** @var ImageRepository */
     private $fileRepository;
 
-    public function __construct(FileRepository $fileRepository)
+    public function __construct(ImageRepository $fileRepository)
     {
         $this->fileRepository = $fileRepository;
     }

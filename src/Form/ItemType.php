@@ -9,6 +9,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -79,6 +80,19 @@ class ItemType extends AbstractType
                 'scale' => 8,
                 'attr' => [
                     'help' => 'longitude',
+                ],
+            ])
+            ->add('images', CollectionType::class, [
+                'entry_type' => ImageType::class,
+                'label' => 'Zdjęcia',
+                'prototype' => true,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'required' => false,
+                'delete_empty' => true,
+                'attr' => [
+                    'class' => 'images-collection',
                 ],
             ])
             ->add('isActive', CheckboxType::class, [

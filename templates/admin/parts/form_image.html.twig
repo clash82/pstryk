@@ -1,0 +1,50 @@
+{% block image_label %}{% endblock %}
+
+{% block image_widget %}
+    <div class="form-images-container">
+        {{ form_widget(form.position) }}
+
+        <div class="row">
+            <div class="col-lg-12">
+                {{ form_errors(form.file) }}
+            </div>
+        </div>
+
+        <div class="row vcenter">
+            <div class="col-lg-2 col-12 text-center">
+                <img src="{% if form.thumbsPublicPath.vars.data is empty %}{{ asset('assets/images/placeholder.png') }}
+                    {% else %}{{ '/'~form.thumbsPublicPath.vars.data }}{% endif %}" class="img-fluid img-preview"
+                     id="item_image_{{ form.vars.name }}_thumb">
+            </div>
+
+            <div class="col-lg-6 col-12 form-row-separator">
+                <div class="row">
+                    <div class="col-lg-12">{{ form_widget(form.name) }}</div>
+                </div>
+
+                <div class="row form-row-separator">
+                    <div class="col-lg-12">{{ form_widget(form.description) }}</div>
+                </div>
+
+                <div class="row form-row-separator">
+                    <div class="col-lg-12">{{ form_widget(form.file) }}</div>
+                </div>
+
+                <div class="row form-row-separator">
+                    <div class="col-lg-1 col-1">{{ form_widget(form.isMain) }}</div>
+                    <div class="col-lg-11 col-11">{{ form_label(form.isMain) }}</div>
+                </div>
+            </div>
+
+            <div class="col-lg-2 col-6 text-right form-row-separator">
+                <a href="#" class="collection-up btn btn-default"><span class="fas fa-arrow-up"></span></a>
+                <a href="#" class="collection-down btn btn-default"><span class="fas fa-arrow-down"></span></a>
+            </div>
+
+            <div class="col-lg-2 col-6 form-row-separator">
+                <a href="#" class="collection-remove btn btn-default"><span class="fas fa-trash"></span></a>
+                <a href="#" class="collection-add btn btn-default"><span class="fas fa-plus"></span></a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

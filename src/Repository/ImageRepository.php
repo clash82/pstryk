@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Entity\File;
+use App\Entity\Image;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-class FileRepository extends ServiceEntityRepository
+class ImageRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, File::class);
+        parent::__construct($registry, Image::class);
     }
 }

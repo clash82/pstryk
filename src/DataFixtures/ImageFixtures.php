@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
-use App\Entity\File;
+use App\Entity\Image;
 use App\Entity\Item;
 use App\Image\ImageConverter;
 use App\Provider\AlbumProvider;
@@ -21,7 +21,7 @@ use Imagine\Image\Point;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
-class FileFixtures extends Fixture implements DependentFixtureInterface
+class ImageFixtures extends Fixture implements DependentFixtureInterface
 {
     const FILE_LIMIT = 5; // how many files should be generated per item
 
@@ -74,12 +74,13 @@ class FileFixtures extends Fixture implements DependentFixtureInterface
                     $itemReference = $this->getReference(sprintf(ItemFixtures::ITEM_REFERENCE, $slug, $item));
                     $fileId = sha1(sprintf('%s-%d-%d', $slug, $item, $i));
 
-                    $file = (new File())
+                    $file = (new Image())
                         ->setItem($itemReference)
                         ->setExtension(self::DEFAULT_EXTENSION)
                         ->setDescription(sprintf(self::DEFAULT_DESCRIPTION, $slug, $item, $i))
                         ->setName(sprintf(self::DEFAULT_NAME, $slug, $item, $i))
                         ->setFilename($fileId)
+                        ->setIsMain(2 === $i)
                         ->setPosition($i);
 
                     $manager->persist($file);
@@ -107,7 +108,7 @@ class FileFixtures extends Fixture implements DependentFixtureInterface
         ];
     }
 
-    private function createImage(string $filename, string $text): void
+    private function createImage(string $filename, ?string $text): void
     {
         $imagine = new Imagine();
         $palette = new PaletteRGB();
@@ -117,11 +118,13 @@ class FileFixtures extends Fixture implements DependentFixtureInterface
             $palette->color(self::DEFAULT_IMAGE_COLOR, 100)
         );
 
-        $image->draw()->text(
-            $text,
-            new Font(self::DEFAULT_FONT_PATH, self::DEFAULT_FONT_SIZE, new RGB($palette, self::DEFAULT_FONT_COLOR, 100)),
-            new Point(15, 15)
-        );
+        if (null !== $text) {
+            $image->draw()->text(
+                $text,
+                new Font(self::DEFAULT_FONT_PATH, self::DEFAULT_FONT_SIZE, new RGB($palette, self::DEFAULT_FONT_COLOR, 100)),
+                new Point(15, 15)
+            );
+        }
 
         $image->save($filename, [
             'jpeg_quality' => 90,

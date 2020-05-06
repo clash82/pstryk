@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Image;
 
-use App\Entity\File;
+use App\Entity\Image as ImageEntity;
 use App\Exception\AlbumNotSpecifiedException;
 use App\Provider\TagsProvider;
 use App\Value\Album;
@@ -52,7 +52,7 @@ class ImageConverter
         return $this;
     }
 
-    public function convert(File $file): void
+    public function convert(ImageEntity $image): void
     {
         if (null === $this->album) {
             /* @noinspection PhpUnhandledExceptionInspection */
@@ -61,27 +61,31 @@ class ImageConverter
 
         // normal
         $this->resize(
-            $file->getRawRelativePath(),
-            $file->getImagesRelativePath(),
+            $image->getRawRelativePath(),
+            $image->getImagesRelativePath(),
             $this->album->getImageHorizontalMaxWidth(),
             $this->album->getImageVerticalMaxHeight()
         );
 
         // thumb
         $this->resize(
-            $file->getRawRelativePath(),
-            $file->getThumbsRelativePath(),
+            $image->getRawRelativePath(),
+            $image->getThumbsRelativePath(),
             $this->album->getThumbHorizontalMaxWidth(),
             $this->album->getThumbVerticalMaxHeight()
         );
     }
 
     private function resize(
-        string $sourceFile,
-        string $destinationFile,
+        ?string $sourceFile,
+        ?string $destinationFile,
         int $horizontalMaxWidth,
         int $verticalMaxHeight
     ): void {
+        if (null === $sourceFile || null === $destinationFile) {
+            return;
+        }
+
         $imagine = new Imagine();
 
         $image = $imagine->open($sourceFile);

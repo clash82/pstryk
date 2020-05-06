@@ -18,18 +18,18 @@
                     {% if items|length %}
                         <table class="table table-striped">
                             <thead>
-                                <th class="text-center col-lg-1 col-md-1 col-1">#</th>
                                 <th class="text-center col-lg-2 col-md-2 col-2">Album</th>
                                 <th class="text-center col-lg-5 col-md-2 col-2">Tytuł</th>
+                                <th class="text-center col-lg-1 col-md-1 col-1">Zdjęć</th>
                                 <th class="text-center col-lg-2 col-md-2 col-2">Data</th>
                                 <th class="col-lg-3 col-md-3 col-4"></th>
                             </thead>
                             <tbody>
                                 {% for item in items %}
                                     <tr>
-                                        <td class="text-center align-middle">{{ item.id }}</td>
                                         <td class="text-center align-middle">{{ item.album }}</td>
                                         <td class="text-center align-middle">{{ item.title }}</td>
+                                        <td class="text-center align-middle">{{ item.images|length }}</td>
                                         <td class="text-center align-middle">{{ item.date|date('Y-m-d H:i') }}</td>
                                         <td class="text-center align-middle">
                                             <button class="btn btn-default" disabled>

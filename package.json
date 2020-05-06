@@ -17,6 +17,8 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "flatpickr": "^4.6.3"
+        "flatpickr": "^4.6.3",
+        "jqueryui": "^1.11.1",
+        "symfony-collection": "ninsuo/symfony-collection"
     }
 }

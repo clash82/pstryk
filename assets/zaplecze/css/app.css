@@ -54,6 +54,10 @@ main .container {
     margin-top: 1em;
 }
 
+.form-row-image-separator {
+    margin: 1em 0;
+}
+
 .form-required {
     color: #c40000;
 }
@@ -88,4 +92,28 @@ footer {
 footer a:link,
 footer a:visited {
     color: inherit;
+}
+
+.ui-sortable-handle > label {
+    display: none;
+}
+
+.form-images-container {
+    padding: 0.8em 0.4em;
+}
+
+#item_images {
+    height: 100%;
+}
+
+#item_images input,
+#item_images textarea {
+    width: 100%;
+}
+
+.img-preview {
+    border: 0.1em solid #ccc;
+    padding: 0.1em;
+    background: #fff;
+    box-shadow: 0.1em 0.1em 0.5em #888;
 }

@@ -13,7 +13,62 @@
             $('.btn-return').click(function() {
                 location.href = '{{ app.request.get('return')|raw }}';
             });
-        })
+
+            function uncheckAllRadioButtons(current) {
+               $('input[type=radio]').not(current).prop('checked', false);
+            }
+
+            function setMainRadioButton() {
+                if ($('input[type=radio]:checked').length === 0) {
+                    $('input[type=radio]').first().prop('checked', true);
+                }
+            }
+
+            function updateFilename() {
+                $('input[type=file]').change(function() {
+                    var filename = $(this).val();
+                    var fieldId = $(this).attr('id').match(/\d+/)[0];
+                    var lastIndex = filename.lastIndexOf("\\");
+                    var reader = new FileReader();
+
+                    // updating filename field
+                    if (lastIndex >= 0) {
+                        filename = filename.substring(lastIndex + 1);
+                    }
+                    $('#item_images_' + fieldId + '_name').val(filename);
+
+                    // updating image preview
+                    reader.onload = function(e) {
+                        $('#item_image_'+ fieldId +'_thumb').attr('src', e.target.result);
+                    };
+                    reader.readAsDataURL($(this).prop('files')[0]);
+                });
+            }
+
+            $('.images-collection').collection({
+                'allow_duplicates': false,
+                'position_field_selector': '.image-position',
+                'add': '<a href="#" class="btn btn-default"><span class="fas fa-plus"></span></a>',
+                'after_init': function () {
+                    updateFilename();
+                    setMainRadioButton();
+
+                    $('input[type=radio]').change(function () {
+                        uncheckAllRadioButtons($(this));
+                    });
+                },
+                'after_add': function () {
+                    updateFilename();
+                    setMainRadioButton();
+
+                    $('input[type=radio]').change(function () {
+                        uncheckAllRadioButtons($(this));
+                    });
+
+                    return true;
+                }
+            });
+        });
     </script>
 
     <div class="row">
@@ -24,7 +79,11 @@
                 </div>
                 <div class="card-body">
                     {% import 'admin/parts/form_layout.html.twig' as editForm %}
-                    {% form_theme form 'admin/parts/form_fields.html.twig' %}
+                    {% form_theme form with [
+                        'admin/parts/form_fields.html.twig',
+                        'admin/parts/jquery.collection.html.twig',
+                        'admin/parts/form_image.html.twig'
+                    ] %}
 
                     {{ editForm.display_form(form) }}
                 </div>

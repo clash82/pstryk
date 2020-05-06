@@ -59,10 +59,9 @@ class AdminController extends AbstractController
     {
         $item = $this->itemProvider->getById($itemId);
         $form = $this->createForm(ItemType::class, $item);
+        $form->handleRequest($request);
 
         if ($request->isMethod('POST')) {
-            $form->submit($request->request->get($form->getName()));
-
             if ($form->isSubmitted() && $form->isValid()) {
                 $this->itemManager->update($item);
 
@@ -85,10 +84,9 @@ class AdminController extends AbstractController
         $form = $this->createForm(ItemType::class, $item, [
             'creation_type' => 'create',
         ]);
+        $form->handleRequest($request);
 
         if ($request->isMethod('POST')) {
-            $form->submit($request->request->get($form->getName()));
-
             if ($form->isSubmitted() && $form->isValid()) {
                 $this->itemManager->update($item);
 

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Traits\Id;
+use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
@@ -88,9 +90,50 @@ class Item
     /**
      * @var Collection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\File", mappedBy="item")
+     * @ORM\OneToMany(targetEntity="Image", mappedBy="item", cascade={"persist"}, orphanRemoval=true)
      */
-    private $files;
+    private $images;
+
+    public function __construct()
+    {
+        $this->images = new ArrayCollection();
+        $this->date = new DateTime();
+    }
+
+    public function addImage(Image $image): self
+    {
+        $image->setItem($this);
+
+        $this->images[] = $image;
+
+        return $this;
+    }
+
+    public function removeImage(Image $image): void
+    {
+        $this->images->removeElement($image);
+    }
+
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    public function getMainImage(): ?Image
+    {
+        /** @var Image $image */
+        foreach ($this->images as $image) {
+            if ($image->getIsMain()) {
+                return $image;
+            }
+        }
+
+        if (\count($this->images) > 0) {
+            return $this->images[0];
+        }
+
+        return null;
+    }
 
     public function setAlbum(string $album): self
     {
@@ -128,13 +171,6 @@ class Item
     public function setDescription(string $description): self
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function setFiles(Collection $files): self
-    {
-        $this->files = $files;
 
         return $this;
     }
@@ -185,11 +221,6 @@ class Item
     public function getDate(): ?\DateTime
     {
         return $this->date;
-    }
-
-    public function getFiles(): Collection
-    {
-        return $this->files;
     }
 
     public function getLatitude(): float

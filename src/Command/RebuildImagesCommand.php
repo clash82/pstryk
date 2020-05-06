@@ -75,7 +75,7 @@ class RebuildImagesCommand extends Command
         $items = $this->itemProvider->getAllByAlbum($slug);
         $processedCounter = 0;
         foreach ($items as $item) {
-            $files = $item->getFiles();
+            $files = $item->getImages();
 
             foreach ($files as $file) {
                 $output->writeln(sprintf('Converting (<comment>%d</comment>): <info>%s</info>', ++$processedCounter, $file));
@@ -85,7 +85,7 @@ class RebuildImagesCommand extends Command
         }
 
         $output->writeln('');
-        $output->writeln(sprintf('Done, <comment>%d</comment> files processed.', $processedCounter));
+        $output->writeln(sprintf('Done, <comment>%d</comment> images processed.', $processedCounter));
 
         return 0;
     }
