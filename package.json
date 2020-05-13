@@ -19,6 +19,7 @@
     "dependencies": {
         "flatpickr": "^4.6.3",
         "jqueryui": "^1.11.1",
+        "magnific-popup": "^1.1.0",
         "symfony-collection": "ninsuo/symfony-collection"
     }
 }

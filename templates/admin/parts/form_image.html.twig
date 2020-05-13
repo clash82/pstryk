@@ -12,9 +12,12 @@
 
         <div class="row vcenter">
             <div class="col-lg-2 col-12 text-center">
-                <img src="{% if form.thumbsPublicPath.vars.data is empty %}{{ asset('assets/images/placeholder.png') }}
-                    {% else %}{{ '/'~form.thumbsPublicPath.vars.data }}{% endif %}" class="img-fluid img-preview"
-                     id="item_image_{{ form.vars.name }}_thumb">
+                <a href="{% if form.thumbsPublicPath.vars.data is empty %}{{ asset('assets/images/placeholder.png') }}
+                    {% else %}{{ '/'~form.thumbsPublicPath.vars.data }}{% endif %}" class="image-preview">
+                    <img src="{% if form.thumbsPublicPath.vars.data is empty %}{{ asset('assets/images/placeholder.png') }}
+                        {% else %}{{ '/'~form.thumbsPublicPath.vars.data }}{% endif %}" class="img-fluid img-preview"
+                         id="item_image_{{ form.vars.name }}_thumb">
+                </a>
             </div>
 
             <div class="col-lg-6 col-12 form-row-separator">

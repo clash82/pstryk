@@ -11,6 +11,7 @@ require('../css/bootstrap.css');
 require('../css/opensans.css');
 require('../css/app.css');
 require('flatpickr/dist/themes/material_green.css');
+require('magnific-popup/dist/magnific-popup.css');
 
 const $ = require('jquery');
 global.$ = global.jQuery = $;
@@ -18,6 +19,7 @@ global.$ = global.jQuery = $;
 require('bootstrap');
 require('jqueryui');
 require('symfony-collection');
+require('magnific-popup');
 const flatpickr = require('flatpickr');
 const flatpickrPL = require('flatpickr/dist/l10n/pl.js').default.pl;
 flatpickr.localize(flatpickrPL);
