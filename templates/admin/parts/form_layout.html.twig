@@ -23,6 +23,10 @@
                         {% endif %}
                     </div>
                     <div class="col-lg-9 form-row-separator">
+                        {% if fieldId == 'images' %}
+                            <div id="drop-area">Upuść pliki tutaj, aby dodać je do kolekcji</div>
+                        {% endif %}
+
                         {{ form_errors(value) }}
 
                         {% set fieldClass = 'form-control' %}

@@ -70,6 +70,36 @@
                     return true;
                 }
             });
+
+            function fileDragHover(e) {
+                e.stopPropagation();
+                e.preventDefault();
+                e.target.className = (e.type === 'dragover' ? 'hover' : '');
+            }
+
+            function fileSelectHandler(e) {
+                fileDragHover(e);
+
+                var files = e.target.files || e.dataTransfer.files;
+                for (var i = 0, f; f = files[i]; i++) {
+                    // TODO: add images to collection
+                    alert('Funkcja jeszcze nie obsługiwana');
+
+                    console.log(f);
+                }
+            }
+
+            if (window.File && window.FileList && window.FileReader) {
+                var dropArea = document.getElementById('drop-area'),
+                    xhr = new XMLHttpRequest();
+
+                if (xhr.upload) {
+                    dropArea.addEventListener('dragover', fileDragHover, false);
+                    dropArea.addEventListener('dragleave', fileDragHover, false);
+                    dropArea.addEventListener('drop', fileSelectHandler, false);
+                    dropArea.style.display = 'block';
+                }
+            }
         });
     </script>
 
