@@ -18,15 +18,25 @@
                     {% if items|length %}
                         <table class="table table-striped">
                             <thead>
+                                <th class="text-center col-lg-1 col-md-1 col-1">Okładka</th>
                                 <th class="text-center col-lg-2 col-md-2 col-2">Album</th>
-                                <th class="text-center col-lg-5 col-md-2 col-2">Tytuł</th>
+                                <th class="text-center col-lg-4 col-md-2 col-2">Tytuł</th>
                                 <th class="text-center col-lg-1 col-md-1 col-1">Zdjęć</th>
                                 <th class="text-center col-lg-2 col-md-2 col-2">Data</th>
-                                <th class="col-lg-3 col-md-3 col-4"></th>
+                                <th class="col-lg-2 col-md-4 col-4"></th>
                             </thead>
                             <tbody>
                                 {% for item in items %}
                                     <tr>
+                                        <td class="text-center align-middle">
+                                            {% if item.getMainImage is not empty and item.getMainImage.getThumbsPublicPath is not empty %}
+                                                <img src="{{ '/'~item.getMainImage.getThumbsPublicPath }}" class="img-fluid img-preview">
+                                            {% else %}
+                                                <button class="btn btn-default" disabled>
+                                                    <span class="fas fa-exclamation-circle"></span>
+                                                </button>
+                                            {% endif %}
+                                        </td>
                                         <td class="text-center align-middle">{{ item.album }}</td>
                                         <td class="text-center align-middle">{{ item.title }}</td>
                                         <td class="text-center align-middle">{{ item.images|length }}</td>
