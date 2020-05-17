@@ -1,0 +1,108 @@
+<script>
+    $(document).ready(function() {
+        if (Cookies.get('item_filter_show') === '1') {
+            $('.filter-options').show();
+        }
+
+        $('.show-filter-options').click(function() {
+            $('.filter-options').slideToggle('fast', function() {
+                var showFilterOptions = 1;
+
+                if ($(this).is(':hidden')) {
+                    showFilterOptions = 0;
+                }
+                Cookies.set('item_filter_show', showFilterOptions, {
+                    sameSite: 'lax'
+                });
+            });
+        });
+
+        $('.filter-options button').click(function() {
+            var itemsPerPage = $('input[name=items-per-page]').val(),
+                itemsSort = $('select[name=items-sort]').val(),
+                itemsSortDirection = $('select[name=items-sort-direction]').val(),
+                album = $('select[name=items-album]').val();
+
+            $('.filter-options .card-body').html('<div class="preloader"></div>');
+
+            $.ajax({
+                type: 'POST',
+                url: '{{ endpoint }}',
+                data: {
+                    'itemsPerPage': itemsPerPage,
+                    'itemsSort': itemsSort,
+                    'itemsSortDirection': itemsSortDirection,
+                    'album': album
+                },
+                success: function(data) {
+                    if (data.errorCode === '0') {
+                        location.reload();
+
+                        return;
+                    }
+
+                    alert('Błąd: '+data.errorCode);
+                },
+                dataType: 'json'
+            });
+        })
+    });
+</script>
+
+<div class="row">
+    <div class="col-lg-12 col-12 filter-header">
+        <div class="col-lg-1 offset-lg-11 col-2 offset-10">
+            <button class="btn btn-secondary show-filter-options">
+                <span class="fas fa-cog"></span>
+            </button>
+        </div>
+    </div>
+
+    <div class="col-lg-12 filter-options hide">
+        <div class="card">
+            <div class="card-body">
+                <div class="row vcenter">
+                    <div class="col-lg-3 text-center form-row-separator">
+                        Zestawów na stronę:
+                    </div>
+                    <div class="col-lg-2 form-row-separator">
+                        <input type="number" name="items-per-page" class="form-control" min="5" step="1" value="{{ filter_options.items_per_page }}">
+                    </div>
+                    <div class="col-lg-2 text-center form-row-separator">
+                        Sortuj wg:
+                    </div>
+                    <div class="col-lg-2 form-row-separator">
+                        <select name="items-sort" class="form-control">
+                            <option value="album"{% if filter_options.items_sort == 'album' %} selected="selected"{% endif %}>album</option>
+                            <option value="title"{% if filter_options.items_sort == 'title' %} selected="selected"{% endif %}>tytuł</option>
+                            <option value="date"{% if filter_options.items_sort == 'date' %} selected="selected"{% endif %}>data</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-2 form-row-separator">
+                        <select name="items-sort-direction" class="form-control">
+                            <option value="asc"{% if filter_options.items_sort_direction == 'asc' %} selected="selected"{% endif %}>rosnąco</option>
+                            <option value="desc"{% if filter_options.items_sort_direction == 'desc' %} selected="selected"{% endif %}>malejąco</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row form-row-separator vcenter">
+                    <div class="col-lg-3 text-center form-row-separator">
+                        Pokaż albumy:
+                    </div>
+                    <div class="col-lg-8 form-row-separator">
+                        <select name="items-album" class="form-control">
+                            <option value=""{% if filter_options.album == '' %} selected="selected"{% endif %}>- wszystkie -</option>
+                            {% for album in albums %}
+                                <option value="{{ album.slug }}"{% if filter_options.album == album.slug %} selected="selected"{% endif %}>{{ album.title }} ({{ album.slug }})</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-lg-1 text-center form-row-separator">
+                        <button class="btn btn-primary"><span class="fas fa-sort-alpha-down"></span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

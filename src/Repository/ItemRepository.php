@@ -23,33 +23,27 @@ class ItemRepository extends ServiceEntityRepository
         parent::__construct($registry, Item::class);
     }
 
-    public function getAllPaginated(int $page, int $limit): PaginationInterface
-    {
+    public function getAllPaginated(
+        string $album,
+        int $page,
+        int $itemsPerPage,
+        string $itemsSort,
+        string $itemsSortDirection
+    ): PaginationInterface {
         $query = $this->getEntityManager()->getRepository(Item::class)
             ->createQueryBuilder('i')
-            ->orderBy('i.date', 'DESC')
-            ->getQuery();
+            ->orderBy(sprintf('i.%s', $itemsSort), $itemsSortDirection);
+
+        if ('' !== $album) {
+            $query
+                ->where('i.album = :album')
+                ->setParameter('album', $album);
+        }
 
         return $this->paginator->paginate(
-            $query,
+            $query->getQuery(),
             $page,
-            $limit
-        );
-    }
-
-    public function getAllByAlbumPaginated(string $album, int $page, int $limit): PaginationInterface
-    {
-        $query = $this->getEntityManager()->getRepository(Item::class)
-            ->createQueryBuilder('i')
-            ->where('i.album = :album')
-            ->setParameter('album', $album)
-            ->orderBy('i.date', 'DESC')
-            ->getQuery();
-
-        return $this->paginator->paginate(
-            $query,
-            $page,
-            $limit
+            $itemsPerPage
         );
     }
 

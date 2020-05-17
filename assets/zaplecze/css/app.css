@@ -134,3 +134,31 @@ footer a:visited {
     color: #f00;
     border: 0.07em solid #ed0000;
 }
+
+.filter-header,
+.filter-options {
+    margin-bottom: 1em;
+}
+
+.preloader {
+    margin: 0 auto;
+    text-align: center;
+}
+
+.preloader:before {
+    width: 30px;
+    height: 30px;
+    content: '';
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    transform-origin: 46% 54%;
+    animation: preloader_spin 1s linear infinite;
+    background: url('../images/preloader.svg') no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+
+@keyframes preloader_spin {
+    100% {
+        transform: rotate(360deg);
+    }
+}

@@ -34,7 +34,7 @@ class AlbumController extends AbstractController
         }
 
         /* @noinspection PhpUnhandledExceptionInspection */
-        $items = $this->itemProvider->getAllByAlbumPaginated(
+        $items = $this->itemProvider->getAllPaginated(
             $slug,
             $page,
             $this->albumProvider->getBySlug($slug)->getPaginationlimit()

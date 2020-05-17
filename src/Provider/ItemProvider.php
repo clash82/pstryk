@@ -11,6 +11,8 @@ use Knp\Component\Pager\Pagination\PaginationInterface;
 class ItemProvider
 {
     const DEFAULT_PAGE_LIMIT = 10;
+    const DEFAULT_SORT_COLUMN = 'date';
+    const DEFAULT_SORT_DIRECTION = 'desc';
 
     /** @var ItemRepository */
     private $itemRepository;
@@ -20,14 +22,14 @@ class ItemProvider
         $this->itemRepository = $itemRepository;
     }
 
-    public function getAllPaginated(int $page = 1, int $limit = self::DEFAULT_PAGE_LIMIT): PaginationInterface
-    {
-        return $this->itemRepository->getAllPaginated($page, $limit);
-    }
-
-    public function getAllByAlbumPaginated(string $album, int $page = 1, int $limit = self::DEFAULT_PAGE_LIMIT): PaginationInterface
-    {
-        return $this->itemRepository->getAllByAlbumPaginated($album, $page, $limit);
+    public function getAllPaginated(
+        string $album,
+        int $page = 1,
+        int $itemsPerPage = self::DEFAULT_PAGE_LIMIT,
+        string $itemsSort = self::DEFAULT_SORT_COLUMN,
+        string $itemsSortDirection = self::DEFAULT_SORT_DIRECTION
+    ): PaginationInterface {
+        return $this->itemRepository->getAllPaginated($album, $page, $itemsPerPage, $itemsSort, $itemsSortDirection);
     }
 
     /**

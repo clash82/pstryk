@@ -8,6 +8,10 @@
         'endpoint': path('app_admin_item_delete')
     } %}
 
+    {% include 'admin/item_list_filter.html.twig' with {
+        'endpoint': path('app_admin_item_filter_options')
+    } %}
+
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
