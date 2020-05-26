@@ -1,0 +1,149 @@
+* {
+    font-family: 'Open Sans', sans-serif;
+    color: #ccc;
+}
+
+body {
+    background: #313131;
+}
+
+main {
+    margin-top: 2em;
+    border-radius: 0.8em;
+    background: #2C2C2C;
+    padding: 2em 2em 0 2em;
+}
+
+header {
+    margin-top: 2em;
+    margin-bottom: 2em;
+    color: #B9B9B9;
+}
+
+header a:link,
+header a:visited {
+    color: #C9C9C9;
+}
+
+header a:hover {
+    color: #6F931F;
+    text-decoration: none;
+}
+
+.frame-title {
+    border-top-left-radius: 0.8em;
+    padding-top: 0.3em;
+    padding-left: 2em;
+    background: #121212;
+}
+
+.frame-date {
+    border-top-right-radius: 0.8em;
+    padding-top: 0.3em;
+    padding-right: 2em;
+    background: #121212;
+}
+
+.frame-thumb {
+    background: #121212;
+    padding-bottom: 1em;
+    border-bottom-right-radius: 0.8em;
+    border-bottom-left-radius: 0.8em;
+    margin-bottom: 1em;
+}
+
+.frame-thumb img {
+    border-radius: 0.5em;
+    border: 0.3em solid #121212;
+}
+
+.frame-image {
+    margin-bottom: 2em;
+}
+
+.frame-image img {
+    border: 1px solid #000;
+}
+
+.frame-description {
+    margin-bottom: 1.5em;
+}
+
+.item-title {
+    font-size: 2em;
+    margin-bottom: 0.2em;
+}
+
+.item-date {
+    font-size: 0.9em;
+    margin-bottom: 1em;
+}
+
+.item-map {
+    width: 100%;
+    height: 20em;
+    margin-bottom: 2em;
+    border: 0.2em solid #000;
+}
+
+.item-more {
+    margin-bottom: 2em;
+}
+
+.item-image {
+    margin-bottom: 2em;
+}
+
+.item-image img {
+    border: 0.2em solid #000;
+}
+
+.item-menu-bottom {
+    margin-bottom: 2em;
+    padding-bottom: 1.5em;
+}
+
+.paginator {
+    margin-top: 2em;
+}
+
+footer {
+    margin-bottom: 2em;
+}
+
+footer a:link,
+footer a:visited {
+    color: #C9C9C9;
+}
+
+footer a:hover {
+    color: #6F931F;
+    text-decoration: none;
+}
+
+.footer-copyright {
+    color: #B9B9B9;
+    margin-bottom: 4em;
+    margin-top: 2em
+}
+
+.footer-details {
+    color: #6A6A6A;
+}
+
+.page-link {
+    background: #1F1F1F;
+    border-color: #1F1F1F;
+    color: #ccc;
+}
+
+.active .page-link {
+    background: #2E2E2E !important;
+    border-color: #2E2E2E !important;
+}
+
+.disabled .page-link {
+    background: #404040 !important;
+    border-color: #404040 !important;
+    color: #ccc !important;
+}

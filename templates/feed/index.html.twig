@@ -1,1 +1,25 @@
-{{ dump(items.items) }}
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <atom:link href="{{ album.feedUrl }}" rel="self" type="application/rss+xml" />
+        <title>{{ album.title }}</title>
+        <link>{{ getRoute(album.slug, null) }}</link>
+        <language>pl</language>
+        <description>{{ album.description }}</description>
+        <copyright>Rafał Toborek</copyright>
+        <image>
+            <url>{{ getRoute(null, null) ~ asset('assets/images/feed.jpg') }}</url>
+            <title>{{ album.title }}</title>
+            <link>{{ getRoute(album.slug, null) }}</link>
+        </image>
+        {% for item in items.items %}
+            <item>
+                <title>{{ item.title }}</title>
+                <link>{{ getRoute(album.slug, item.slug) }}</link>
+                <description><![CDATA[{% if item.mainImage is defined %}<img src="{{ getRoute(null, null) ~ '/' ~ item.mainImage.thumbsPublicPath}}" align="left" hspace="5" width="150"> {% endif %}{{ item.description }}]]></description>
+                <guid isPermaLink="false">{{ item.guid }}</guid>
+                <pubDate>{{ item.date|date('r') }}</pubDate>
+            </item>
+        {% endfor %}
+    </channel>
+</rss>

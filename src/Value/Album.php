@@ -14,11 +14,17 @@ class Album
     /** @var string */
     private $title;
 
+    /** @var string */
+    private $description;
+
     /** @var int */
     private $paginationLimit;
 
     /** @var int */
     private $feedLimit;
+
+    /** @var string */
+    private $feedUrl;
 
     /** @var int */
     private $imageHorizontalMaxWidth;
@@ -42,6 +48,12 @@ class Album
         }
         $this->title = $album['title'];
 
+        if (!isset($album['description'])) {
+            /* @noinspection PhpUnhandledExceptionInspection */
+            throw new ArrayKeyNotExistsException('description');
+        }
+        $this->description = $album['description'];
+
         if (!isset($album['pagination_limit'])) {
             /* @noinspection PhpUnhandledExceptionInspection */
             throw new ArrayKeyNotExistsException('pagination_limit');
@@ -53,6 +65,12 @@ class Album
             throw new ArrayKeyNotExistsException('feed_limit');
         }
         $this->feedLimit = (int) $album['feed_limit'];
+
+        if (!isset($album['feed_url'])) {
+            /* @noinspection PhpUnhandledExceptionInspection */
+            throw new ArrayKeyNotExistsException('feed_url');
+        }
+        $this->feedUrl = $album['feed_url'];
 
         if (!isset($album['image_horizontal_max_width'])) {
             /* @noinspection PhpUnhandledExceptionInspection */
@@ -89,7 +107,12 @@ class Album
         return $this->title;
     }
 
-    public function getPaginationlimit(): int
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    public function getPaginationLimit(): int
     {
         return $this->paginationLimit;
     }
@@ -97,6 +120,11 @@ class Album
     public function getFeedLimit(): int
     {
         return $this->feedLimit;
+    }
+
+    public function getFeedUrl(): string
+    {
+        return $this->feedUrl;
     }
 
     public function getImageHorizontalMaxWidth(): int

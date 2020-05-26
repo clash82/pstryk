@@ -1,0 +1,42 @@
+{% extends 'album/stalker/base.html.twig' %}
+
+{% block title %}{{ item.current.title }}{% endblock %}
+{% block description %}{{ item.current.description }}{%  endblock %}
+{% block image %}{{ getRoute(null, null) }}/{{ item.current.mainImage.thumbsPublicPath }}{%  endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="item-title col-12 text-center">
+            {{ item.current.title }}
+        </div>
+
+        <div class="item-date col-12 text-center">
+            {{ item.current.date|date('Y-m-d') }}
+        </div>
+
+        <div class="col-12 text-center">
+            <div class="item-map"></div>
+        </div>
+
+        <div class="item-more col-12 text-center">
+            <a href="https://maps.google.com/?q={{ item.current.latitude }},{{ item.current.longitude }}" target="_blank" class="btn btn-secondary">pokaż na większej mapie</a>
+        </div>
+
+        {% for image in item.current.images %}
+            <div class="col-12 item-image text-center">
+                <a href="/{{ image.imagesPublicPath }}">
+                    <img src="/{{ image.thumbsPublicPath }}" class="img-fluid" alt="{% if image.description is empty %}{{ item.current.description }}{% else %}{{ image.description }}{% endif %}">
+                </a>
+            </div>
+        {% endfor %}
+
+    </div>
+
+    <div class="row item-menu-bottom">
+        {{ include('album/stalker/item_menu.html.twig') }}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ include('album/stalker/item_js.html.twig') }}
+{% endblock %}

@@ -237,4 +237,9 @@ class Item
     {
         return $this->isActive;
     }
+
+    public function getGuid(): string
+    {
+        return sprintf('%s_%s', $this->getAlbum(), md5((string) $this->getId()));
+    }
 }

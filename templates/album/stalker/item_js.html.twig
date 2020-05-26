@@ -1,0 +1,35 @@
+<script>
+    function initMaps() {
+        var position = new google.maps.LatLng({{ item.current.latitude }}, {{ item.current.longitude }}),
+            options = {
+                center: position,
+                zoom: 18,
+                mapTypeId: google.maps.MapTypeId.SATELLITE
+            },
+            map = new google.maps.Map(document.getElementsByClassName('item-map')[0], options),
+            image = {
+                url: '{{ asset('assets/images/marker.svg') }}',
+                anchor: new google.maps.Point(25,50),
+                scaledSize: new google.maps.Size(50,50)
+            };
+
+        marker = new google.maps.Marker({
+            map: map,
+            draggable: false,
+            animation: google.maps.Animation.DROP,
+            position: position,
+            icon: image
+        });
+
+        marker.setAnimation(google.maps.Animation.BOUNCE);
+    }
+
+    function loadMaps() {
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyC-RTdqpQKFS7iRHPDHTnGfHbt1pssm2NA&sensor=false&callback=initMaps';
+        document.body.appendChild(script);
+    }
+
+    window.onload = loadMaps;
+</script>

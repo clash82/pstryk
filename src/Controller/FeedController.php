@@ -25,23 +25,25 @@ class FeedController extends AbstractController
     }
 
     /**
-     * @Route("/{slug}/feed", name="app_feed_index")
+     * @Route("/{albumSlug}/feed", name="app_feed_index", defaults={"_format"="xml"})
      */
-    public function index(string $slug): Response
+    public function index(string $albumSlug): Response
     {
-        if (!$this->albumProvider->slugExists($slug)) {
+        if (!$this->albumProvider->slugExists($albumSlug)) {
             return $this->redirectToRoute('app_home_index');
         }
 
         /* @noinspection PhpUnhandledExceptionInspection */
         $items = $this->itemProvider->getAllPaginated(
-            $slug,
+            $albumSlug,
             1,
-            $this->albumProvider->getBySlug($slug)->getFeedLimit()
+            $this->albumProvider->getBySlug($albumSlug)->getFeedLimit()
         );
 
+        /* @noinspection PhpUnhandledExceptionInspection */
         return $this->render('feed/index.html.twig', [
             'items' => $items,
+            'album' => $this->albumProvider->getBySlug($albumSlug),
         ]);
     }
 }
