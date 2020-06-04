@@ -6,8 +6,12 @@ namespace App\Image;
 
 use App\Entity\Image as ImageEntity;
 use App\Exception\AlbumNotSpecifiedException;
-use App\Provider\TagsProvider;
+use App\Exception\FileNotExistsException;
+use App\Provider\TagsSettingsProvider;
+use App\Provider\WatermarkSettingsProvider;
 use App\Value\Album;
+use App\Value\Enum\WatermarkPosition;
+use App\Value\Watermark;
 use iBudasov\Iptc\Domain\Binary;
 use iBudasov\Iptc\Domain\Tag;
 use iBudasov\Iptc\Infrastructure\StandardPhpFileSystem;
@@ -16,6 +20,8 @@ use iBudasov\Iptc\Manager;
 use Imagine\Gd\Image;
 use Imagine\Gd\Imagine;
 use Imagine\Image\Box;
+use Imagine\Image\ImageInterface;
+use Imagine\Image\Point;
 use ReflectionProperty;
 
 class ImageConverter
@@ -30,12 +36,19 @@ class ImageConverter
     /** @var bool */
     private $applyUnsharpMask = true;
 
-    /** @var TagsProvider */
+    /** @var TagsSettingsProvider */
     private $tagsProvider;
 
-    public function __construct(TagsProvider $tagsProvider)
+    /** @var WatermarkSettingsProvider */
+    private $watermarkProvider;
+
+    /** @var ImageInterface */
+    private $watermark = null;
+
+    public function __construct(TagsSettingsProvider $tagsProvider, WatermarkSettingsProvider $watermarkProvider)
     {
         $this->tagsProvider = $tagsProvider;
+        $this->watermarkProvider = $watermarkProvider;
     }
 
     public function setAlbum(Album $album): self
@@ -74,6 +87,70 @@ class ImageConverter
             $this->album->getThumbHorizontalMaxWidth(),
             $this->album->getThumbVerticalMaxHeight()
         );
+    }
+
+    private function addWatermark(
+        Imagine $imagine,
+        ImageInterface $image,
+        Watermark $watermarkSettings
+    ): ImageInterface {
+        if (null === $this->watermark) {
+            $watermarkFilename = sprintf(
+                '%s/assets/%s/images/%s',
+                getcwd(),
+                $this->album->getSlug(),
+                $watermarkSettings->getFile()
+            );
+
+            if (!file_exists($watermarkFilename)) {
+                /* @noinspection PhpUnhandledExceptionInspection */
+                throw new FileNotExistsException($watermarkFilename);
+            }
+
+            $watermark = $imagine->open($watermarkFilename);
+            $watermarkSize = $watermark->getSize();
+
+            if ($watermarkSettings->getWidth() > 0 && $watermarkSize->getWidth() > $watermarkSettings->getWidth()
+                || $watermarkSettings->getHeight() > 0 && $watermarkSize->getHeight() > $watermarkSettings->getHeight()) {
+                $watermarkNewSize = new Box($watermarkSettings->getWidth(), $watermarkSettings->getHeight());
+                $watermark->resize($watermarkNewSize);
+            }
+
+            $this->watermark = $watermark;
+        }
+
+        $imageSize = $image->getSize();
+        $watermarkSize = $this->watermark->getSize();
+
+        $position = new Point(
+            $imageSize->getWidth() - $watermarkSize->getWidth() - $watermarkSettings->getHorizontalMargin(),
+            $imageSize->getHeight() - $watermarkSize->getHeight() - $watermarkSettings->getVerticalMargin()
+        );
+
+        if (WatermarkPosition::POSITION_TOP_LEFT === $watermarkSettings->getPosition()) {
+            $position = new Point(
+                $watermarkSettings->getHorizontalMargin(),
+                $watermarkSettings->getVerticalMargin()
+            );
+        }
+
+        if (WatermarkPosition::POSITION_TOP_RIGHT === $watermarkSettings->getPosition()) {
+            $position = new Point(
+                $imageSize->getWidth() - $watermarkSize->getWidth() - $watermarkSettings->getHorizontalMargin(),
+                $watermarkSettings->getVerticalMargin()
+            );
+        }
+
+        if (WatermarkPosition::POSITION_BOTTOM_LEFT === $watermarkSettings->getPosition()) {
+            $position = new Point(
+                $watermarkSettings->getHorizontalMargin(),
+                $imageSize->getHeight() - $watermarkSize->getHeight() - $watermarkSettings->getVerticalMargin()
+            );
+        }
+
+        $image->paste($this->watermark, $position, $watermarkSettings->getTransparency());
+
+        return $image;
     }
 
     private function resize(
@@ -123,6 +200,13 @@ class ImageConverter
 
             $updatedResource = $this->applyUnsharpMask($resource, 60, 1, 1);
             $reflectionProperty->setValue($image, $updatedResource);
+        }
+
+        /* @noinspection PhpUnhandledExceptionInspection */
+        $watermarkSettings = $this->watermarkProvider->get($this->album);
+        if ($watermarkSettings->isEnabled()) {
+            /* @noinspection PhpUnhandledExceptionInspection */
+            $image = $this->addWatermark($imagine, $image, $watermarkSettings);
         }
 
         $image->save($destinationFile, [

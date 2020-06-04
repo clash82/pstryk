@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Provider\AlbumProvider;
+use App\Provider\AlbumSettingsProvider;
 use App\Provider\ItemProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,10 +15,10 @@ class FeedController extends AbstractController
     /** @var ItemProvider */
     private $itemProvider;
 
-    /** @var AlbumProvider */
+    /** @var AlbumSettingsProvider */
     private $albumProvider;
 
-    public function __construct(ItemProvider $itemProvider, AlbumProvider $albumProvider)
+    public function __construct(ItemProvider $itemProvider, AlbumSettingsProvider $albumProvider)
     {
         $this->itemProvider = $itemProvider;
         $this->albumProvider = $albumProvider;

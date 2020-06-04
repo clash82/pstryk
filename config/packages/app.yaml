@@ -12,11 +12,11 @@ app:
             feed_url: http://feeds.feedburner.com/stalkerphoto
 
             # normal
-            image_horizontal_max_width: 1500
+            image_horizontal_max_width: 1600
             image_vertical_max_height: 0
 
             # thumb
-            thumb_horizontal_max_width: 1500
+            thumb_horizontal_max_width: 1300
             thumb_vertical_max_height: 0
 
             # IPTC tags
@@ -24,3 +24,13 @@ app:
                 author: Rafal Toborek
                 copyright: Rafal Toborek
                 description: https://pstryk.toborek.info
+
+            watermark:
+                enabled: true
+                file: watermark.png
+                width: 120
+                height: 120
+                transparency: 60
+                position: bottom-right
+                horizontal_margin: 0
+                vertical_margin: 0

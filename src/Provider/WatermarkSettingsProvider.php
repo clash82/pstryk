@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Provider;
 
-use App\Exception\TagsNotFoundException;
+use App\Exception\WatermarkSettingsNotFoundException;
 use App\Value\Album;
-use App\Value\Tags;
+use App\Value\Watermark;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
-class TagsProvider
+class WatermarkSettingsProvider
 {
     /** @var ParameterBagInterface */
     private $parameterBag;
@@ -19,18 +19,18 @@ class TagsProvider
         $this->parameterBag = $parameterBag;
     }
 
-    public function get(Album $album): Tags
+    public function get(Album $album): Watermark
     {
         $albums = $this->parameterBag->get('app')['albums'];
 
         foreach ($albums as $slug => $settings) {
             if ($slug === $album->getSlug()) {
                 /* @noinspection PhpUnhandledExceptionInspection */
-                return new Tags($settings['tags']);
+                return new Watermark($settings['watermark']);
             }
         }
 
         /* @noinspection PhpUnhandledExceptionInspection */
-        throw new TagsNotFoundException();
+        throw new WatermarkSettingsNotFoundException();
     }
 }

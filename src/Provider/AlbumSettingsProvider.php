@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Provider;
 
-use App\Exception\AlbumNotFoundException;
+use App\Exception\AlbumSettingsNotFoundException;
 use App\Value\Album;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
-class AlbumProvider
+class AlbumSettingsProvider
 {
     /** @var Album[] */
     private $albums = [];
@@ -51,6 +51,6 @@ class AlbumProvider
         }
 
         /* @noinspection PhpUnhandledExceptionInspection */
-        throw new AlbumNotFoundException();
+        throw new AlbumSettingsNotFoundException();
     }
 }

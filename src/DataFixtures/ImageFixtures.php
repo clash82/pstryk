@@ -7,7 +7,7 @@ namespace App\DataFixtures;
 use App\Entity\Image;
 use App\Entity\Item;
 use App\Image\ImageConverter;
-use App\Provider\AlbumProvider;
+use App\Provider\AlbumSettingsProvider;
 use App\Provider\StoragePathProvider;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -35,7 +35,7 @@ class ImageFixtures extends Fixture implements DependentFixtureInterface
     const DEFAULT_FONT_SIZE = 30;
     const DEFAULT_FONT_COLOR = [255, 255, 255];
 
-    /** @var AlbumProvider */
+    /** @var AlbumSettingsProvider */
     private $albumProvider;
 
     /** @var ImageConverter */
@@ -45,7 +45,7 @@ class ImageFixtures extends Fixture implements DependentFixtureInterface
     private $storagePathProvider;
 
     public function __construct(
-        AlbumProvider $albumProvider,
+        AlbumSettingsProvider $albumProvider,
         StoragePathProvider $storagePathProvider,
         ImageConverter $imageConverter
     ) {

@@ -7,7 +7,7 @@ namespace App\EventListener;
 use App\Entity\Image;
 use App\Entity\Item;
 use App\Image\ImageConverter;
-use App\Provider\AlbumProvider;
+use App\Provider\AlbumSettingsProvider;
 use App\Provider\StoragePathProvider;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 
@@ -19,7 +19,7 @@ class EntityListener
     /** @var ImageConverter */
     private $imageConverter;
 
-    /** @var AlbumProvider */
+    /** @var AlbumSettingsProvider */
     private $albumProvider;
 
     /** @var array */
@@ -28,7 +28,7 @@ class EntityListener
     public function __construct(
         StoragePathProvider $storagePathProvider,
         ImageConverter $imageConverter,
-        AlbumProvider $albumProvider
+        AlbumSettingsProvider $albumProvider
     ) {
         $this->storagePathProvider = $storagePathProvider;
         $this->imageConverter = $imageConverter;

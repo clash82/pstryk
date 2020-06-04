@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Exception\AlbumNotFoundException;
+use App\Exception\AlbumSettingsNotFoundException;
 use App\Image\ImageConverter;
-use App\Provider\AlbumProvider;
+use App\Provider\AlbumSettingsProvider;
 use App\Provider\ItemProvider;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -24,13 +24,13 @@ class RebuildImagesCommand extends Command
     /** @var ItemProvider */
     private $itemProvider;
 
-    /** @var AlbumProvider */
+    /** @var AlbumSettingsProvider */
     private $albumProvider;
 
     public function __construct(
         ImageConverter $imageConverter,
         ItemProvider $itemProvider,
-        AlbumProvider $albumProvider
+        AlbumSettingsProvider $albumProvider
     ) {
         $this->imageConverter = $imageConverter;
         $this->itemProvider = $itemProvider;
@@ -64,7 +64,7 @@ class RebuildImagesCommand extends Command
 
         try {
             $this->imageConverter->setAlbum($this->albumProvider->getBySlug($slug));
-        } catch (AlbumNotFoundException $e) {
+        } catch (AlbumSettingsNotFoundException $e) {
             $output->writeln(sprintf('<error>`%s` album was not found</error>', $slug));
 
             return 1;

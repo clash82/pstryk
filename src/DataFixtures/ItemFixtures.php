@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\DataFixtures;
 
 use App\Entity\Item;
-use App\Provider\AlbumProvider;
+use App\Provider\AlbumSettingsProvider;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -21,10 +21,10 @@ class ItemFixtures extends Fixture
     const DEFAULT_LATITUDE = 50.31406826596857;
     const DEFAULT_LONGITUDE = 19.119177460670475;
 
-    /** @var AlbumProvider */
+    /** @var AlbumSettingsProvider */
     private $albumProvider;
 
-    public function __construct(AlbumProvider $albumProvider)
+    public function __construct(AlbumSettingsProvider $albumProvider)
     {
         $this->albumProvider = $albumProvider;
     }

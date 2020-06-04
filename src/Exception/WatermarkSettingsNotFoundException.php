@@ -7,7 +7,7 @@ namespace App\Exception;
 use Exception;
 use Throwable;
 
-class AlbumNotFoundException extends Exception
+class WatermarkSettingsNotFoundException extends Exception
 {
     public function __construct(string $message = '', int $code = 0, Throwable $previous = null)
     {
