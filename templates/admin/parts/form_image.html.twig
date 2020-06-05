@@ -13,9 +13,9 @@
         <div class="row vcenter">
             <div class="col-lg-2 col-12 text-center">
                 <a href="{% if form.thumbsPublicPath.vars.data is empty %}{{ asset('assets/images/placeholder.png') }}
-                    {% else %}{{ '/'~form.thumbsPublicPath.vars.data }}{% endif %}" class="image-preview">
+                    {% else %}{{ form.thumbsPublicPath.vars.data }}{% endif %}" class="image-preview">
                     <img src="{% if form.thumbsPublicPath.vars.data is empty %}{{ asset('assets/images/placeholder.png') }}
-                        {% else %}{{ '/'~form.thumbsPublicPath.vars.data }}{% endif %}" class="img-fluid img-preview"
+                        {% else %}{{ form.thumbsPublicPath.vars.data }}{% endif %}" class="img-fluid img-preview"
                          id="item_image_{{ form.vars.name }}_thumb">
                 </a>
             </div>

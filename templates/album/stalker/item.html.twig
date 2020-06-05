@@ -25,8 +25,8 @@
         <span class="item-image-gallery">
             {% for image in item.current.images %}
                 <div class="col-12 item-image text-center">
-                    <a href="/{{ image.imagesPublicPath }}">
-                        <img src="/{{ image.thumbsPublicPath }}" class="img-fluid" alt="{% if image.description is empty %}{{ item.current.description }}{% else %}{{ image.description }}{% endif %}">
+                    <a href="{{ image.imagesPublicPath }}">
+                        <img src="{{ image.thumbsPublicPath }}" class="img-fluid" alt="{% if image.description is empty %}{{ item.current.description }}{% else %}{{ image.description }}{% endif %}">
                     </a>
                 </div>
             {% endfor %}

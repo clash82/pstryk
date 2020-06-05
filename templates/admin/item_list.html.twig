@@ -34,7 +34,7 @@
                                     <tr>
                                         <td class="text-center align-middle">
                                             {% if item.getMainImage is not empty and item.getMainImage.getThumbsPublicPath is not empty %}
-                                                <img src="{{ '/'~item.getMainImage.getThumbsPublicPath }}" class="img-fluid img-preview">
+                                                <img src="{{ item.getMainImage.getThumbsPublicPath }}" class="img-fluid img-preview">
                                             {% else %}
                                                 <button class="btn btn-default" disabled>
                                                     <span class="fas fa-exclamation-circle"></span>
