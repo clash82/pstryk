@@ -12,13 +12,18 @@ use Twig\TwigFunction;
 class RouteExtension extends AbstractExtension
 {
     /** @var array */
-    protected $attributes = [];
+    protected $attributes = [
+        'page' => 1,
+    ];
 
     public function __construct(RequestStack $requestStack)
     {
         /** @var Request $request */
         $request = $requestStack->getCurrentRequest();
-        $this->attributes = $request->attributes->get('_route_params');
+
+        if (null !== $request) {
+            $this->attributes = $request->attributes->get('_route_params');
+        }
     }
 
     public function getFunctions(): array

@@ -10,6 +10,5 @@ parameters:
         - %rootDir%/tests
     ignoreErrors:
         - '#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition::children\(\).#'
-        - '#Method App\\Security\\LoginFormAuthenticator::getPassword\(\) has parameter \$credentials with no typehint specified.#'
     doctrine:
         objectManagerLoader: tests/object-manager.php
