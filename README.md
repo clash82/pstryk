@@ -1,8 +1,8 @@
-This repository is a home for [pstryk.toborek.info](https://pstryk.toborek.info) page.
+This repository is a home for `Pstryk` gallery framework.
 
-This app was built on top of Symfony 5 framework.
+App was built on top of Symfony 5 framework.
 
-Type `make` in project root directory to obtain list of useful commands to help you work with common tasks (eg. `make cache`).
+Type `make` in project root directory to obtain list of useful commands to help you work with the common tasks (eg. `make cache`).
 
 Installation
 ------------
@@ -78,3 +78,15 @@ Deployment
 ```bash
 make prod
 ```
+
+Gallery in action
+-----------------
+
+Sites powered by gallery framework:
+
+- [Stalker Photo](https://stalker.toborek.info)
+
+Who and why?
+------------
+
+Me - [Rafał Toborek](https://toborek.info/kontakt/) and because I needed versatile solution to build galleries for my photos. Framework was build to satisfy my expectations and for sure will not be suitable for everyone. Anyways, feel free to check what's under the hood of my websites and to learn something new.

@@ -158,7 +158,7 @@ class Image
             ];
         }
 
-        $this->name = null !== $uploadedFile->getClientOriginalName() ? $uploadedFile->getClientOriginalName() : '';
+        $this->name = empty($uploadedFile->getClientOriginalName()) ? '' : $uploadedFile->getClientOriginalName();
         $this->extension = $uploadedFile->getClientOriginalExtension();
         $this->filename = sha1(sprintf(
             '%s-%d-%s',

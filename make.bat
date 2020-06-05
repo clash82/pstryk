@@ -15,9 +15,11 @@ if ["%1"] == [""] (
     echo phpcs        - analyse code with phpcs tool
     echo phpcbf       - fix coding standards using phpcbf tool
     echo cs-fix       - fix coding standards using php-cs-fixer tool
+    echo cs-all       - execute all available coding analysers
     echo fix-all      - execute all available fixers
     echo.
     echo === Deployment tools ===
+    echo dev          - prepare development environment
     echo prod         - install only `prod` dependencies and optimize build before deployment
     echo pass         - start user password generator
     echo.
@@ -71,6 +73,25 @@ if ["%1"] == ["phpcbf"] (
 if ["%1"] == ["fix-all"] (
     make cs-fix
     make phpcbf
+)
+
+if ["%1"] == ["cs-all"] (
+    make phpstan
+    make phpcs
+    make phpmd
+)
+
+if ["%1"] == ["dev"] (
+    @RD /S /Q "var\cache\prod"
+    @del "var\log\prod.log" /Q
+    @del ".env.local.php"
+
+    composer install
+    yarn install
+    make assets
+
+    echo Build optimized for development.
+    echo Type `make prod` before deployment.
 )
 
 if ["%1"] == ["prod"] (
