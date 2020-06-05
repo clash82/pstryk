@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Form;
 
-use App\Provider\AlbumSettingsProvider;
+use App\Provider\AlbumProvider;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -23,7 +23,7 @@ class ItemType extends AbstractType
     /** @var array */
     private $albums = [];
 
-    public function __construct(AlbumSettingsProvider $albumProvider)
+    public function __construct(AlbumProvider $albumProvider)
     {
         $albums = $albumProvider->getAll();
 

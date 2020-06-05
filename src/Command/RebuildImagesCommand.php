@@ -6,7 +6,7 @@ namespace App\Command;
 
 use App\Exception\AlbumSettingsNotFoundException;
 use App\Image\ImageConverter;
-use App\Provider\AlbumSettingsProvider;
+use App\Provider\AlbumProvider;
 use App\Provider\ItemProvider;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -24,13 +24,13 @@ class RebuildImagesCommand extends Command
     /** @var ItemProvider */
     private $itemProvider;
 
-    /** @var AlbumSettingsProvider */
+    /** @var AlbumProvider */
     private $albumProvider;
 
     public function __construct(
         ImageConverter $imageConverter,
         ItemProvider $itemProvider,
-        AlbumSettingsProvider $albumProvider
+        AlbumProvider $albumProvider
     ) {
         $this->imageConverter = $imageConverter;
         $this->itemProvider = $itemProvider;

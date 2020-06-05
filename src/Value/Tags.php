@@ -17,25 +17,25 @@ class Tags
     /** @var string */
     private $description;
 
-    public function __construct(array $tags = [])
+    public function __construct(array $settings = [])
     {
-        if (!isset($tags['author'])) {
+        if (!isset($settings['tags']['author'])) {
             /* @noinspection PhpUnhandledExceptionInspection */
-            throw new ArrayKeyNotExistsException('author');
+            throw new ArrayKeyNotExistsException('tags:author');
         }
-        $this->author = $tags['author'];
+        $this->author = $settings['tags']['author'];
 
-        if (!isset($tags['copyright'])) {
+        if (!isset($settings['tags']['copyright'])) {
             /* @noinspection PhpUnhandledExceptionInspection */
-            throw new ArrayKeyNotExistsException('copyright');
+            throw new ArrayKeyNotExistsException('tags:copyright');
         }
-        $this->copyright = $tags['copyright'];
+        $this->copyright = $settings['tags']['copyright'];
 
-        if (!isset($tags['description'])) {
+        if (!isset($settings['tags']['description'])) {
             /* @noinspection PhpUnhandledExceptionInspection */
-            throw new ArrayKeyNotExistsException('description');
+            throw new ArrayKeyNotExistsException('tags:description');
         }
-        $this->description = $tags['description'];
+        $this->description = $settings['tags']['description'];
     }
 
     public function getAuthor(): string

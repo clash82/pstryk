@@ -2,7 +2,7 @@
 
 {% block title %}{{ item.current.title }}{% endblock %}
 {% block description %}{{ item.current.description }}{%  endblock %}
-{% block image %}{{ getRoute(null, null) }}/{{ item.current.mainImage.thumbsPublicPath }}{%  endblock %}
+{% block image %}{{ getRoute(null) }}/{{ item.current.mainImage.thumbsPublicPath }}{%  endblock %}
 
 {% block body %}
     <div class="row">

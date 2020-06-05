@@ -29,14 +29,14 @@ class RouteExtension extends AbstractExtension
         ];
     }
 
-    public function getRoute(?string $albumSlug, ?string $itemSlug): string
+    public function getRoute(?string $itemSlug): string
     {
-        return $this->generateRoute($albumSlug, $itemSlug);
+        return $this->generateRoute($itemSlug);
     }
 
-    public function getRouteWithPagination(?string $albumSlug, ?string $itemSlug): string
+    public function getRouteWithPagination(?string $itemSlug): string
     {
-        $route = $this->generateRoute($albumSlug, $itemSlug);
+        $route = $this->generateRoute($itemSlug);
 
         if (isset($this->attributes['page']) && (int) $this->attributes['page'] > 1) {
             return sprintf('%s/%d', $route, $this->attributes['page']);
@@ -50,23 +50,16 @@ class RouteExtension extends AbstractExtension
         return 'route_twig_extension';
     }
 
-    private function generateRoute(?string $albumSlug, ?string $itemSlug): string
+    private function generateRoute(?string $itemSlug): string
     {
-        if (empty($albumSlug) || empty($itemSlug)) {
-            if ('' === $albumSlug) {
-                $albumSlug = $this->attributes['albumSlug'] ?? '';
-            }
-
-            if ('' === $itemSlug) {
-                $itemSlug = $this->attributes['itemSlug'] ?? null;
-            }
+        if ('' === $itemSlug) {
+            $itemSlug = $this->attributes['itemSlug'] ?? null;
         }
 
         return sprintf(
-            'http%s://%s%s%s',
+            'http%s://%s%s',
             !isset($_SERVER['HTTPS']) || 'on' !== $_SERVER['HTTPS'] ? '' : 's',
             $_SERVER['SERVER_NAME'],
-            empty($albumSlug) ? '' : sprintf('/%s', $albumSlug),
             empty($itemSlug) ? '' : sprintf('/%s', $itemSlug)
         );
     }

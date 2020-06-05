@@ -7,11 +7,8 @@ namespace App\Image;
 use App\Entity\Image as ImageEntity;
 use App\Exception\AlbumNotSpecifiedException;
 use App\Exception\FileNotExistsException;
-use App\Provider\TagsSettingsProvider;
-use App\Provider\WatermarkSettingsProvider;
 use App\Value\Album;
 use App\Value\Enum\WatermarkPosition;
-use App\Value\Watermark;
 use iBudasov\Iptc\Domain\Binary;
 use iBudasov\Iptc\Domain\Tag;
 use iBudasov\Iptc\Infrastructure\StandardPhpFileSystem;
@@ -36,20 +33,8 @@ class ImageConverter
     /** @var bool */
     private $applyUnsharpMask = true;
 
-    /** @var TagsSettingsProvider */
-    private $tagsProvider;
-
-    /** @var WatermarkSettingsProvider */
-    private $watermarkProvider;
-
     /** @var ImageInterface */
     private $watermark = null;
-
-    public function __construct(TagsSettingsProvider $tagsProvider, WatermarkSettingsProvider $watermarkProvider)
-    {
-        $this->tagsProvider = $tagsProvider;
-        $this->watermarkProvider = $watermarkProvider;
-    }
 
     public function setAlbum(Album $album): self
     {
@@ -91,15 +76,14 @@ class ImageConverter
 
     private function addWatermark(
         Imagine $imagine,
-        ImageInterface $image,
-        Watermark $watermarkSettings
+        ImageInterface $image
     ): ImageInterface {
         if (null === $this->watermark) {
             $watermarkFilename = sprintf(
                 '%s/assets/%s/images/%s',
                 getcwd(),
                 $this->album->getSlug(),
-                $watermarkSettings->getFile()
+                $this->album->getWatermark()->getFile()
             );
 
             if (!file_exists($watermarkFilename)) {
@@ -110,9 +94,9 @@ class ImageConverter
             $watermark = $imagine->open($watermarkFilename);
             $watermarkSize = $watermark->getSize();
 
-            if ($watermarkSettings->getWidth() > 0 && $watermarkSize->getWidth() > $watermarkSettings->getWidth()
-                || $watermarkSettings->getHeight() > 0 && $watermarkSize->getHeight() > $watermarkSettings->getHeight()) {
-                $watermarkNewSize = new Box($watermarkSettings->getWidth(), $watermarkSettings->getHeight());
+            if ($this->album->getWatermark()->getWidth() > 0 && $watermarkSize->getWidth() > $this->album->getWatermark()->getWidth()
+                || $this->album->getWatermark()->getHeight() > 0 && $watermarkSize->getHeight() > $this->album->getWatermark()->getHeight()) {
+                $watermarkNewSize = new Box($this->album->getWatermark()->getWidth(), $this->album->getWatermark()->getHeight());
                 $watermark->resize($watermarkNewSize);
             }
 
@@ -123,32 +107,32 @@ class ImageConverter
         $watermarkSize = $this->watermark->getSize();
 
         $position = new Point(
-            $imageSize->getWidth() - $watermarkSize->getWidth() - $watermarkSettings->getHorizontalMargin(),
-            $imageSize->getHeight() - $watermarkSize->getHeight() - $watermarkSettings->getVerticalMargin()
+            $imageSize->getWidth() - $watermarkSize->getWidth() - $this->album->getWatermark()->getHorizontalMargin(),
+            $imageSize->getHeight() - $watermarkSize->getHeight() - $this->album->getWatermark()->getVerticalMargin()
         );
 
-        if (WatermarkPosition::POSITION_TOP_LEFT === $watermarkSettings->getPosition()) {
+        if (WatermarkPosition::POSITION_TOP_LEFT === $this->album->getWatermark()->getPosition()) {
             $position = new Point(
-                $watermarkSettings->getHorizontalMargin(),
-                $watermarkSettings->getVerticalMargin()
+                $this->album->getWatermark()->getHorizontalMargin(),
+                $this->album->getWatermark()->getVerticalMargin()
             );
         }
 
-        if (WatermarkPosition::POSITION_TOP_RIGHT === $watermarkSettings->getPosition()) {
+        if (WatermarkPosition::POSITION_TOP_RIGHT === $this->album->getWatermark()->getPosition()) {
             $position = new Point(
-                $imageSize->getWidth() - $watermarkSize->getWidth() - $watermarkSettings->getHorizontalMargin(),
-                $watermarkSettings->getVerticalMargin()
+                $imageSize->getWidth() - $watermarkSize->getWidth() - $this->album->getWatermark()->getHorizontalMargin(),
+                $this->album->getWatermark()->getVerticalMargin()
             );
         }
 
-        if (WatermarkPosition::POSITION_BOTTOM_LEFT === $watermarkSettings->getPosition()) {
+        if (WatermarkPosition::POSITION_BOTTOM_LEFT === $this->album->getWatermark()->getPosition()) {
             $position = new Point(
-                $watermarkSettings->getHorizontalMargin(),
-                $imageSize->getHeight() - $watermarkSize->getHeight() - $watermarkSettings->getVerticalMargin()
+                $this->album->getWatermark()->getHorizontalMargin(),
+                $imageSize->getHeight() - $watermarkSize->getHeight() - $this->album->getWatermark()->getVerticalMargin()
             );
         }
 
-        $image->paste($this->watermark, $position, $watermarkSettings->getTransparency());
+        $image->paste($this->watermark, $position, $this->album->getWatermark()->getTransparency());
 
         return $image;
     }
@@ -203,10 +187,9 @@ class ImageConverter
         }
 
         /* @noinspection PhpUnhandledExceptionInspection */
-        $watermarkSettings = $this->watermarkProvider->get($this->album);
-        if ($watermarkSettings->isEnabled()) {
+        if ($this->album->getWatermark()->isEnabled()) {
             /* @noinspection PhpUnhandledExceptionInspection */
-            $image = $this->addWatermark($imagine, $image, $watermarkSettings);
+            $image = $this->addWatermark($imagine, $image);
         }
 
         $image->save($destinationFile, [
@@ -218,10 +201,9 @@ class ImageConverter
         $manager->loadFile($destinationFile);
 
         /* @noinspection PhpUnhandledExceptionInspection */
-        $tags = $this->tagsProvider->get($this->album);
-        $manager->addTag(new Tag(Tag::AUTHOR, [$tags->getAuthor()]));
-        $manager->addTag(new Tag(Tag::COPYRIGHT_STRING, [$tags->getCopyright()]));
-        $manager->addTag(new Tag(Tag::DESCRIPTION, [$tags->getDescription()]));
+        $manager->addTag(new Tag(Tag::AUTHOR, [$this->album->getTags()->getAuthor()]));
+        $manager->addTag(new Tag(Tag::COPYRIGHT_STRING, [$this->album->getTags()->getCopyright()]));
+        $manager->addTag(new Tag(Tag::DESCRIPTION, [$this->album->getTags()->getDescription()]));
 
         try {
             $manager->write();

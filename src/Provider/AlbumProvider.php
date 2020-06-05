@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace App\Provider;
 
 use App\Exception\AlbumSettingsNotFoundException;
+use App\Exception\DomainsSettingsNotFoundException;
 use App\Value\Album;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
-class AlbumSettingsProvider
+class AlbumProvider
 {
     /** @var Album[] */
     private $albums = [];
@@ -52,5 +53,32 @@ class AlbumSettingsProvider
 
         /* @noinspection PhpUnhandledExceptionInspection */
         throw new AlbumSettingsNotFoundException();
+    }
+
+    public function domainExists(string $domain): bool
+    {
+        foreach ($this->albums as $album) {
+            foreach ($album->getDomains()->getAll() as $supportedDomain) {
+                if ($supportedDomain === $domain) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public function getByDomain(string $domain): Album
+    {
+        foreach ($this->albums as $album) {
+            foreach ($album->getDomains()->getAll() as $supportedDomain) {
+                if ($supportedDomain === $domain) {
+                    return $album;
+                }
+            }
+        }
+
+        /* @noinspection PhpUnhandledExceptionInspection */
+        throw new DomainsSettingsNotFoundException();
     }
 }

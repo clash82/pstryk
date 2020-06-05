@@ -26,6 +26,15 @@ class Album
     /** @var string */
     private $feedUrl;
 
+    /** @var Domains */
+    private $domains;
+
+    /** @var Tags */
+    private $tags;
+
+    /** @var Watermark */
+    private $watermark;
+
     /** @var int */
     private $imageHorizontalMaxWidth;
 
@@ -95,6 +104,15 @@ class Album
             throw new ArrayKeyNotExistsException('thumb_vertical_max_height');
         }
         $this->thumbVerticalMaxHeight = (int) $album['thumb_vertical_max_height'];
+
+        /* @noinspection PhpUnhandledExceptionInspection */
+        $this->domains = new Domains($album);
+
+        /* @noinspection PhpUnhandledExceptionInspection */
+        $this->tags = new Tags($album);
+
+        /* @noinspection PhpUnhandledExceptionInspection */
+        $this->watermark = new Watermark($album);
     }
 
     public function getSlug(): string
@@ -125,6 +143,21 @@ class Album
     public function getFeedUrl(): string
     {
         return $this->feedUrl;
+    }
+
+    public function getDomains(): Domains
+    {
+        return $this->domains;
+    }
+
+    public function getTags(): Tags
+    {
+        return $this->tags;
+    }
+
+    public function getWatermark(): Watermark
+    {
+        return $this->watermark;
     }
 
     public function getImageHorizontalMaxWidth(): int

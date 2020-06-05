@@ -9,7 +9,7 @@ use App\Controller\Helper\RedirectHelper;
 use App\Entity\Item;
 use App\Form\ItemType;
 use App\Manager\ItemManager;
-use App\Provider\AlbumSettingsProvider;
+use App\Provider\AlbumProvider;
 use App\Provider\ItemProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Cookie;
@@ -26,7 +26,7 @@ class AdminController extends AbstractController
     /** @var ItemManager */
     private $itemManager;
 
-    /** @var AlbumSettingsProvider */
+    /** @var AlbumProvider */
     private $albumProvider;
 
     /** @var ParametersHelper */
@@ -38,7 +38,7 @@ class AdminController extends AbstractController
     public function __construct(
         ItemProvider $itemProvider,
         ItemManager $itemManager,
-        AlbumSettingsProvider $albumProvider,
+        AlbumProvider $albumProvider,
         ParametersHelper $parametersHelper,
         RedirectHelper $redirectHelper
     ) {

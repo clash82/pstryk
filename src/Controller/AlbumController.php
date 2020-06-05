@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Controller\Helper\DomainHelper;
 use App\Exception\RecordNotFoundException;
-use App\Provider\AlbumSettingsProvider;
+use App\Provider\AlbumProvider;
 use App\Provider\ItemProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,70 +17,62 @@ class AlbumController extends AbstractController
     /** @var ItemProvider */
     private $itemProvider;
 
-    /** @var AlbumSettingsProvider */
+    /** @var AlbumProvider */
     private $albumProvider;
 
-    public function __construct(ItemProvider $itemProvider, AlbumSettingsProvider $albumProvider)
-    {
+    /** @var DomainHelper */
+    private $domainHelper;
+
+    public function __construct(
+        ItemProvider $itemProvider,
+        AlbumProvider $albumProvider,
+        DomainHelper $domainHelper
+    ) {
         $this->itemProvider = $itemProvider;
         $this->albumProvider = $albumProvider;
+        $this->domainHelper = $domainHelper;
     }
 
     /**
-     * @Route("/", name="app_album_index")
+     * @Route("/{page}", name="app_album_index", requirements={"page" = "\d+"}, defaults={"page" = "1"})
      */
-    public function index(): Response
+    public function index(int $page): Response
     {
-        return $this->redirectToRoute('app_album_list', [
-            'albumSlug' => 'stalker',
-        ]);
-    }
-
-    /**
-     * @Route("/{albumSlug}/{page}", name="app_album_list", requirements={"page" = "\d+"}, defaults={"page" = "1"})
-     */
-    public function list(string $albumSlug, int $page): Response
-    {
-        if (!$this->albumProvider->slugExists($albumSlug)) {
-            return $this->redirectToRoute('app_album_index');
-        }
+        /* @noinspection PhpUnhandledExceptionInspection */
+        $album = $this->domainHelper->getCurrentAlbum();
 
         /* @noinspection PhpUnhandledExceptionInspection */
         $items = $this->itemProvider->getAllPaginated(
-            $albumSlug,
+            $album->getSlug(),
             $page,
-            $this->albumProvider->getBySlug($albumSlug)->getPaginationLimit()
+            $this->albumProvider->getBySlug($album->getSlug())->getPaginationLimit()
         );
 
         /* @noinspection PhpUnhandledExceptionInspection */
-        return $this->render(sprintf('album/%s/index.html.twig', $albumSlug), [
+        return $this->render(sprintf('album/%s/index.html.twig', $album->getSlug()), [
             'items' => $items,
-            'album' => $this->albumProvider->getBySlug($albumSlug),
+            'album' => $this->albumProvider->getBySlug($album->getSlug()),
         ]);
     }
 
     /**
-     * @Route("/{albumSlug}/{itemSlug}", requirements={
-     *     "albumSlug" = "^((?!zaplecze).)*$",
-     *     "itemSlug" = "^((?!feed).)*$"
-     * }, name="app_album_item")
+     * @Route("/{itemSlug}", requirements={"itemSlug" = "^((?!feed|zaplecze).)*$"}, name="app_album_item")
      */
-    public function item(string $albumSlug, string $itemSlug): Response
+    public function item(string $itemSlug): Response
     {
-        if (!$this->albumProvider->slugExists($albumSlug)) {
-            return $this->redirectToRoute('app_album_index');
-        }
+        /* @noinspection PhpUnhandledExceptionInspection */
+        $album = $this->domainHelper->getCurrentAlbum();
 
         try {
-            $item = $this->itemProvider->getBySlug($albumSlug, $itemSlug);
+            $item = $this->itemProvider->getBySlug($album->getSlug(), $itemSlug);
         } catch (RecordNotFoundException $e) {
             return $this->redirectToRoute('app_album_index');
         }
 
         /* @noinspection PhpUnhandledExceptionInspection */
-        return $this->render(sprintf('album/%s/item.html.twig', $albumSlug), [
+        return $this->render(sprintf('album/%s/item.html.twig', $album->getSlug()), [
             'item' => $item,
-            'album' => $this->albumProvider->getBySlug($albumSlug),
+            'album' => $this->albumProvider->getBySlug($album->getSlug()),
         ]);
     }
 }

@@ -33,68 +33,68 @@ class Watermark
     /** @var int */
     private $verticalMargin;
 
-    public function __construct(array $tags = [])
+    public function __construct(array $settings = [])
     {
-        if (!isset($tags['enabled'])) {
+        if (!isset($settings['watermark']['enabled'])) {
             /* @noinspection PhpUnhandledExceptionInspection */
-            throw new ArrayKeyNotExistsException('enabled');
+            throw new ArrayKeyNotExistsException('watermark:enabled');
         }
-        $this->isEnabled = (bool) $tags['enabled'];
+        $this->isEnabled = (bool) $settings['watermark']['enabled'];
 
-        if (!isset($tags['file'])) {
+        if (!isset($settings['watermark']['file'])) {
             /* @noinspection PhpUnhandledExceptionInspection */
-            throw new ArrayKeyNotExistsException('file');
+            throw new ArrayKeyNotExistsException('watermark:file');
         }
-        $this->file = $tags['file'];
+        $this->file = $settings['watermark']['file'];
 
-        if (!isset($tags['width'])) {
+        if (!isset($settings['watermark']['width'])) {
             /* @noinspection PhpUnhandledExceptionInspection */
-            throw new ArrayKeyNotExistsException('width');
+            throw new ArrayKeyNotExistsException('watermark:width');
         }
-        $this->width = (int) $tags['width'];
+        $this->width = (int) $settings['watermark']['width'];
 
-        if (!isset($tags['height'])) {
+        if (!isset($settings['watermark']['height'])) {
             /* @noinspection PhpUnhandledExceptionInspection */
-            throw new ArrayKeyNotExistsException('height');
+            throw new ArrayKeyNotExistsException('watermark:height');
         }
-        $this->height = (int) $tags['height'];
+        $this->height = (int) $settings['watermark']['height'];
 
-        if (!isset($tags['transparency'])) {
+        if (!isset($settings['watermark']['transparency'])) {
             /* @noinspection PhpUnhandledExceptionInspection */
-            throw new ArrayKeyNotExistsException('transparency');
+            throw new ArrayKeyNotExistsException('watermark:transparency');
         }
-        $this->transparency = (int) $tags['transparency'];
+        $this->transparency = (int) $settings['watermark']['transparency'];
 
-        if (!isset($tags['position'])) {
+        if (!isset($settings['watermark']['position'])) {
             /* @noinspection PhpUnhandledExceptionInspection */
-            throw new ArrayKeyNotExistsException('position');
+            throw new ArrayKeyNotExistsException('watermark:position');
         }
 
         $this->position = WatermarkPosition::POSITION_BOTTOM_RIGHT;
 
-        if ('top-left' === $tags['position']) {
+        if ('top-left' === $settings['watermark']['position']) {
             $this->position = WatermarkPosition::POSITION_TOP_LEFT;
         }
 
-        if ('top-right' === $tags['position']) {
+        if ('top-right' === $settings['watermark']['position']) {
             $this->position = WatermarkPosition::POSITION_TOP_RIGHT;
         }
 
-        if ('bottom-left' === $tags['position']) {
+        if ('bottom-left' === $settings['watermark']['position']) {
             $this->position = WatermarkPosition::POSITION_BOTTOM_LEFT;
         }
 
-        if (!isset($tags['horizontal_margin'])) {
+        if (!isset($settings['watermark']['horizontal_margin'])) {
             /* @noinspection PhpUnhandledExceptionInspection */
-            throw new ArrayKeyNotExistsException('horizontal_margin');
+            throw new ArrayKeyNotExistsException('watermark:horizontal_margin');
         }
-        $this->horizontalMargin = (int) $tags['horizontal_margin'];
+        $this->horizontalMargin = (int) $settings['watermark']['horizontal_margin'];
 
-        if (!isset($tags['vertical_margin'])) {
+        if (!isset($settings['watermark']['vertical_margin'])) {
             /* @noinspection PhpUnhandledExceptionInspection */
-            throw new ArrayKeyNotExistsException('vertical_margin');
+            throw new ArrayKeyNotExistsException('watermark:vertical_margin');
         }
-        $this->verticalMargin = (int) $tags['vertical_margin'];
+        $this->verticalMargin = (int) $settings['watermark']['vertical_margin'];
     }
 
     public function isEnabled(): bool

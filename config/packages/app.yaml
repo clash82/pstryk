@@ -11,6 +11,11 @@ app:
             feed_limit: 10
             feed_url: http://feeds.feedburner.com/stalkerphoto
 
+            # supported domains
+            domains:
+                - stalker.toborek.info
+                - stalker.lh
+
             # normal
             image_horizontal_max_width: 1600
             image_vertical_max_height: 0

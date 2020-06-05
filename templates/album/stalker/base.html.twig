@@ -4,14 +4,14 @@
         <meta charset="UTF-8">
         <title>{{ block('title') }} ‒ {{ album.title }}</title>
         {% block stylesheets %}{{ encore_entry_link_tags(album.slug) }}{% endblock %}
-        <base href="{{ getRoute('', null) }}">
+        <base href="{{ getRoute(null) }}">
         <meta name="author" content="Rafał Toborek">
         <meta name="copyright" content="Rafał Toborek">
         <meta name="robots" content="index, follow">
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
         <meta name="description" content="{{ block('description')|striptags }}">
         <meta property="og:type" content="website">
-        <meta property="og:url" content="{{ getRouteWithPagination('', '') }}">
+        <meta property="og:url" content="{{ getRouteWithPagination('') }}">
         <meta property="og:image" content="{{ block('image') }}">
         <meta property="og:title" content="{{ block('title') }}">
         <meta property="og:description" content="{{ block('description')|striptags }}">
