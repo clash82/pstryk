@@ -2,6 +2,11 @@ require('../../zaplecze/css/fontawesome.css');
 require('../../zaplecze/css/bootstrap.css');
 require('../../zaplecze/css/opensans.css');
 require('../css/app.css');
+require('baguettebox.js/dist/baguetteBox.css');
+
+require('baguettebox.js');
+const baguetteBox = require('baguettebox.js');
+global.baguetteBox = baguetteBox;
 
 require('../images/marker.svg');
 require('../images/favicon.png');

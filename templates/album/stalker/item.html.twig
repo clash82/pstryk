@@ -22,14 +22,15 @@
             <a href="https://maps.google.com/?q={{ item.current.latitude }},{{ item.current.longitude }}" target="_blank" class="btn btn-secondary">pokaż na większej mapie</a>
         </div>
 
-        {% for image in item.current.images %}
-            <div class="col-12 item-image text-center">
-                <a href="/{{ image.imagesPublicPath }}">
-                    <img src="/{{ image.thumbsPublicPath }}" class="img-fluid" alt="{% if image.description is empty %}{{ item.current.description }}{% else %}{{ image.description }}{% endif %}">
-                </a>
-            </div>
-        {% endfor %}
-
+        <span class="item-image-gallery">
+            {% for image in item.current.images %}
+                <div class="col-12 item-image text-center">
+                    <a href="/{{ image.imagesPublicPath }}">
+                        <img src="/{{ image.thumbsPublicPath }}" class="img-fluid" alt="{% if image.description is empty %}{{ item.current.description }}{% else %}{{ image.description }}{% endif %}">
+                    </a>
+                </div>
+            {% endfor %}
+        </span>
     </div>
 
     <div class="row item-menu-bottom">

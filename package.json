@@ -17,6 +17,7 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "baguettebox.js": "^1.11.1",
         "flatpickr": "^4.6.3",
         "jqueryui": "^1.11.1",
         "js-cookie": "^2.2.1",
