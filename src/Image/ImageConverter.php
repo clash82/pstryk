@@ -20,6 +20,7 @@ use Imagine\Image\Box;
 use Imagine\Image\ImageInterface;
 use Imagine\Image\Point;
 use ReflectionProperty;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class ImageConverter
 {
@@ -35,6 +36,14 @@ class ImageConverter
 
     /** @var ImageInterface */
     private $watermark = null;
+
+    /** @var ParameterBagInterface */
+    private $parameterBag;
+
+    public function __construct(ParameterBagInterface $parameterBag)
+    {
+        $this->parameterBag = $parameterBag;
+    }
 
     public function setAlbum(Album $album): self
     {
@@ -81,7 +90,7 @@ class ImageConverter
         if (null === $this->watermark) {
             $watermarkFilename = sprintf(
                 '%s/assets/%s/images/%s',
-                getcwd(),
+                $this->parameterBag->get('kernel.project_dir'),
                 $this->album->getSlug(),
                 $this->album->getWatermark()->getFile()
             );
@@ -157,7 +166,7 @@ class ImageConverter
             $newSize = new Box($size->getWidth(), $size->getHeight());
 
             // horizontal
-            if ($size->getWidth() > $size->getHeight()) {
+            if ($horizontalMaxWidth > 0 && $size->getWidth() > $size->getHeight()) {
                 $newSize = new Box(
                     (int) ($size->getWidth() * ($horizontalMaxWidth / $size->getWidth())),
                     (int) ($size->getHeight() * ($horizontalMaxWidth / $size->getWidth()))
@@ -165,7 +174,7 @@ class ImageConverter
             }
 
             // vertical
-            if ($size->getWidth() < $size->getHeight()) {
+            if ($verticalMaxHeight > 0 && $size->getWidth() < $size->getHeight()) {
                 $newSize = new Box(
                     (int) ($size->getWidth() * ($verticalMaxHeight / $size->getHeight())),
                     (int) ($size->getHeight() * ($verticalMaxHeight / $size->getHeight()))

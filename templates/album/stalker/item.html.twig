@@ -1,17 +1,17 @@
 {% extends 'album/stalker/base.html.twig' %}
 
-{% block title %}{{ item.current.title }}{% endblock %}
-{% block description %}{{ item.current.description }}{%  endblock %}
-{% block image %}{{ getRoute(null) }}/{{ item.current.mainImage.thumbsPublicPath }}{%  endblock %}
+{% block title %}{{ item.title }}{% endblock %}
+{% block description %}{{ item.description }}{%  endblock %}
+{% block image %}{{ getRoute(null) }}/{{ item.mainImage.thumbsPublicPath }}{%  endblock %}
 
 {% block body %}
     <div class="row">
         <div class="item-title col-12 text-center">
-            {{ item.current.title }}
+            {{ item.title }}
         </div>
 
         <div class="item-date col-12 text-center">
-            {{ item.current.date|date('Y-m-d') }}
+            {{ item.date|date('Y-m-d') }}
         </div>
 
         <div class="col-12 text-center">
@@ -19,14 +19,14 @@
         </div>
 
         <div class="item-more col-12 text-center">
-            <a href="https://maps.google.com/?q={{ item.current.latitude }},{{ item.current.longitude }}" target="_blank" class="btn btn-secondary">pokaż na większej mapie</a>
+            <a href="https://maps.google.com/?q={{ item.latitude }},{{ item.longitude }}" target="_blank" class="btn btn-secondary">pokaż na większej mapie</a>
         </div>
 
         <span class="item-image-gallery">
-            {% for image in item.current.images %}
+            {% for image in item.images %}
                 <div class="col-12 item-image text-center">
                     <a href="{{ image.imagesPublicPath }}">
-                        <img src="{{ image.thumbsPublicPath }}" class="img-fluid" alt="{% if image.description is empty %}{{ item.current.description }}{% else %}{{ image.description }}{% endif %}">
+                        <img src="{{ image.thumbsPublicPath }}" class="img-fluid" alt="{% if image.description is empty %}{{ item.description }}{% else %}{{ image.description }}{% endif %}">
                     </a>
                 </div>
             {% endfor %}

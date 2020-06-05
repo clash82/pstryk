@@ -51,9 +51,21 @@ class ItemProvider
         return $this->itemRepository->getById($itemId);
     }
 
-    public function getBySlug(string $albumSlug, string $itemSlug): array
+    public function getBySlug(string $albumSlug, string $itemSlug): Item
     {
         /* @noinspection PhpUnhandledExceptionInspection */
         return $this->itemRepository->getBySlug($albumSlug, $itemSlug);
+    }
+
+    public function getNext(Item $item): ?Item
+    {
+        /* @noinspection PhpUnhandledExceptionInspection */
+        return $this->itemRepository->getNext($item);
+    }
+
+    public function getPrevious(Item $item): ?Item
+    {
+        /* @noinspection PhpUnhandledExceptionInspection */
+        return $this->itemRepository->getPrevious($item);
     }
 }

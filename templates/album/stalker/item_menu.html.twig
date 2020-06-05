@@ -1,6 +1,6 @@
 <div class="col-5 text-right">
-    {% if item.next_slug is not empty %}
-        <a href="{{ getRoute(item.next_slug) }}" class="btn btn-secondary" title="{{ item.next_title }}"><span class="fa fa-angle-double-left"></span> {{ item.next_title }}</a>
+    {% if next_item is not empty %}
+        <a href="{{ getRoute(next_item.slug) }}" class="btn btn-secondary" title="{{ next_item.title }}"><span class="fa fa-angle-double-left"></span> {{ next_item.title }}</a>
     {% endif %}
 </div>
 
@@ -9,7 +9,7 @@
 </div>
 
 <div class="col-5">
-    {% if item.prev_slug is not empty %}
-        <a href="{{ getRoute(item.prev_slug) }}" class="btn btn-secondary" title="{{ item.prev_title }}">{{ item.prev_title }} <span class="fa fa-angle-double-right"></span></a>
+    {% if prev_item is not empty %}
+        <a href="{{ getRoute(prev_item.slug) }}" class="btn btn-secondary" title="{{ prev_item.title }}">{{ prev_item.title }} <span class="fa fa-angle-double-right"></span></a>
     {% endif %}
 </div>

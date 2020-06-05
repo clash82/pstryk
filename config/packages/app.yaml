@@ -18,17 +18,17 @@ app:
 
             # normal
             image_horizontal_max_width: 1600
-            image_vertical_max_height: 0
+            image_vertical_max_height: 1200
 
             # thumb
             thumb_horizontal_max_width: 1300
-            thumb_vertical_max_height: 0
+            thumb_vertical_max_height: 1000
 
             # IPTC tags
             tags:
                 author: Rafal Toborek
                 copyright: Rafal Toborek
-                description: https://pstryk.toborek.info
+                description: https://stalker.toborek.info
 
             watermark:
                 enabled: true

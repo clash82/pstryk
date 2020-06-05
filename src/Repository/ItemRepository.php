@@ -7,7 +7,6 @@ namespace App\Repository;
 use App\Entity\Item;
 use App\Exception\RecordNotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -87,50 +86,44 @@ class ItemRepository extends ServiceEntityRepository
         return $item;
     }
 
-    public function getBySlug(string $albumSlug, string $itemSlug): array
+    public function getBySlug(string $albumSlug, string $itemSlug): Item
     {
-        $expr = $this->getEntityManager()->getExpressionBuilder();
+        /* @noinspection PhpUnhandledExceptionInspection */
+        $item = $this->createQueryBuilder('i')
+            ->where('i.slug = :slug')
+            ->andWhere('i.album = :album')
+            ->setParameter('album', $albumSlug)
+            ->setParameter('slug', $itemSlug)
+            ->getQuery()->getOneOrNullResult();
 
-        $nextSlug = $this->createQueryBuilder('ns')
-            ->select($expr->min('ns.slug'))
-            ->where($expr->gt('ns.date', 'i.date'))
-            ->andWhere('ns.album = :album');
-
-        $nextTitle = $this->createQueryBuilder('nt')
-            ->select('nt.title')
-            ->where($expr->gt('nt.date', 'i.date'))
-            ->andWhere('nt.album = :album');
-
-        $previousSlug = $this->createQueryBuilder('ps')
-            ->select($expr->max('ps.slug'))
-            ->where($expr->lt('ps.date', 'i.date'))
-            ->andWhere('ps.album = :album');
-
-        $previousTitle = $this->createQueryBuilder('pt')
-            ->select('pt.title')
-            ->where($expr->lt('pt.date', 'i.date'))
-            ->andWhere('pt.album = :album');
-
-        try {
-            /* @noinspection PhpUnhandledExceptionInspection */
-            $item = $this->createQueryBuilder('i')
-                ->select('i as current')
-                ->addSelect(sprintf('(%s) as prev_slug', $previousSlug->getDQL()))
-                ->addSelect(sprintf('(%s) as prev_title', $previousTitle->getDQL()))
-                ->addSelect(sprintf('(%s) as next_slug', $nextSlug->getDQL()))
-                ->addSelect(sprintf('(%s) as next_title', $nextTitle->getDQL()))
-                ->where('i.slug = :slug')
-                ->andWhere('i.album = :album')
-                ->setParameter('slug', $itemSlug)
-                ->setParameter('album', $albumSlug)
-                ->getQuery()
-                ->getSingleResult();
-        } catch (NoResultException $e) {
+        if (!$item) {
             /* @noinspection PhpUnhandledExceptionInspection */
             throw new RecordNotFoundException(sprintf('No item found for slug [%s:%s]', $albumSlug, $itemSlug));
         }
 
         return $item;
+    }
+
+    public function getNext(Item $item): ?Item
+    {
+        /* @noinspection PhpUnhandledExceptionInspection */
+        return $this->createQueryBuilder('i')
+            ->where($this->createQueryBuilder('i')->expr()->gt('i.date', ':date'))
+            ->setParameter('date', $item->getDate())
+            ->orderBy('i.date', 'asc')
+            ->setMaxResults(1)
+            ->getQuery()->getOneOrNullResult();
+    }
+
+    public function getPrevious(Item $item): ?Item
+    {
+        /* @noinspection PhpUnhandledExceptionInspection */
+        return $this->createQueryBuilder('i')
+            ->where($this->createQueryBuilder('i')->expr()->lt('i.date', ':date'))
+            ->setParameter('date', $item->getDate())
+            ->orderBy('i.date', 'desc')
+            ->setMaxResults(1)
+            ->getQuery()->getOneOrNullResult();
     }
 
     public function deleteById(int $itemId): void

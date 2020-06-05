@@ -72,6 +72,8 @@ class AlbumController extends AbstractController
         /* @noinspection PhpUnhandledExceptionInspection */
         return $this->render(sprintf('album/%s/item.html.twig', $album->getSlug()), [
             'item' => $item,
+            'next_item' => $this->itemProvider->getNext($item),
+            'prev_item' => $this->itemProvider->getPrevious($item),
             'album' => $this->albumProvider->getBySlug($album->getSlug()),
         ]);
     }

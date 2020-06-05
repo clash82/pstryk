@@ -1,6 +1,6 @@
 <script>
     function initMaps() {
-        var position = new google.maps.LatLng({{ item.current.latitude }}, {{ item.current.longitude }}),
+        var position = new google.maps.LatLng({{ item.latitude }}, {{ item.longitude }}),
             options = {
                 center: position,
                 zoom: 18,
