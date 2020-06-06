@@ -36,7 +36,9 @@
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.3",
+        "drenso/phan-extensions": "^3.0",
         "friendsofphp/php-cs-fixer": "^2.16",
+        "phan/phan": "^3.0",
         "phpmd/phpmd": "^2.8",
         "phpstan/phpstan": "^0.12.19",
         "phpstan/phpstan-doctrine": "^0.12.10",

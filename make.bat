@@ -11,6 +11,7 @@ if ["%1"] == [""] (
     echo.
     echo === Coding standards tools ===
     echo phpstan      - analyse code with phpstan tool
+    echo phan         - analyse code with phan tool
     echo phpmd        - analyse code with php md tool
     echo phpcs        - analyse code with phpcs tool
     echo phpcbf       - fix coding standards using phpcbf tool
@@ -56,6 +57,10 @@ if ["%1"] == ["cs-fix"] (
 
 if ["%1"] == ["phpstan"] (
     php vendor\phpstan\phpstan\phpstan analyse src --level=max --memory-limit=1G
+)
+
+if ["%1"] == ["phan"] (
+    php vendor\phan\phan\phan
 )
 
 if ["%1"] == ["phpmd"] (
