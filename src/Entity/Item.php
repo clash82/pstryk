@@ -240,6 +240,6 @@ class Item
 
     public function getGuid(): string
     {
-        return sprintf('%s_%s', $this->getAlbum(), md5((string) $this->getId()));
+        return sprintf('%s_%s', $this->getAlbum() ?? '', md5((string) $this->getId()));
     }
 }

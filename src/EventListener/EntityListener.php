@@ -85,8 +85,11 @@ class EntityListener
                 continue;
             }
 
+            /* @phan-suppress-next-line PhanTypeMismatchArgumentNullableInternal */
             @unlink($file->getRawRelativePath());
+            /* @phan-suppress-next-line PhanTypeMismatchArgumentNullableInternal */
             @unlink($file->getThumbsRelativePath());
+            /* @phan-suppress-next-line PhanTypeMismatchArgumentNullableInternal */
             @unlink($file->getImagesRelativePath());
         }
 
@@ -103,15 +106,17 @@ class EntityListener
     private function injectImageConverter(object $entity): void
     {
         if ($entity instanceof Image && method_exists($entity, 'setImageConverter')) {
-            /** @var string $slug */
             $slug = $entity->getItem()->getAlbum();
 
-            /* @noinspection PhpUnhandledExceptionInspection */
-            $this->imageConverter->setAlbum(
-                $this->albumProvider->getBySlug($slug)
-            );
+            if ($slug) {
+                /* @noinspection PhpUnhandledExceptionInspection */
+                $this->imageConverter->setAlbum(
+                /* @phan-suppress-next-line PhanTypeMismatchArgumentNullable */
+                    $this->albumProvider->getBySlug($slug)
+                );
 
-            $entity->setImageConverter($this->imageConverter);
+                $entity->setImageConverter($this->imageConverter);
+            }
         }
     }
 

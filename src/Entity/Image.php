@@ -148,6 +148,7 @@ class Image
     {
         $this->file = $uploadedFile;
 
+        /* @phan-suppress-next-line PhanTypeMismatchArgumentNullableInternal */
         if (null !== $this->getRawRelativePath() && file_exists($this->getRawRelativePath())) {
             // we want to update existing file, so we need to save a list of files
             // to be removed upon uploading process start
@@ -161,7 +162,7 @@ class Image
         $this->name = empty($uploadedFile->getClientOriginalName()) ? '' : $uploadedFile->getClientOriginalName();
         $this->extension = $uploadedFile->getClientOriginalExtension();
         $this->filename = sha1(sprintf(
-            '%s-%d-%s',
+            '%d-%s-%s',
             rand(1, 1000),
             uniqid(),
             $this->name
