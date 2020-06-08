@@ -33,9 +33,9 @@ app:
             watermark:
                 enabled: true
                 file: watermark.png
-                width: 120
-                height: 120
+                width: 180
+                height: 100
                 transparency: 60
                 position: bottom-right
-                horizontal_margin: 0
-                vertical_margin: 0
+                horizontal_margin: 10
+                vertical_margin: 10

@@ -91,6 +91,7 @@ class Item
      * @var Collection
      *
      * @ORM\OneToMany(targetEntity="Image", mappedBy="item", cascade={"persist"}, orphanRemoval=true)
+     * @ORM\OrderBy({"position" = "ASC"})
      */
     private $images;
 

@@ -2,7 +2,7 @@
 
 {% block title %}{{ item.title }}{% endblock %}
 {% block description %}{{ item.description }}{%  endblock %}
-{% block image %}{{ getRoute(null) }}/{{ item.mainImage.thumbsPublicPath }}{%  endblock %}
+{% block image %}{% if item.mainImage is defined %}{{ getRoute(null) }}/{{ item.mainImage.thumbsPublicPath }}{% endif %}{%  endblock %}
 
 {% block body %}
     <div class="row">
@@ -29,6 +29,11 @@
                         <img src="{{ image.thumbsPublicPath }}" class="img-fluid" alt="{% if image.description is empty %}{{ item.description }}{% else %}{{ image.description }}{% endif %}">
                     </a>
                 </div>
+                {% if image.description is not empty %}
+                    <div class="col-12 item-image-description text-center">
+                        {{ image.description }}
+                    </div>
+                {% endif %}
             {% endfor %}
         </span>
     </div>

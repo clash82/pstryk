@@ -9,7 +9,7 @@
             map = new google.maps.Map(document.getElementsByClassName('item-map')[0], options),
             image = {
                 url: '{{ asset('assets/images/marker.svg') }}',
-                anchor: new google.maps.Point(25,50),
+                anchor: new google.maps.Point(25,25),
                 scaledSize: new google.maps.Size(50,50)
             };
 
@@ -27,7 +27,7 @@
     function loadMaps() {
         var script = document.createElement('script');
         script.type = 'text/javascript';
-        script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyC-RTdqpQKFS7iRHPDHTnGfHbt1pssm2NA&sensor=false&callback=initMaps';
+        script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBmdIcEJbafV02jjE0bPzvWKyn1W6Dz2_c&sensor=false&callback=initMaps';
         document.body.appendChild(script);
     }
 

@@ -1,14 +1,14 @@
-<div class="col-5 text-right">
+<div class="col-12 col-sm-5 text-center text-sm-right{% if next_item is empty %} d-none d-sm-block{% endif %}">
     {% if next_item is not empty %}
         <a href="{{ getRoute(next_item.slug) }}" class="btn btn-secondary" title="{{ next_item.title }}"><span class="fa fa-angle-double-left"></span> {{ next_item.title }}</a>
     {% endif %}
 </div>
 
-<div class="col-2 text-center">
+<div class="col-12 col-sm-2 text-center">
     <a href="{{ getRoute(null) }}" class="btn btn-secondary" title="Powrót do strony głównej"><span class="fa fa-home"></span></a>
 </div>
 
-<div class="col-5">
+<div class="col-12 col-sm-5 text-center text-sm-left{% if prev_item is empty %} d-none d-sm-block{% endif %}">
     {% if prev_item is not empty %}
         <a href="{{ getRoute(prev_item.slug) }}" class="btn btn-secondary" title="{{ prev_item.title }}">{{ prev_item.title }} <span class="fa fa-angle-double-right"></span></a>
     {% endif %}

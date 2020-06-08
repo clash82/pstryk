@@ -89,4 +89,4 @@ Sites powered by gallery framework:
 Who and why?
 ------------
 
-Me - [Rafał Toborek](https://toborek.info/kontakt/) and because I needed versatile solution to build galleries for my photos. Framework was build to satisfy my expectations and for sure will not be suitable for everyone. Anyways, feel free to check what's under the hood of my websites and to learn something new.
+Me - [Rafał Toborek](https://toborek.info/kontakt/) and because I was in need for a versatile solution to build galleries for my photos. Framework was build to satisfy my expectations and for sure will not be suitable for everyone. Anyways, feel free to check what's under the hood of my websites and to learn something new.

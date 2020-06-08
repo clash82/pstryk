@@ -30,31 +30,29 @@ header a:hover {
     text-decoration: none;
 }
 
-.frame-title {
-    border-top-left-radius: 0.8em;
-    padding-top: 0.3em;
-    padding-left: 2em;
+.frame {
+    border-radius: 0.8em;
     background: #121212;
+    margin-bottom: 1.5em;
+    padding-left: .5em;
+    padding-right: .5em;
+}
+
+.frame-title {
+    padding-top: 0.5em;
 }
 
 .frame-date {
-    border-top-right-radius: 0.8em;
-    padding-top: 0.3em;
-    padding-right: 2em;
-    background: #121212;
+    padding-top: 0.5em;
 }
 
 .frame-thumb {
-    background: #121212;
-    padding-bottom: 1em;
-    border-bottom-right-radius: 0.8em;
-    border-bottom-left-radius: 0.8em;
+    margin-top: 0.5em;
     margin-bottom: 1em;
 }
 
 .frame-thumb img {
     border-radius: 0.5em;
-    border: 0.3em solid #121212;
 }
 
 .frame-image {
@@ -90,17 +88,31 @@ header a:hover {
     margin-bottom: 2em;
 }
 
+.item-image:first-child {
+    margin-top: 0;
+}
+
 .item-image {
-    margin-bottom: 2em;
+    margin-top: 2em;
+    margin-bottom: 1em;
 }
 
 .item-image img {
     border: 0.2em solid #000;
 }
 
+.item-image-description {
+    margin-bottom: 1.5em;
+}
+
 .item-menu-bottom {
-    margin-bottom: 2em;
+    margin-top: 2em;
+    margin-bottom: 0;
     padding-bottom: 1.5em;
+}
+
+.item-menu-bottom div {
+    margin-bottom: 1em;
 }
 
 .paginator {
@@ -124,12 +136,24 @@ footer a:hover {
 
 .footer-copyright {
     color: #B9B9B9;
-    margin-bottom: 4em;
-    margin-top: 2em
+    margin-top: 2em;
+    margin-bottom: 2em;
 }
 
 .footer-details {
     color: #6A6A6A;
+    margin-bottom: 1em;
+}
+
+.footer-social {
+    margin-bottom: 2em;
+}
+
+.svg-facebook {
+    width: 6em;
+    height: 6em;
+    background: url('../images/facebook.svg');
+    margin: 0 auto;
 }
 
 .page-link {

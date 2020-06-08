@@ -20,6 +20,7 @@ use Imagine\Image\Box;
 use Imagine\Image\ImageInterface;
 use Imagine\Image\Point;
 use ReflectionProperty;
+use Symfony\Component\Asset\Packages;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class ImageConverter
@@ -40,9 +41,13 @@ class ImageConverter
     /** @var ParameterBagInterface */
     private $parameterBag;
 
-    public function __construct(ParameterBagInterface $parameterBag)
+    /** @var Packages */
+    private $packages;
+
+    public function __construct(ParameterBagInterface $parameterBag, Packages $packages)
     {
         $this->parameterBag = $parameterBag;
+        $this->packages = $packages;
     }
 
     public function setAlbum(Album $album): self
@@ -88,19 +93,21 @@ class ImageConverter
         ImageInterface $image
     ): ImageInterface {
         if (null === $this->watermark) {
-            $watermarkFilename = sprintf(
-                '%s/assets/%s/images/%s',
+            $watermarkFile = sprintf(
+                '%s/public_html%s',
                 $this->parameterBag->get('kernel.project_dir'),
-                $this->album->getSlug(),
-                $this->album->getWatermark()->getFile()
+                $this->packages->getUrl(sprintf(
+                    'assets/images/%s',
+                    $this->album->getWatermark()->getFile()
+                ))
             );
 
-            if (!file_exists($watermarkFilename)) {
+            if (!file_exists($watermarkFile)) {
                 /* @noinspection PhpUnhandledExceptionInspection */
-                throw new FileNotExistsException($watermarkFilename);
+                throw new FileNotExistsException($watermarkFile);
             }
 
-            $watermark = $imagine->open($watermarkFilename);
+            $watermark = $imagine->open($watermarkFile);
             $watermarkSize = $watermark->getSize();
 
             if ($this->album->getWatermark()->getWidth() > 0 && $watermarkSize->getWidth() > $this->album->getWatermark()->getWidth()

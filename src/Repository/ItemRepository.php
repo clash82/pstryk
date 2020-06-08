@@ -57,7 +57,8 @@ class ItemRepository extends ServiceEntityRepository
             ->where('i.album = :album')
             ->setParameter('album', $album)
             ->orderBy('i.date', 'DESC')
-            ->getQuery()->getResult();
+            ->getQuery()
+            ->getResult();
     }
 
     public function getTotalCountByAlbum(string $album): int
@@ -94,7 +95,8 @@ class ItemRepository extends ServiceEntityRepository
             ->andWhere('i.album = :album')
             ->setParameter('album', $albumSlug)
             ->setParameter('slug', $itemSlug)
-            ->getQuery()->getOneOrNullResult();
+            ->getQuery()
+            ->getOneOrNullResult();
 
         if (!$item) {
             /* @noinspection PhpUnhandledExceptionInspection */
@@ -112,7 +114,8 @@ class ItemRepository extends ServiceEntityRepository
             ->setParameter('date', $item->getDate())
             ->orderBy('i.date', 'asc')
             ->setMaxResults(1)
-            ->getQuery()->getOneOrNullResult();
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
     public function getPrevious(Item $item): ?Item
@@ -123,7 +126,8 @@ class ItemRepository extends ServiceEntityRepository
             ->setParameter('date', $item->getDate())
             ->orderBy('i.date', 'desc')
             ->setMaxResults(1)
-            ->getQuery()->getOneOrNullResult();
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
     public function deleteById(int $itemId): void
