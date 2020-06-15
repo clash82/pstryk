@@ -19,6 +19,9 @@ if ["%1"] == [""] (
     echo cs-all       - execute all available coding analysers
     echo fix-all      - execute all available fixers
     echo.
+    echo === Tests ===
+    echo test         - execute PhpUnit tests
+    echo.
     echo === Deployment tools ===
     echo dev          - prepare development environment
     echo prod         - install only `prod` dependencies and optimize build before deployment
@@ -84,6 +87,10 @@ if ["%1"] == ["cs-all"] (
     make phpstan
     make phpcs
     make phpmd
+)
+
+if ["%1"] == ["test"] (
+    php bin\phpunit
 )
 
 if ["%1"] == ["dev"] (

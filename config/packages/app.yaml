@@ -15,6 +15,7 @@ app:
             domains:
                 - stalker.toborek.info
                 - stalker.lh
+                - localhost # to support functional tests only
 
             # normal
             image_horizontal_max_width: 1600

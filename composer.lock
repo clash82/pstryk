@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cb85c46d3249acadc6c8b77a4526b545",
+    "content-hash": "78ef2eabceb53ea8df368182cccda41f",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -7717,7 +7717,7 @@
         },
         {
             "name": "symfony/browser-kit",
-            "version": "v5.0.9",
+            "version": "v5.0.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/browser-kit.git",
@@ -7776,7 +7776,7 @@
         },
         {
             "name": "symfony/css-selector",
-            "version": "v5.0.9",
+            "version": "v5.0.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/css-selector.git",
@@ -8053,16 +8053,16 @@
         },
         {
             "name": "symfony/phpunit-bridge",
-            "version": "v5.1.0",
+            "version": "v5.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/phpunit-bridge.git",
-                "reference": "7a05a59154053d62674def66a5c99896113632f2"
+                "reference": "de5f0fec631a0cbfe98630b053be1fad7b75aece"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/7a05a59154053d62674def66a5c99896113632f2",
-                "reference": "7a05a59154053d62674def66a5c99896113632f2",
+                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/de5f0fec631a0cbfe98630b053be1fad7b75aece",
+                "reference": "de5f0fec631a0cbfe98630b053be1fad7b75aece",
                 "shasum": ""
             },
             "require": {
@@ -8114,7 +8114,7 @@
             ],
             "description": "Symfony PHPUnit Bridge",
             "homepage": "https://symfony.com",
-            "time": "2020-05-23T13:08:13+00:00"
+            "time": "2020-06-09T09:56:30+00:00"
         },
         {
             "name": "symfony/profiler-pack",
