@@ -4,6 +4,39 @@ app:
     storage_thumbs_path: storage/thumbs
 
     albums:
+        pstryk:
+            title: Galeria pewnego pstryka
+            description: Nie ma co gadać, tutaj Rafał pstryka.
+            pagination_limit: 3
+            feed_limit: 10
+            feed_url: http://feeds.feedburner.com/RafalPstryka
+
+            domains:
+                - pstryk.toborek.info
+                - pstryk.lh
+                - localhost # to support functional tests only
+
+            image_horizontal_max_width: 1600
+            image_vertical_max_height: 1200
+
+            thumb_horizontal_max_width: 1300
+            thumb_vertical_max_height: 1000
+
+            tags:
+                author: Rafal Toborek
+                copyright: Rafal Toborek
+                description: https://pstryk.toborek.info
+
+            watermark:
+                enabled: true
+                file: pstryk.png
+                width: 180
+                height: 51
+                transparency: 100
+                position: bottom-right
+                horizontal_margin: 10
+                vertical_margin: 10
+
         stalker:
             title: Stalker Photo
             description: Inspiracją do stworzenia tego albumu była książka braci Strugackich pt. Piknik na skraju drogi. To właśnie do tej książki odsyłam cię jeśli chcesz dowiedzieć się kim są stalkerzy i czym się zajmują.
@@ -11,21 +44,16 @@ app:
             feed_limit: 10
             feed_url: http://feeds.feedburner.com/stalkerphoto
 
-            # supported domains
             domains:
                 - stalker.toborek.info
                 - stalker.lh
-                - localhost # to support functional tests only
 
-            # normal
             image_horizontal_max_width: 1600
             image_vertical_max_height: 1200
 
-            # thumb
             thumb_horizontal_max_width: 1300
             thumb_vertical_max_height: 1000
 
-            # IPTC tags
             tags:
                 author: Rafal Toborek
                 copyright: Rafal Toborek
@@ -33,7 +61,7 @@ app:
 
             watermark:
                 enabled: true
-                file: watermark.png
+                file: stalker.png
                 width: 180
                 height: 100
                 transparency: 60

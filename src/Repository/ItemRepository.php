@@ -111,7 +111,9 @@ class ItemRepository extends ServiceEntityRepository
         /* @noinspection PhpUnhandledExceptionInspection */
         return $this->createQueryBuilder('i')
             ->where($this->createQueryBuilder('i')->expr()->gt('i.date', ':date'))
+            ->andWhere('i.album = :album')
             ->setParameter('date', $item->getDate())
+            ->setParameter('album', $item->getAlbum())
             ->orderBy('i.date', 'asc')
             ->setMaxResults(1)
             ->getQuery()
@@ -123,7 +125,9 @@ class ItemRepository extends ServiceEntityRepository
         /* @noinspection PhpUnhandledExceptionInspection */
         return $this->createQueryBuilder('i')
             ->where($this->createQueryBuilder('i')->expr()->lt('i.date', ':date'))
+            ->andWhere('i.album = :album')
             ->setParameter('date', $item->getDate())
+            ->setParameter('album', $item->getAlbum())
             ->orderBy('i.date', 'desc')
             ->setMaxResults(1)
             ->getQuery()

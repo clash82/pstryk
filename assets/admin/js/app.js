@@ -6,12 +6,12 @@
  */
 
 // any CSS you import will output into a single css file (app.css in this case)
-require('../css/fontawesome.css');
-require('../css/bootstrap.css');
-require('../css/opensans.css');
-require('../css/app.css');
+require('bootstrap/dist/css/bootstrap.css');
 require('flatpickr/dist/themes/material_green.css');
 require('magnific-popup/dist/magnific-popup.css');
+require('@fortawesome/fontawesome-free/css/all.css');
+require('fontsource-open-sans/latin-ext.css');
+require('../css/app.css');
 
 const $ = require('jquery');
 global.$ = global.jQuery = $;
@@ -28,7 +28,4 @@ const flatpickr = require('flatpickr');
 const flatpickrPL = require('flatpickr/dist/l10n/pl.js').default.pl;
 flatpickr.localize(flatpickrPL);
 
-require('../images/placeholder.png');
-require('../images/preloader.svg');
-
-console.log('Hello Webpack Encore! Edit me in assets/zaplecze/js/app.js');
+console.log('Hello Webpack Encore! Edit me in assets/admin/js/app.js');

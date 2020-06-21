@@ -7,13 +7,14 @@
         <meta name="robots" content="noindex, follow, noarchive">
         <meta name="author" content="Rafał Toborek">
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/favicon/admin.png') }}">
         <base href="{{ app.request.server.getHeaders()['HOST'] }}">
         <title>{% block title %}{% if title is defined %}{{ title }}{% endif %}{% endblock %} ‒ Tron Mistrza</title>
         {% block stylesheets %}
-            {{ encore_entry_link_tags('zaplecze') }}
+            {{ encore_entry_link_tags('admin') }}
         {% endblock %}
         {% block javascripts %}
-            {{ encore_entry_script_tags('zaplecze') }}
+            {{ encore_entry_script_tags('admin') }}
         {% endblock %}
     </head>
     <body>

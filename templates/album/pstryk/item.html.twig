@@ -1,36 +1,35 @@
-{% extends 'album/stalker/base.html.twig' %}
+{% extends 'album/pstryk/base.html.twig' %}
 
 {% block title %}{{ item.title }}{% endblock %}
 {% block description %}{{ item.description }}{%  endblock %}
 {% block image %}{% if item.mainImage is defined and item.mainImage is not empty %}{{ getRoute(null) }}/{{ item.mainImage.thumbsPublicPath }}{% endif %}{%  endblock %}
 
 {% block body %}
-    <div class="row">
-        <div class="item-title col-12 text-center">
+    <div class="row frame-item">
+        <div class="frame-item-title col-12 text-center">
             {{ item.title }}
         </div>
 
-        <div class="item-date col-12 text-center" data-date="{{ item.date|date('r') }}" title="{{ item.date|date('Y-m-d') }}">
-            {{ item.date|date('Y-m-d') }}
+        <div class="frame-item-date col-12 text-center" data-date="{{ item.date|date('r') }}" title="{{ item.date|date('Y . m . d') }}">
+            {{ item.date|date('Y . m . d') }}
         </div>
 
-        <div class="col-12 text-center">
-            <div class="item-map"></div>
-        </div>
+        {% if item.description is not empty %}
+            <div class="frame-item-description col-12 text-center">
+                {{ item.description|nl2br }}
+            </div>
+        {% endif %}
 
-        <div class="item-more col-12 text-center">
-            <a href="https://maps.google.com/?q={{ item.latitude }},{{ item.longitude }}" target="_blank" class="btn btn-secondary">pokaż na większej mapie</a>
-        </div>
-
-        <span class="item-image-gallery">
+        <span class="frame-item-image-gallery">
             {% for image in item.images %}
-                <div class="col-12 item-image text-center">
+                <div class="frame-item-thumb col-12 text-center">
                     <a href="{{ image.imagesPublicPath }}">
                         <img src="{{ image.thumbsPublicPath }}" class="img-fluid" alt="{% if image.description is empty %}{{ item.description }}{% else %}{{ image.description }}{% endif %}">
                     </a>
                 </div>
+
                 {% if image.description is not empty %}
-                    <div class="col-12 item-image-description text-center">
+                    <div class="col-12 frame-item-image-description text-center">
                         {{ image.description|nl2br }}
                     </div>
                 {% endif %}
@@ -39,10 +38,10 @@
     </div>
 
     <div class="row item-menu-bottom">
-        {{ include('album/stalker/item_menu.html.twig') }}
+        {{ include('album/pstryk/item_menu.html.twig') }}
     </div>
 {% endblock %}
 
 {% block javascripts %}
-    {{ include('album/stalker/item_js.html.twig') }}
+    {{ include('album/pstryk/item_js.html.twig') }}
 {% endblock %}

@@ -6,11 +6,13 @@
 
             {% if previous is defined %}
                 <li class="page-item">
-                    <a class="page-link" rel="prev" href="{{ path(route, query|merge({(pageParameterName): previous})) }}"><span class="fa fa-angle-double-left"></span></a>
+                    <a class="page-link" rel="prev" href="{{ path(route, query|merge({(pageParameterName): previous})) }}"><span class="fas fa-angle-double-left"></span></a>
                 </li>
             {% else %}
                 <li class="page-item disabled">
-                    <span class="page-link fa fa-angle-double-left"></span>
+                    <div class="page-link">
+                        <span class="fas fa-angle-double-left"></span>
+                    </div>
                 </li>
             {% endif %}
 
@@ -61,11 +63,13 @@
 
             {% if next is defined %}
                 <li class="page-item">
-                    <a class="page-link" rel="next" href="{{ path(route, query|merge({(pageParameterName): next})) }}"><span class="fa fa-angle-double-right"></span></a>
+                    <a class="page-link" rel="next" href="{{ path(route, query|merge({(pageParameterName): next})) }}"><span class="fas fa-angle-double-right"></span></a>
                 </li>
             {% else %}
                 <li  class="page-item disabled">
-                    <span class="page-link fa fa-angle-double-right"></span>
+                    <div class="page-link">
+                        <span class="fas fa-angle-double-right"></span>
+                    </div>
                 </li>
             {% endif %}
         </ul>

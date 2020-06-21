@@ -1,20 +1,26 @@
-{% extends 'album/stalker/base.html.twig' %}
+{% extends 'album/pstryk/base.html.twig' %}
 
 {% block title %}Rafał Toborek{% endblock %}
-{% block description %}Inspiracją do stworzenia tego albumu była książka braci Strugackich pt. <a href="https://pl.wikipedia.org/wiki/Piknik_na_skraju_drogi" target="_blank">Piknik na skraju drogi</a>. To właśnie do tej książki odsyłam cię jeśli chcesz dowiedzieć się kim są stalkerzy i czym się zajmują.{% endblock %}
+{% block description %}Czas płynie, a ja staram się pozostawić swój ślad...{% endblock %}
 {% block image %}{% if items[0] is defined and items[0].mainImage is not empty %}{{ getRoute(null) }}/{{ items[0].mainImage.thumbsPublicPath }}{% endif %}{% endblock %}
 
 {% block body %}
     {% if items is defined %}
         {% for item in items %}
             <div class="row frame">
-                <div class="frame-title col-12 col-sm-7 text-center text-sm-left ">
-                    {{ item.title }}
+                <div class="frame-title col-12 text-center">
+                    <a href="{{ getRoute(item.slug) }}">{{ item.title }}</a>
                 </div>
-                <div class="frame-date col-12 col-sm-5 text-center text-sm-right"
-                     data-date="{{ item.date|date('r') }}" title="{{ item.date|date('Y-m-d') }}">
-                    {{ item.date|date('Y-m-d') }}
+
+                <div class="frame-date col-12 text-center" data-date="{{ item.date|date('r') }}" title="{{ item.date|date('Y . m . d') }}">
+                    {{ item.date|date('Y . m . d') }}
                 </div>
+
+                {% if item.description is not empty %}
+                    <div class="frame-description col-12 text-center">
+                        {{ item.description|nl2br }}
+                    </div>
+                {% endif %}
 
                 <div class="frame-thumb col-12 text-center">
                     <a href="{{ getRoute(item.slug) }}">
@@ -22,10 +28,6 @@
                             <img src="{{ item.mainImage.thumbsPublicPath }}" class="img-fluid" alt="{{ item.title }}">
                         {% endif %}
                     </a>
-                </div>
-
-                <div class="frame-description col-12 text-center">
-                    {{ item.description|nl2br }}
                 </div>
             </div>
         {% endfor %}

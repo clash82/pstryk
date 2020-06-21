@@ -8,7 +8,7 @@
             },
             map = new google.maps.Map(document.getElementsByClassName('item-map')[0], options),
             image = {
-                url: '{{ asset('assets/images/marker.svg') }}',
+                url: '{{ asset('assets/images/album/stalker/marker.svg') }}',
                 anchor: new google.maps.Point(25,25),
                 scaledSize: new google.maps.Size(50,50)
             };
@@ -36,4 +36,11 @@
     baguetteBox.run('.item-image-gallery', {
         'noScrollbars': true
     });
+
+    var itemDateElements = document.querySelectorAll('[data-date]');
+    for (var i = 0, max = itemDateElements.length; i < max; i++) {
+        var itemDateValue = itemDateElements[i].getAttribute('data-date');
+
+        itemDateElements[i].innerHTML = timeAgo.format(new Date(itemDateValue), 'pl');
+    }
 </script>

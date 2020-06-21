@@ -35,8 +35,8 @@ class ImageConverter
     /** @var bool */
     private $applyUnsharpMask = true;
 
-    /** @var ImageInterface */
-    private $watermark = null;
+    /** @var array */
+    private $watermark = [];
 
     /** @var ParameterBagInterface */
     private $parameterBag;
@@ -92,12 +92,12 @@ class ImageConverter
         Imagine $imagine,
         ImageInterface $image
     ): ImageInterface {
-        if (null === $this->watermark) {
+        if (!isset($this->watermark[$this->album->getSlug()])) {
             $watermarkFile = sprintf(
                 '%s/public_html%s',
                 $this->parameterBag->get('kernel.project_dir'),
                 $this->packages->getUrl(sprintf(
-                    'assets/images/%s',
+                    'assets/images/watermark/%s',
                     $this->album->getWatermark()->getFile()
                 ))
             );
@@ -116,11 +116,11 @@ class ImageConverter
                 $watermark->resize($watermarkNewSize);
             }
 
-            $this->watermark = $watermark;
+            $this->watermark[$this->album->getSlug()] = $watermark;
         }
 
         $imageSize = $image->getSize();
-        $watermarkSize = $this->watermark->getSize();
+        $watermarkSize = $this->watermark[$this->album->getSlug()]->getSize();
 
         $position = new Point(
             $imageSize->getWidth() - $watermarkSize->getWidth() - $this->album->getWatermark()->getHorizontalMargin(),
@@ -148,7 +148,7 @@ class ImageConverter
             );
         }
 
-        $image->paste($this->watermark, $position, $this->album->getWatermark()->getTransparency());
+        $image->paste($this->watermark[$this->album->getSlug()], $position, $this->album->getWatermark()->getTransparency());
 
         return $image;
     }

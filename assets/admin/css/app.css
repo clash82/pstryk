@@ -154,7 +154,7 @@ footer a:visited {
     overflow: hidden;
     transform-origin: 46% 54%;
     animation: preloader_spin 1s linear infinite;
-    background: url('../images/preloader.svg') no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: url('../../images/admin/preloader.svg') no-repeat scroll 0 0 rgba(0, 0, 0, 0);
 }
 
 @keyframes preloader_spin {

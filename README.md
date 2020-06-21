@@ -85,6 +85,7 @@ Gallery in action
 Sites powered by gallery framework:
 
 - [Stalker Photo](https://stalker.toborek.info)
+- [Galeria pewnego pstryka](https://pstryk.toborek.info)
 
 Who and why?
 ------------
