@@ -24,8 +24,8 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('admin', './assets/admin/js/app.js')
-    .addEntry('stalker', './assets/stalker/js/app.js')
-    .addEntry('pstryk', './assets/pstryk/js/app.js')
+    .addEntry('stalker', './assets/album/stalker/js/app.js')
+    .addEntry('pstryk', './assets/album/pstryk/js/app.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     //.splitEntryChunks()
@@ -82,6 +82,10 @@ Encore
 
         // only copy files matching this pattern
         // pattern: /\.(png|jpg|jpeg)$/
+    })
+    .copyFiles({
+        from: './assets/robots',
+        to: 'robots/[path][name].[hash:8].[ext]'
     })
 ;
 
