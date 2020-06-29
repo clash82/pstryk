@@ -1,0 +1,172 @@
+* {
+  font-family: 'Open Sans', sans-serif;
+  color: #ccc;
+}
+
+body {
+  background: #313131;
+}
+
+main {
+  margin-top: 2em;
+  border-radius: 0.8em;
+  background: #2c2c2c;
+  padding: 2em 2em 0 2em;
+}
+
+header {
+  margin-top: 2em;
+  margin-bottom: 2em;
+  color: #B9B9B9;
+
+  a:link,
+  a:visited {
+    color: #c9c9c9;
+  }
+
+  a:hover {
+    color: #6f931f;
+    text-decoration: none;
+  }
+}
+
+.frame {
+  border-radius: 0.8em;
+  background: #121212;
+  margin-bottom: 1.5em;
+  padding-left: .5em;
+  padding-right: .5em;
+
+  .frame-title {
+    padding-top: 0.5em;
+  }
+
+  .frame-date {
+    padding-top: 0.5em;
+  }
+
+  .frame-thumb {
+    margin-top: 0.5em;
+    margin-bottom: 1em;
+    img {
+      border-radius: 0.5em;
+    }
+  }
+
+  .frame-image {
+    margin-bottom: 2em;
+    img {
+      border: 1px solid #000;
+    }
+  }
+
+  .frame-description {
+    margin-bottom: 1.5em;
+  }
+}
+
+.item-title {
+  font-size: 2em;
+  margin-bottom: 0.2em;
+}
+
+.item-date {
+  font-size: 0.9em;
+  margin-bottom: 1em;
+}
+
+.item-map {
+  width: 100%;
+  height: 20em;
+  margin-bottom: 2em;
+  border: 0.2em solid #000;
+}
+
+.item-more {
+  margin-bottom: 2em;
+}
+
+.item-image {
+  margin-top: 2em;
+  margin-bottom: 1em;
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  img {
+    border: 0.2em solid #000;
+  }
+}
+
+.item-image-description {
+  margin-bottom: 1.5em;
+}
+
+.item-menu-bottom {
+  margin-top: 2em;
+  margin-bottom: 0;
+  padding-bottom: 1.5em;
+
+  div {
+    margin-bottom: 1em;
+  }
+}
+
+.paginator {
+  margin-top: 2em;
+  padding-bottom: 1em;
+}
+
+footer {
+  margin-bottom: 2em;
+
+  a:link,
+  a:visited {
+    color: #c9c9c9;
+  }
+
+  a:hover {
+    color: #6f931f;
+    text-decoration: none;
+  }
+}
+
+.footer-copyright {
+  color: #b9b9b9;
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+
+.footer-details {
+  color: #6a6a6a;
+  margin-bottom: 1em;
+}
+
+.footer-social {
+  margin-bottom: 2em;
+}
+
+.svg-facebook {
+  width: 6em;
+  height: 6em;
+  background: url('../../../images/album/stalker/facebook.svg');
+  margin: 0 auto;
+}
+
+.page-link {
+  background: #1f1f1f;
+  border-color: #1f1f1f;
+  color: #ccc;
+}
+
+.active .page-link {
+  background: #2e2e2e !important;
+  border-color: #2e2e2e !important;
+}
+
+.disabled .page-link {
+  background: #404040 !important;
+  border-color: #404040 !important;
+  color: #ccc !important;
+}

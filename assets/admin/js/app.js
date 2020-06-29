@@ -11,7 +11,7 @@ require('flatpickr/dist/themes/material_green.css');
 require('magnific-popup/dist/magnific-popup.css');
 require('@fortawesome/fontawesome-free/css/all.css');
 require('fontsource-open-sans/latin-ext.css');
-require('../css/app.css');
+require('../scss/app.scss');
 
 const $ = require('jquery');
 global.$ = global.jQuery = $;
