@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Controller\Helper\CounterHelper;
 use App\Controller\Helper\DomainHelper;
 use App\Exception\RecordNotFoundException;
 use App\Provider\AlbumProvider;
@@ -23,14 +24,19 @@ class AlbumController extends AbstractController
     /** @var DomainHelper */
     private $domainHelper;
 
+    /** @var CounterHelper */
+    private $counterHelper;
+
     public function __construct(
         ItemProvider $itemProvider,
         AlbumProvider $albumProvider,
-        DomainHelper $domainHelper
+        DomainHelper $domainHelper,
+        CounterHelper $counterHelper
     ) {
         $this->itemProvider = $itemProvider;
         $this->albumProvider = $albumProvider;
         $this->domainHelper = $domainHelper;
+        $this->counterHelper = $counterHelper;
     }
 
     /**
@@ -40,6 +46,8 @@ class AlbumController extends AbstractController
     {
         /* @noinspection PhpUnhandledExceptionInspection */
         $album = $this->domainHelper->getCurrentAlbum();
+
+        $this->counterHelper->increment($album->getSlug());
 
         /* @noinspection PhpUnhandledExceptionInspection */
         $items = $this->itemProvider->getAllPaginated(
@@ -68,6 +76,8 @@ class AlbumController extends AbstractController
         } catch (RecordNotFoundException $e) {
             return $this->redirectToRoute('app_album_index');
         }
+
+        $this->counterHelper->increment($album->getSlug());
 
         /* @noinspection PhpUnhandledExceptionInspection */
         return $this->render(sprintf('album/%s/item.html.twig', $album->getSlug()), [
