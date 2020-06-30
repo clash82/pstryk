@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{{ block('title') }} ‒ {{ album.title }}</title>
+        {% block stylesheets %}{{ encore_entry_link_tags(album.slug) }}{% endblock %}
+        <base href="{{ getRoute(null) }}">
+        <meta name="author" content="Rafał Toborek">
+        <meta name="copyright" content="Rafał Toborek">
+        <meta name="robots" content="noindex, nofollow, noarchive">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+        {# comment in Polish language: ta sekcja jest po to, aby strolować tych, którzy nie czytają stopki #}
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="http://pis.org.pl">
+        <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/2/20/Kaczynski_Jaroslaw_1_020.JPG">
+        <meta property="og:title" content="Mój głos poszedł na PIS">
+        <meta property="og:description" content="PIS wie najlepiej i w mordę kto twierdzi inaczej!">
+
+        <meta name="description" content="{{ block('description')|striptags }}">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/favicon/tysia.png') }}">
+    </head>
+    <body>
+        <div class="container">
+            <main>
+                {% block body %}{% endblock %}
+            </main>
+
+            <footer class="row">
+                <div class="col-12 footer-inscription text-center">
+                    &hearts; Zu.
+                </div>
+                <div class="col-12 text-center">
+                    Publikowanie na portalach społecznościowych będzie bardzo niemile widziane.
+                    <br>
+                    &copy; 2020 <a href="https://toborek.info" target="_blank">Rafał Toborek</a>
+                </div>
+            </footer>
+        </div>
+
+        {{ encore_entry_script_tags(album.slug) }}
+
+        <script type="text/javascript">
+            var _paq = window._paq || [];
+            _paq.push(['trackPageView']);
+            _paq.push(['enableLinkTracking']);
+            (function() {
+                var u="https://analityka.toborek.info/";
+                _paq.push(['setTrackerUrl', u+'matomo.php']);
+                _paq.push(['setSiteId', '20']);
+                var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+                g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+            })();
+        </script>
+
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>

@@ -68,3 +68,34 @@ app:
                 position: bottom-right
                 horizontal_margin: 10
                 vertical_margin: 10
+
+        tysia:
+            title: Tysia
+            description: Album Zuzi.
+            pagination_limit: 5
+            feed_limit: 10
+
+            domains:
+                - tysia.toborek.info
+                - tysia.lh
+
+            image_horizontal_max_width: 1600
+            image_vertical_max_height: 1600
+
+            thumb_horizontal_max_width: 1300
+            thumb_vertical_max_height: 1300
+
+            tags:
+                author: Rafal Toborek
+                copyright: Rafal Toborek
+                description: https://pstryk.toborek.info
+
+            watermark:
+                enabled: true
+                file: tysia.png
+                width: 130
+                height: 101
+                transparency: 100
+                position: bottom-right
+                horizontal_margin: 20
+                vertical_margin: 20

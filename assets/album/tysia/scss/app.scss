@@ -1,0 +1,105 @@
+$color-link: #2993d6;
+$color-font-frame: #6C6C6C;
+$color-frame-shadow: #cecece;
+$color-frame-background: #fff;
+$color-font-footer: #9B9B9B;
+$color-background: #f7f7f7;
+
+// pagination
+$color-page-link-background: #fff;
+$color-page-link: #ccc;
+$color-page-link-active-background: #eaeaea;
+$color-page-link-disabled-background: #eaeaea;
+$color-page-link-active: #fff;
+
+@mixin font-pretty {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+}
+
+* {
+  font-family: 'Open Sans', sans-serif;
+}
+
+body {
+  background: $color-background;
+}
+
+main {
+  margin: 2em 0;
+
+  .frame {
+    box-shadow: .2em .2em 2em $color-frame-shadow;
+    background: $color-frame-background;
+    padding: 1em;
+    margin-bottom: 2em;
+
+    .frame-title,
+    .frame-date {
+      @include font-pretty;
+      color: $color-font-frame;
+    }
+
+    .frame-thumb {
+      margin-top: .2em;
+      img {
+        border: 0.05em solid $color-font-frame;
+      }
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  main {
+    .frame {
+      padding: 6em;
+    }
+  }
+}
+
+footer {
+  margin-bottom: 2em;
+
+  .footer-inscription {
+    @include font-pretty;
+    color: $color-link;
+    margin-bottom: 2em;
+    font-weight: bold;
+    font-size: 1.1em;
+  }
+
+  div {
+    font-size: 0.9em;
+    color: $color-font-footer;
+    font-style: italic;
+
+    a:link,
+    a:visited {
+      color: inherit;
+      font-family: inherit;
+    }
+    a:hover {
+      text-decoration: none;
+      color: $color-link;
+    }
+  }
+}
+
+.page-link {
+  background: $color-page-link-background;
+  border-color: $color-page-link-background;
+  color: $color-page-link;
+}
+
+.active .page-link,
+.page-link:hover {
+  background: $color-page-link-active-background !important;
+  border-color: $color-page-link-active-background !important;
+  color: $color-page-link-active;
+}
+
+.disabled .page-link {
+  background: $color-page-link-disabled-background !important;
+  border-color: $color-page-link-disabled-background !important;
+  color: $color-page-link !important;
+}

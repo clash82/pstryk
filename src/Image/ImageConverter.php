@@ -170,7 +170,7 @@ class ImageConverter
 
         if (($horizontalMaxWidth > 0 && $size->getWidth() > $horizontalMaxWidth)
             || ($verticalMaxHeight > 0 && $size->getHeight() > $verticalMaxHeight)) {
-            $newSize = new Box($size->getWidth(), $size->getHeight());
+            $newSize = new Box($horizontalMaxWidth, $verticalMaxHeight);
 
             // horizontal
             if ($horizontalMaxWidth > 0 && $size->getWidth() > $size->getHeight()) {

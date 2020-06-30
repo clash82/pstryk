@@ -39,7 +39,7 @@ class Configuration implements ConfigurationInterface
                                 ->cannotBeEmpty()
                             ->end()
                             ->scalarNode('feed_url')
-                                ->isRequired()
+                                ->defaultValue('')
                             ->end()
                             ->integerNode('pagination_limit')
                                 ->min(1)

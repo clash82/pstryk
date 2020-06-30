@@ -1,0 +1,45 @@
+{% extends 'album/tysia/base.html.twig' %}
+
+{% block title %}Rafał Toborek{% endblock %}
+{% block description %}{{ album.description }}{% endblock %}
+
+{% block body %}
+    {% if items is defined %}
+        {% for item in items %}
+            <div class="row">
+                <div class="frame col-10 offset-1">
+                    <div class="row">
+                        <div class="frame-title col-12 col-sm-7 text-center text-sm-left">
+                            {{ item.title }}
+                        </div>
+
+                        <div class="frame-date col-12 col-sm-5 text-center text-sm-right"
+                             data-date="{{ item.date|date('r') }}" title="{{ item.date|date('Y-m-d') }}">
+                            {{ item.date|date('Y-m-d') }}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="frame-thumb col-12 text-center">
+                            <a href="{{ item.mainImage.imagesPublicPath }}">
+                                {% if item.mainImage is not empty %}
+                                    <img src="{{ item.mainImage.thumbsPublicPath }}" class="img-fluid" alt="{{ item.title }}">
+                                {% endif %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="paginator">
+        <div class="col-12">
+            {{ knp_pagination_render(items, template = 'album/parts/pagination.html.twig', viewParams = {'align': 'center'}) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ include('album/tysia/item_js.html.twig') }}
+{% endblock %}
