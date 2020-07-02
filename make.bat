@@ -13,6 +13,7 @@ if ["%1"] == [""] (
     echo phpstan      - analyse code with phpstan tool
     echo phan         - analyse code with phan tool
     echo phpmd        - analyse code with php md tool
+    echo psalm        - analyse code with psalm
     echo phpcs        - analyse code with phpcs tool
     echo phpcbf       - fix coding standards using phpcbf tool
     echo cs-fix       - fix coding standards using php-cs-fixer tool
@@ -62,6 +63,10 @@ if ["%1"] == ["phpstan"] (
     php vendor\phpstan\phpstan\phpstan analyse src --level=max --memory-limit=1G
 )
 
+if ["%1"] == ["psalm"] (
+    vendor\bin\psalm.bat --show-info=true
+)
+
 if ["%1"] == ["phan"] (
     php vendor\phan\phan\phan
 )
@@ -87,6 +92,7 @@ if ["%1"] == ["cs-all"] (
     make phpstan
     make phpcs
     make phpmd
+    make psalm
 )
 
 if ["%1"] == ["test"] (
