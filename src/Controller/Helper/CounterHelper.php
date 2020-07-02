@@ -28,6 +28,7 @@ class CounterHelper
 
     /**
      * @SuppressWarnings(PHPMD.StaticAccess)
+     * @psalm-suppress UndefinedClass
      */
     public function increment(string $counter): void
     {
