@@ -1,6 +1,6 @@
 <script>
     $(document).ready(function() {
-        if (Cookies.get('item_filter_show') === '1') {
+        if (Cookies.get('itemsFilterShow') === '1') {
             $('.filter-options').show();
         }
 
@@ -11,7 +11,7 @@
                 if ($(this).is(':hidden')) {
                     showFilterOptions = 0;
                 }
-                Cookies.set('item_filter_show', showFilterOptions, {
+                Cookies.set('itemsFilterShow', showFilterOptions, {
                     sameSite: 'lax'
                 });
             });
@@ -35,7 +35,7 @@
                     'album': album
                 },
                 success: function(data) {
-                    if (data.errorCode === '0') {
+                    if (data.errorCode === 0) {
                         location.reload();
 
                         return;
@@ -66,22 +66,22 @@
                         Zestawów na stronę:
                     </div>
                     <div class="col-lg-2 form-row-separator">
-                        <input type="number" name="items-per-page" class="form-control" min="5" step="1" value="{{ filter_options.items_per_page }}">
+                        <input type="number" name="items-per-page" class="form-control" min="5" step="1" value="{{ filter_options.itemsPerPage }}">
                     </div>
                     <div class="col-lg-2 text-center form-row-separator">
                         Sortuj wg:
                     </div>
                     <div class="col-lg-2 form-row-separator">
                         <select name="items-sort" class="form-control">
-                            <option value="album"{% if filter_options.items_sort == 'album' %} selected="selected"{% endif %}>album</option>
-                            <option value="title"{% if filter_options.items_sort == 'title' %} selected="selected"{% endif %}>tytuł</option>
-                            <option value="date"{% if filter_options.items_sort == 'date' %} selected="selected"{% endif %}>data</option>
+                            <option value="album"{% if filter_options.itemsSort == 'album' %} selected="selected"{% endif %}>album</option>
+                            <option value="title"{% if filter_options.itemsSort == 'title' %} selected="selected"{% endif %}>tytuł</option>
+                            <option value="date"{% if filter_options.itemsSort == 'date' %} selected="selected"{% endif %}>data</option>
                         </select>
                     </div>
                     <div class="col-lg-2 form-row-separator">
                         <select name="items-sort-direction" class="form-control">
-                            <option value="asc"{% if filter_options.items_sort_direction == 'asc' %} selected="selected"{% endif %}>rosnąco</option>
-                            <option value="desc"{% if filter_options.items_sort_direction == 'desc' %} selected="selected"{% endif %}>malejąco</option>
+                            <option value="asc"{% if filter_options.itemsSortDirection == 'asc' %} selected="selected"{% endif %}>rosnąco</option>
+                            <option value="desc"{% if filter_options.itemsSortDirection == 'desc' %} selected="selected"{% endif %}>malejąco</option>
                         </select>
                     </div>
                 </div>

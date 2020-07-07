@@ -8,11 +8,12 @@ use App\Controller\Helper\ParametersHelper;
 use App\Controller\Helper\RedirectHelper;
 use App\Entity\Item;
 use App\Form\ItemType;
+use App\Manager\AdminSettingsManager;
 use App\Manager\ItemManager;
+use App\Provider\AdminSettingsProvider;
 use App\Provider\AlbumProvider;
 use App\Provider\ItemProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,41 +36,39 @@ class AdminController extends AbstractController
     /** @var RedirectHelper */
     private $redirectHelper;
 
+    /** @var AdminSettingsProvider */
+    private $adminSettingsProvider;
+
+    /** @var AdminSettingsManager */
+    private $adminSettingsManager;
+
     public function __construct(
         ItemProvider $itemProvider,
         ItemManager $itemManager,
         AlbumProvider $albumProvider,
         ParametersHelper $parametersHelper,
-        RedirectHelper $redirectHelper
+        RedirectHelper $redirectHelper,
+        AdminSettingsProvider $adminSettingsProvider,
+        AdminSettingsManager $adminSettingsManager
     ) {
         $this->itemProvider = $itemProvider;
         $this->itemManager = $itemManager;
         $this->albumProvider = $albumProvider;
         $this->parametersHelper = $parametersHelper;
         $this->redirectHelper = $redirectHelper;
+        $this->adminSettingsProvider = $adminSettingsProvider;
+        $this->adminSettingsManager = $adminSettingsManager;
     }
 
     /**
      * @Route("/zaplecze/{page}", name="app_admin_item_list", requirements={"page" = "\d+"}, defaults={"page" = "1"})
      */
-    public function list(Request $request, int $page): Response
+    public function list(int $page): Response
     {
-        $itemsPerPage = (int) $request->cookies->get(
-            'item_filter_options_items_per_page',
-            ItemProvider::DEFAULT_PAGE_LIMIT
-        );
-        $itemsSort = $request->cookies->get(
-            'item_filter_options_items_sort',
-            ItemProvider::DEFAULT_SORT_COLUMN
-        );
-        $itemsSortDirection = $request->cookies->get(
-            'item_filter_options_items_sort_direction',
-            ItemProvider::DEFAULT_SORT_DIRECTION
-        );
-        $album = $request->cookies->get(
-            'item_filter_options_album',
-            ''
-        );
+        $itemsPerPage = $this->adminSettingsProvider->getItemsPerPage();
+        $itemsSort = $this->adminSettingsProvider->getItemsSort();
+        $itemsSortDirection = $this->adminSettingsProvider->getItemsSortDirection();
+        $album = $this->adminSettingsProvider->getAlbum();
 
         return $this->render('admin/item_list.html.twig', [
             'items' => $this->itemProvider->getAllPaginated(
@@ -80,11 +79,11 @@ class AdminController extends AbstractController
                 $itemsSortDirection
             ),
             'albums' => $this->albumProvider->getAll(),
-             'filter_options' => [
-                'items_per_page' => $itemsPerPage,
-                'items_sort' => $itemsSort,
-                'items_sort_direction' => $itemsSortDirection,
-                'album' => $album,
+            'filter_options' => [
+                AdminSettingsProvider::ITEM_FILTER_OPTIONS_ITEMS_PER_PAGE => $itemsPerPage,
+                AdminSettingsProvider::ITEM_FILTER_OPTIONS_ITEMS_SORT => $itemsSort,
+                AdminSettingsProvider::ITEM_FILTER_OPTIONS_ITEMS_SORT_DIRECTION => $itemsSortDirection,
+                AdminSettingsProvider::ITEM_FILTER_OPTIONS_ALBUM => $album,
             ],
         ]);
     }
@@ -95,30 +94,23 @@ class AdminController extends AbstractController
     public function filterOptions(Request $request): JsonResponse
     {
         $parameters = $this->parametersHelper->resolveParameters([
-            'itemsPerPage',
-            'itemsSort',
-            'itemsSortDirection',
-            'album',
+            AdminSettingsProvider::ITEM_FILTER_OPTIONS_ITEMS_PER_PAGE,
+            AdminSettingsProvider::ITEM_FILTER_OPTIONS_ITEMS_SORT,
+            AdminSettingsProvider::ITEM_FILTER_OPTIONS_ITEMS_SORT_DIRECTION,
+            AdminSettingsProvider::ITEM_FILTER_OPTIONS_ALBUM,
         ], $request->request->all());
 
         $jsonResponse = new JsonResponse([
-            'errorCode' => '0',
+            'errorCode' => 0,
         ]);
 
-        $jsonResponse->headers->setCookie(
-            new Cookie('item_filter_options_items_per_page', $parameters['itemsPerPage'])
-        );
-        $jsonResponse->headers->setCookie(
-            new Cookie('item_filter_options_items_sort', $parameters['itemsSort'])
-        );
-        $jsonResponse->headers->setCookie(
-            new Cookie('item_filter_options_items_sort_direction', $parameters['itemsSortDirection'])
-        );
-        $jsonResponse->headers->setCookie(
-            new Cookie('item_filter_options_album', $parameters['album'])
-        );
-
-        return $jsonResponse;
+        return $this->adminSettingsManager
+            ->setJsonResponse($jsonResponse)
+            ->setItemsPerPage((int) $parameters[AdminSettingsProvider::ITEM_FILTER_OPTIONS_ITEMS_PER_PAGE])
+            ->setItemsSort($parameters[AdminSettingsProvider::ITEM_FILTER_OPTIONS_ITEMS_SORT])
+            ->setItemsSortDirection($parameters[AdminSettingsProvider::ITEM_FILTER_OPTIONS_ITEMS_SORT_DIRECTION])
+            ->setAlbum($parameters[AdminSettingsProvider::ITEM_FILTER_OPTIONS_ALBUM])
+            ->getJsonResponse();
     }
 
     /**

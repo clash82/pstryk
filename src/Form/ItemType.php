@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Form;
 
+use App\Provider\AdminSettingsProvider;
 use App\Provider\AlbumProvider;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
@@ -16,7 +17,6 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ItemType extends AbstractType
@@ -27,7 +27,7 @@ class ItemType extends AbstractType
     /** @var string|null */
     private $defaultAlbum;
 
-    public function __construct(AlbumProvider $albumProvider, RequestStack $requestStack)
+    public function __construct(AlbumProvider $albumProvider, AdminSettingsProvider $adminSettingsProvider)
     {
         $albums = $albumProvider->getAll();
 
@@ -35,10 +35,7 @@ class ItemType extends AbstractType
             $this->albums[sprintf('%s (%s)', $album->getTitle(), $album->getSlug())] = $album->getSlug();
         }
 
-        $request = $requestStack->getCurrentRequest();
-        if (null !== $request) {
-            $this->defaultAlbum = $request->cookies->get('item_filter_options_album', null);
-        }
+        $this->defaultAlbum = $adminSettingsProvider->getAlbum();
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options = []): void
