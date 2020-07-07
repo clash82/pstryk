@@ -16,6 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ItemType extends AbstractType
@@ -23,22 +24,33 @@ class ItemType extends AbstractType
     /** @var array */
     private $albums = [];
 
-    public function __construct(AlbumProvider $albumProvider)
+    /** @var string|null */
+    private $defaultAlbum;
+
+    public function __construct(AlbumProvider $albumProvider, RequestStack $requestStack)
     {
         $albums = $albumProvider->getAll();
 
         foreach ($albums as $album) {
             $this->albums[sprintf('%s (%s)', $album->getTitle(), $album->getSlug())] = $album->getSlug();
         }
+
+        $request = $requestStack->getCurrentRequest();
+        if (null !== $request) {
+            $this->defaultAlbum = $request->cookies->get('item_filter_options_album', null);
+        }
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options = []): void
     {
+        $data = $builder->getData();
+
         $builder
             ->add('album', ChoiceType::class, [
                 'label' => 'Album',
                 'placeholder' => '- wybierz album -',
                 'choices' => $this->albums,
+                'data' => $data->getAlbum() ?? $this->defaultAlbum,
             ])
             ->add('title', TextType::class, [
                 'label' => 'Tytuł',
