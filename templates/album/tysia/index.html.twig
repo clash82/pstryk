@@ -23,7 +23,10 @@
                         <div class="frame-thumb col-12 text-center">
                             <a href="{{ item.mainImage.filePath.imagePublicPath }}">
                                 {% if item.mainImage is not empty %}
-                                    <img src="{{ item.mainImage.filePath.thumbPublicPath }}" class="img-fluid" alt="{{ item.title }}">
+                                    <img src="{{ item.mainImage.filePath.thumbPublicPath }}" class="img-fluid"
+                                         width="{{ item.mainImage.imageDetails.thumbWidth }}"
+                                         height="{{ item.mainImage.imageDetails.thumbHeight }}"
+                                         alt="{{ item.title }}">
                                 {% endif %}
                             </a>
                         </div>

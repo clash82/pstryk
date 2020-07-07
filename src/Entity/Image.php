@@ -8,6 +8,7 @@ use App\Entity\Traits\Id;
 use App\Image\ImageConverter;
 use App\Provider\StoragePathProvider;
 use App\Value\FilePath;
+use App\Value\ImageDetails;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -96,6 +97,9 @@ class Image
 
     /** @var FilePath */
     private $filePath;
+
+    /** @var ImageDetails */
+    private $imageDetails;
 
     public function __toString(): string
     {
@@ -186,6 +190,21 @@ class Image
         }
 
         return $this->filePath;
+    }
+
+    public function getImageDetails(): ?ImageDetails
+    {
+        $filePath = $this->getFilePath();
+
+        if (null === $filePath) {
+            return null;
+        }
+
+        if (null === $this->imageDetails) {
+            $this->imageDetails = new ImageDetails($this->filePath);
+        }
+
+        return $this->imageDetails;
     }
 
     public function getName(): ?string

@@ -26,7 +26,10 @@
             {% for image in item.images %}
                 <div class="col-12 item-image text-center">
                     <a href="{{ image.filePath.imagePublicPath }}">
-                        <img src="{{ image.filePath.thumbPublicPath }}" class="img-fluid" alt="{% if image.description is empty %}{{ item.description }}{% else %}{{ image.description }}{% endif %}">
+                        <img src="{{ image.filePath.thumbPublicPath }}" class="img-fluid"
+                             width="{{ image.imageDetails.thumbWidth }}"
+                             height="{{ image.imageDetails.thumbHeight }}"
+                             alt="{% if image.description is empty %}{{ item.description }}{% else %}{{ image.description }}{% endif %}">
                     </a>
                 </div>
                 {% if image.description is not empty %}
