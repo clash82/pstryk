@@ -64,7 +64,7 @@ if ["%1"] == ["phpstan"] (
 )
 
 if ["%1"] == ["psalm"] (
-    vendor\bin\psalm.bat --show-info=true
+    vendor\bin\psalm.bat --show-info=false
 )
 
 if ["%1"] == ["phan"] (
@@ -93,6 +93,7 @@ if ["%1"] == ["cs-all"] (
     make phpcs
     make phpmd
     make psalm
+    make phan
 )
 
 if ["%1"] == ["test"] (
