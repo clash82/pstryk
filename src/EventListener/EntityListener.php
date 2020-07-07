@@ -81,16 +81,16 @@ class EntityListener
         foreach ($this->filesToDelete as $file) {
             // in some cases it might happen that file not exists (mostly in dev mode
             // when performing tests) - should not occur in normal usage
-            if (!$file->getRawRelativePath()) {
+            if (!$file->getFilePath()->getRawRelativePath()) {
                 continue;
             }
 
             /* @phan-suppress-next-line PhanTypeMismatchArgumentNullableInternal */
-            @unlink($file->getRawRelativePath());
+            @unlink($file->getFilePath()->getRawRelativePath());
             /* @phan-suppress-next-line PhanTypeMismatchArgumentNullableInternal */
-            @unlink($file->getThumbsRelativePath());
+            @unlink($file->getFilePath()->getThumbRelativePath());
             /* @phan-suppress-next-line PhanTypeMismatchArgumentNullableInternal */
-            @unlink($file->getImagesRelativePath());
+            @unlink($file->getFilePath()->getImageRelativePath());
         }
 
         $this->filesToDelete = [];

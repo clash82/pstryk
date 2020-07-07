@@ -7,6 +7,7 @@ namespace App\Entity;
 use App\Entity\Traits\Id;
 use App\Image\ImageConverter;
 use App\Provider\StoragePathProvider;
+use App\Value\FilePath;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -93,6 +94,9 @@ class Image
     /** @var array */
     private $filesToRemove = [];
 
+    /** @var FilePath */
+    private $filePath;
+
     public function __toString(): string
     {
         return $this->name;
@@ -149,13 +153,13 @@ class Image
         $this->file = $uploadedFile;
 
         /* @phan-suppress-next-line PhanTypeMismatchArgumentNullableInternal */
-        if (null !== $this->getRawRelativePath() && file_exists($this->getRawRelativePath())) {
+        if (null !== $this->getFilePath() && file_exists($this->getFilePath()->getRawRelativePath())) {
             // we want to update existing file, so we need to save a list of files
             // to be removed upon uploading process start
             $this->filesToRemove = [
-                $this->getRawRelativePath(),
-                $this->getThumbsRelativePath(),
-                $this->getImagesRelativePath(),
+                $this->getFilePath()->getRawRelativePath(),
+                $this->getFilePath()->getThumbRelativePath(),
+                $this->getFilePath()->getImageRelativePath(),
             ];
         }
 
@@ -169,6 +173,19 @@ class Image
         ));
 
         return $this;
+    }
+
+    public function getFilePath(): ?FilePath
+    {
+        if (!$this->extension) {
+            return null;
+        }
+
+        if (null === $this->filePath) {
+            $this->filePath = new FilePath($this->storagePathProvider, $this->filename, $this->extension);
+        }
+
+        return $this->filePath;
     }
 
     public function getName(): ?string
@@ -265,70 +282,5 @@ class Image
         $this->id = $id;
 
         return $this;
-    }
-
-    public function getRawRelativePath(): ?string
-    {
-        if (!$this->extension) {
-            return null;
-        }
-
-        return $this->createPath(
-            $this->storagePathProvider->getRelativeDir(StoragePathProvider::PATH_RAW),
-            $this->extension
-        );
-    }
-
-    public function getRawPublicPath(): ?string
-    {
-        if (!$this->extension) {
-            return null;
-        }
-
-        return $this->createPath(
-            $this->storagePathProvider->getPublicDir(StoragePathProvider::PATH_RAW),
-            $this->extension
-        );
-    }
-
-    public function getThumbsRelativePath(): ?string
-    {
-        if (!$this->extension) {
-            return null;
-        }
-
-        return $this->createPath($this->storagePathProvider->getRelativeDir(StoragePathProvider::PATH_THUMBS));
-    }
-
-    public function getThumbsPublicPath(): ?string
-    {
-        if (!$this->extension) {
-            return null;
-        }
-
-        return $this->createPath($this->storagePathProvider->getPublicDir(StoragePathProvider::PATH_THUMBS));
-    }
-
-    public function getImagesRelativePath(): ?string
-    {
-        if (!$this->extension) {
-            return null;
-        }
-
-        return $this->createPath($this->storagePathProvider->getRelativeDir(StoragePathProvider::PATH_IMAGES));
-    }
-
-    public function getImagesPublicPath(): ?string
-    {
-        if (!$this->extension) {
-            return null;
-        }
-
-        return $this->createPath($this->storagePathProvider->getPublicDir(StoragePathProvider::PATH_IMAGES));
-    }
-
-    private function createPath(string $path, string $extension = 'jpg'): string
-    {
-        return sprintf('%s/%s.%s', $path, $this->filename, $extension);
     }
 }

@@ -16,7 +16,7 @@
             <item>
                 <title>{{ item.title }}</title>
                 <link>{{ getRoute(item.slug) }}</link>
-                <description><![CDATA[{% if item.mainImage is defined and item.mainImage is not empty %}<img src="{{ getRoute(null) ~ item.mainImage.thumbsPublicPath}}" align="left" hspace="5" width="150"> {% endif %}{{ item.description }}]]></description>
+                <description><![CDATA[{% if item.mainImage is defined and item.mainImage is not empty %}<img src="{{ getRoute(null) ~ item.mainImage.filePath.thumbPublicPath}}" align="left" hspace="5" width="150"> {% endif %}{{ item.description }}]]></description>
                 <guid isPermaLink="false">{{ item.guid }}</guid>
                 <pubDate>{{ item.date|date('r') }}</pubDate>
             </item>

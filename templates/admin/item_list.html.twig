@@ -33,8 +33,8 @@
                                 {% for item in items %}
                                     <tr>
                                         <td class="text-center align-middle">
-                                            {% if item.getMainImage is not empty and item.getMainImage.getThumbsPublicPath is not empty %}
-                                                <img src="{{ item.getMainImage.getThumbsPublicPath }}" class="img-fluid img-preview">
+                                            {% if item.getMainImage is not empty and item.mainImage.filePath.thumbPublicPath is not empty %}
+                                                <img src="{{ item.mainImage.filePath.thumbPublicPath }}" class="img-fluid img-preview">
                                             {% else %}
                                                 <button class="btn btn-default" disabled>
                                                     <span class="fas fa-exclamation-circle"></span>

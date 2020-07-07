@@ -10,12 +10,18 @@
             </div>
         </div>
 
+        {% set thumbPath = null %}
+        {% if form.filePath.vars.data.thumbPublicPath is defined
+            and form.filePath.vars.data.thumbPublicPath is not empty %}
+            {% set thumbPath = form.filePath.vars.data.thumbPublicPath %}
+        {% endif %}
+
         <div class="row vcenter">
             <div class="col-lg-2 col-12 text-center">
-                <a href="{% if form.thumbsPublicPath.vars.data is empty %}{{ asset('assets/images/admin/placeholder.png') }}
-                    {% else %}{{ form.thumbsPublicPath.vars.data }}{% endif %}" class="image-preview">
-                    <img src="{% if form.thumbsPublicPath.vars.data is empty %}{{ asset('assets/images/admin/placeholder.png') }}
-                        {% else %}{{ form.thumbsPublicPath.vars.data }}{% endif %}" class="img-fluid img-preview"
+                <a href="{% if thumbPath is empty %}{{ asset('assets/images/admin/placeholder.png') }}
+                    {% else %}{{ thumbPath }}{% endif %}" class="image-preview">
+                    <img src="{% if thumbPath is empty %}{{ asset('assets/images/admin/placeholder.png') }}
+                        {% else %}{{ thumbPath }}{% endif %}" class="img-fluid img-preview"
                          id="item_image_{{ form.vars.name }}_thumb">
                 </a>
             </div>

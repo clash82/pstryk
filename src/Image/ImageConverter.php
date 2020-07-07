@@ -7,6 +7,7 @@ namespace App\Image;
 use App\Entity\Image as ImageEntity;
 use App\Exception\AlbumNotSpecifiedException;
 use App\Exception\FileNotExistsException;
+use App\Exception\ObjectNotInitializedException;
 use App\Value\Album;
 use App\Value\Enum\WatermarkPosition;
 use iBudasov\Iptc\Domain\Binary;
@@ -71,18 +72,23 @@ class ImageConverter
             throw new AlbumNotSpecifiedException();
         }
 
+        if (null === $image->getFilePath()) {
+            /* @noinspection PhpUnhandledExceptionInspection */
+            throw new ObjectNotInitializedException('FilePath');
+        }
+
         // normal
         $this->resize(
-            $image->getRawRelativePath(),
-            $image->getImagesRelativePath(),
+            $image->getFilePath()->getRawRelativePath(),
+            $image->getFilePath()->getImageRelativePath(),
             $this->album->getImageHorizontalMaxWidth(),
             $this->album->getImageVerticalMaxHeight()
         );
 
         // thumb
         $this->resize(
-            $image->getRawRelativePath(),
-            $image->getThumbsRelativePath(),
+            $image->getFilePath()->getRawRelativePath(),
+            $image->getFilePath()->getThumbRelativePath(),
             $this->album->getThumbHorizontalMaxWidth(),
             $this->album->getThumbVerticalMaxHeight()
         );
@@ -154,15 +160,11 @@ class ImageConverter
     }
 
     private function resize(
-        ?string $sourceFile,
-        ?string $destinationFile,
+        string $sourceFile,
+        string $destinationFile,
         int $horizontalMaxWidth,
         int $verticalMaxHeight
     ): void {
-        if (null === $sourceFile || null === $destinationFile) {
-            return;
-        }
-
         $imagine = new Imagine();
 
         $image = $imagine->open($sourceFile);

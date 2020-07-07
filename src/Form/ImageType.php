@@ -20,7 +20,7 @@ class ImageType extends AbstractType
     {
         $builder
             // tricky way to get thumbnail path in the form view, this value will not be saved
-            ->add('thumbsPublicPath', null, [
+            ->add('filePath', null, [
                 'disabled' => true,
             ])
             ->add('name', TextType::class, [

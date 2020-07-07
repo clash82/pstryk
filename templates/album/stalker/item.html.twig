@@ -2,7 +2,7 @@
 
 {% block title %}{{ item.title }}{% endblock %}
 {% block description %}{{ item.description }}{%  endblock %}
-{% block image %}{% if item.mainImage is defined and item.mainImage is not empty %}{{ getRoute(null) }}/{{ item.mainImage.thumbsPublicPath }}{% endif %}{%  endblock %}
+{% block image %}{% if item.mainImage is defined and item.mainImage is not empty %}{{ getRoute(null) }}/{{ item.mainImage.filePath.thumbPublicPath }}{% endif %}{%  endblock %}
 
 {% block body %}
     <div class="row">
@@ -25,8 +25,8 @@
         <span class="item-image-gallery">
             {% for image in item.images %}
                 <div class="col-12 item-image text-center">
-                    <a href="{{ image.imagesPublicPath }}">
-                        <img src="{{ image.thumbsPublicPath }}" class="img-fluid" alt="{% if image.description is empty %}{{ item.description }}{% else %}{{ image.description }}{% endif %}">
+                    <a href="{{ image.filePath.imagePublicPath }}">
+                        <img src="{{ image.filePath.thumbPublicPath }}" class="img-fluid" alt="{% if image.description is empty %}{{ item.description }}{% else %}{{ image.description }}{% endif %}">
                     </a>
                 </div>
                 {% if image.description is not empty %}

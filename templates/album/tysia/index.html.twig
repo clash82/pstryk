@@ -21,9 +21,9 @@
 
                     <div class="row">
                         <div class="frame-thumb col-12 text-center">
-                            <a href="{{ item.mainImage.imagesPublicPath }}">
+                            <a href="{{ item.mainImage.filePath.imagePublicPath }}">
                                 {% if item.mainImage is not empty %}
-                                    <img src="{{ item.mainImage.thumbsPublicPath }}" class="img-fluid" alt="{{ item.title }}">
+                                    <img src="{{ item.mainImage.filePath.thumbPublicPath }}" class="img-fluid" alt="{{ item.title }}">
                                 {% endif %}
                             </a>
                         </div>
