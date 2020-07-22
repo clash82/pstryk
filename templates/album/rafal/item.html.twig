@@ -1,0 +1,50 @@
+{% extends 'album/rafal/base.html.twig' %}
+
+{% block title %}{{ item.title }}{% endblock %}
+{% block description %}{{ item.description }}{%  endblock %}
+{% block image %}{% if item.mainImage is defined and item.mainImage is not empty %}{{ getRoute(null) }}/{{ item.mainImage.filePath.thumbPublicPath }}{% endif %}{%  endblock %}
+
+{% block body %}
+    <div class="row frame-item">
+        <div class="frame-item-title col-12 text-center">
+            {{ item.title }}
+        </div>
+
+        <div class="frame-item-date col-12 text-center" data-date="{{ item.date|date('r') }}" title="{{ item.date|date('Y . m . d') }}">
+            {{ item.date|date('Y . m . d') }}
+        </div>
+
+        {% if item.description is not empty %}
+            <div class="frame-item-description col-12 text-center">
+                {{ item.description|nl2br }}
+            </div>
+        {% endif %}
+
+        <div class="container frame-item-image-gallery">
+            {% for image in item.images %}
+                <div class="frame-item-thumb col-12 text-center">
+                    <a href="{{ image.filePath.imagePublicPath }}">
+                        <img src="{{ image.filePath.thumbPublicPath }}" class="img-fluid"
+                             width="{{ image.imageDetails.thumbWidth }}"
+                             height="{{ image.imageDetails.thumbHeight }}"
+                             alt="{% if image.description is empty %}{{ item.description }}{% else %}{{ image.description }}{% endif %}">
+                    </a>
+                </div>
+
+                {% if image.description is not empty %}
+                <div class="col-12 frame-item-image-description text-center">
+                        {{ image.description|nl2br }}
+                    </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="row item-menu-bottom">
+        {{ include('album/rafal/item_menu.html.twig') }}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ include('album/rafal/item_js.html.twig') }}
+{% endblock %}

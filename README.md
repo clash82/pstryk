@@ -86,6 +86,7 @@ Sites powered by gallery framework:
 
 - [Stalker Photo](https://stalker.toborek.info)
 - [Galeria pewnego pstryka](https://pstryk.toborek.info)
+- [Rafał Story](https://rafal.toborek.info)
 
 Who and why?
 ------------

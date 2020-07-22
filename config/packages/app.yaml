@@ -99,3 +99,28 @@ app:
                 position: bottom-right
                 horizontal_margin: 20
                 vertical_margin: 20
+
+        rafal:
+            title: Rafał Story
+            description: Tutaj opowiadam o sobie.
+            pagination_limit: 3
+            feed_limit: 10
+            feed_url: http://feeds.feedburner.com/rafaltoborek
+
+            domains:
+                - rafal.toborek.info
+                - rafal.lh
+
+            image_horizontal_max_width: 1600
+            image_vertical_max_height: 1200
+
+            thumb_horizontal_max_width: 1300
+            thumb_vertical_max_height: 1000
+
+            tags:
+                author: Rafal Toborek
+                copyright: Rafal Toborek
+                description: https://rafal.toborek.info
+
+            watermark:
+                enabled: false

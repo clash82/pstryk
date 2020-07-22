@@ -27,9 +27,17 @@ class ItemProvider
         int $page = 1,
         int $itemsPerPage = self::DEFAULT_PAGE_LIMIT,
         string $itemsSort = self::DEFAULT_SORT_COLUMN,
-        string $itemsSortDirection = self::DEFAULT_SORT_DIRECTION
+        string $itemsSortDirection = self::DEFAULT_SORT_DIRECTION,
+        bool $activeOnly = true
     ): PaginationInterface {
-        return $this->itemRepository->getAllPaginated($album, $page, $itemsPerPage, $itemsSort, $itemsSortDirection);
+        return $this->itemRepository->getAllPaginated(
+            $album,
+            $page,
+            $itemsPerPage,
+            $itemsSort,
+            $itemsSortDirection,
+            $activeOnly
+        );
     }
 
     /**

@@ -27,6 +27,7 @@ Encore
     .addEntry('stalker', './assets/album/stalker/js/app.js')
     .addEntry('pstryk', './assets/album/pstryk/js/app.js')
     .addEntry('tysia', './assets/album/tysia/js/app.js')
+    .addEntry('rafal', './assets/album/rafal/js/app.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     //.splitEntryChunks()

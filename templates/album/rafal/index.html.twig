@@ -1,0 +1,41 @@
+{% extends 'album/rafal/base.html.twig' %}
+
+{% block title %}Co się wydarzyło już nie wróci...{% endblock %}
+{% block description %}Tutaj opowiadam coś o sobie.{% endblock %}
+{% block image %}{% if items[0] is defined and items[0].mainImage is not empty %}{{ getRoute(null) }}/{{ items[0].mainImage.filePath.thumbPublicPath }}{% endif %}{% endblock %}
+
+{% block body %}
+    {% if items is defined %}
+        {% for item in items %}
+            <div class="row frame">
+                <div class="frame-title col-12 text-center">
+                    <a href="{{ getRoute(item.slug) }}">{{ item.title }}</a>
+                </div>
+
+                <div class="frame-date col-12 text-center" data-date="{{ item.date|date('r') }}" title="{{ item.date|date('Y . m . d') }}">
+                    {{ item.date|date('Y . m . d') }}
+                </div>
+
+                {% if item.description is not empty %}
+                    <div class="frame-description col-12 text-center">
+                        {{ item.description|nl2br }}
+                    </div>
+                {% endif %}
+
+                {% if item.mainImage is not empty %}
+                    {% include 'album/rafal/image_' ~ (item.images|length > 4 ? 4 : item.images|length) ~ '.html.twig' %}
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="paginator">
+        <div class="col-12">
+            {{ knp_pagination_render(items, template = 'album/parts/pagination.html.twig', viewParams = {'align': 'center'}) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ include('album/rafal/item_js.html.twig') }}
+{% endblock %}

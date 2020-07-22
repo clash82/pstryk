@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{{ block('title') }} ‒ {{ album.title }}</title>
+        {% block stylesheets %}{{ encore_entry_link_tags(album.slug) }}{% endblock %}
+        <base href="{{ getRoute(null) }}">
+        <meta name="author" content="Rafał Toborek">
+        <meta name="copyright" content="Rafał Toborek">
+        <meta name="robots" content="index, follow">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <meta name="description" content="{{ block('description')|striptags }}">
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="{{ getRouteWithPagination('') }}">
+        <meta property="og:image" content="{{ block('image') }}">
+        <meta property="og:title" content="{{ block('title') }}">
+        <meta property="og:description" content="{{ block('description')|striptags }}">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/favicon/rafal.png') }}">
+        <link rel="alternate" type="application/rss+xml" title="{{ album.title }} RSS" href="{{ album.feedUrl }}">
+    </head>
+    <body>
+        <div class="container">
+            <header class="text-center">
+                <div class="header-title">
+                    {{ album.title }}
+                </div>
+                <div class="header-lead">
+                    Co się wydarzyło już nie wróci...
+                </div>
+            </header>
+
+            <main>
+                {% block body %}{% endblock %}
+            </main>
+
+            <footer>
+                <div class="row">
+                    <div class="col-12 col-sm-4 text-center align-self-center">
+                        <a href="https://toborek.info/kontakt/" target="_blank">Napisz do mnie</a> lub
+                        <a href="{{ album.feedUrl }}" target="_blank">zasubskrybuj kanał RSS</a>
+                    </div>
+
+                    <div class="col-12 col-sm-4 text-center align-self-center">
+                        Z potrzeby serca &copy; 2006-{{ 'now'|date('Y') }}  <a href="https://toborek.info" target="_blank">Rafał Toborek</a>
+                        <br>
+                        Proszę nie upubliczniać bez wcześniejszej zgody
+                    </div>
+
+                    <div class="col-12 col-sm-4 text-center align-self-center">
+                        Zobacz również:
+                        <br>
+                        <a href="https://pstryk.toborek.info" target="_blank">Pstryk</a> &
+                        <a href="https://stalker.toborek.info" target="_blank">Stalker Photo</a> &
+                        <a href="https://naturofonia.toborek.info" target="_blank">Naturofonia</a>
+                    </div>
+                </div>
+            </footer>
+        </div>
+
+        {{ encore_entry_script_tags(album.slug) }}
+
+        <script>
+            var _paq = window._paq || [];
+            _paq.push(['trackPageView']);
+            _paq.push(['enableLinkTracking']);
+            (function() {
+                var u="https://analityka.toborek.info/";
+                _paq.push(['setTrackerUrl', u+'matomo.php']);
+                _paq.push(['setSiteId', '21']);
+                var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+                g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+            })();
+        </script>
+
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>

@@ -1,0 +1,17 @@
+<div class="col-12 col-sm-5 text-center align-self-center text-sm-right{% if next_item is empty %} d-none d-sm-block{% endif %}">
+    {% if next_item is not empty %}
+        <span class="fas fa-angle-double-left"></span> Nowsze<br>
+        <a href="{{ getRoute(next_item.slug) }}" title="{{ next_item.title }}">{{ next_item.title }}</a>
+    {% endif %}
+</div>
+
+<div class="col-12 col-sm-2 text-center align-self-center">
+    <a href="{{ getRoute(null) }}" title="Powrót do strony głównej"><span class="fas fa-home"></span></a>
+</div>
+
+<div class="col-12 col-sm-5 text-center align-self-center text-sm-left{% if prev_item is empty %} d-none d-sm-block{% endif %}">
+    {% if prev_item is not empty %}
+        Starsze <span class="fas fa-angle-double-right"></span><br>
+        <a href="{{ getRoute(prev_item.slug) }}" title="{{ prev_item.title }}">{{ prev_item.title }}</a>
+    {% endif %}
+</div>

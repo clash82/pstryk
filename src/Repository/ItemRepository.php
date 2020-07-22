@@ -28,15 +28,21 @@ class ItemRepository extends ServiceEntityRepository
         int $page,
         int $itemsPerPage,
         string $itemsSort,
-        string $itemsSortDirection
+        string $itemsSortDirection,
+        bool $activeOnly
     ): PaginationInterface {
         $query = $this
             ->createQueryBuilder('i')
             ->orderBy(sprintf('i.%s', $itemsSort), $itemsSortDirection);
 
+        if ($activeOnly) {
+            $query
+                ->andWhere('i.isActive = 1');
+        }
+
         if ('' !== $album) {
             $query
-                ->where('i.album = :album')
+                ->andWhere('i.album = :album')
                 ->setParameter('album', $album);
         }
 
@@ -55,6 +61,7 @@ class ItemRepository extends ServiceEntityRepository
         return $this
             ->createQueryBuilder('i')
             ->where('i.album = :album')
+            ->andWhere('i.isActive = 1')
             ->setParameter('album', $album)
             ->orderBy('i.date', 'DESC')
             ->getQuery()
@@ -68,6 +75,7 @@ class ItemRepository extends ServiceEntityRepository
         $queryBuilder
             ->select($queryBuilder->expr()->count(1))
             ->where('i.album = :album')
+            ->andWhere('i.isActive = 1')
             ->setParameter('album', $album);
 
         /* @noinspection PhpUnhandledExceptionInspection */
@@ -93,6 +101,7 @@ class ItemRepository extends ServiceEntityRepository
         $item = $this->createQueryBuilder('i')
             ->where('i.slug = :slug')
             ->andWhere('i.album = :album')
+            ->andWhere('i.isActive = 1')
             ->setParameter('album', $albumSlug)
             ->setParameter('slug', $itemSlug)
             ->getQuery()
@@ -112,6 +121,7 @@ class ItemRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('i')
             ->where($this->createQueryBuilder('i')->expr()->gt('i.date', ':date'))
             ->andWhere('i.album = :album')
+            ->andWhere('i.isActive = 1')
             ->setParameter('date', $item->getDate())
             ->setParameter('album', $item->getAlbum())
             ->orderBy('i.date', 'asc')
@@ -126,6 +136,7 @@ class ItemRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('i')
             ->where($this->createQueryBuilder('i')->expr()->lt('i.date', ':date'))
             ->andWhere('i.album = :album')
+            ->andWhere('i.isActive = 1')
             ->setParameter('date', $item->getDate())
             ->setParameter('album', $item->getAlbum())
             ->orderBy('i.date', 'desc')

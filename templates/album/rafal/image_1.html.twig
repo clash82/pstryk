@@ -1,0 +1,8 @@
+<div class="frame-thumb col-12 text-center">
+    <a href="{{ getRoute(item.slug) }}">
+        <img src="{{ item.images[0].filePath.thumbPublicPath }}" class="img-fluid"
+         width="{{ item.images[0].imageDetails.thumbWidth }}"
+         height="{{ item.images[0].imageDetails.thumbHeight }}"
+         alt="{{ item.title }}">
+    </a>
+</div>

@@ -76,7 +76,8 @@ class AdminController extends AbstractController
                 $page,
                 $itemsPerPage,
                 $itemsSort,
-                $itemsSortDirection
+                $itemsSortDirection,
+                false
             ),
             'albums' => $this->albumProvider->getAll(),
             'filter_options' => [
