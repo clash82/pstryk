@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class RedirectHelper extends AbstractController
 {
-    public function redirectToList(string $returnPath, string $listRoute): RedirectResponse
+    public function redirectToList(?string $returnPath, string $listRoute): RedirectResponse
     {
         if (!empty($returnPath)) {
             $this->redirect($returnPath)->sendHeaders();

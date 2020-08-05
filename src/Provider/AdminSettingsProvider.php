@@ -30,7 +30,7 @@ class AdminSettingsProvider
 
         return (int) $this->request->cookies->get(
             self::ITEM_FILTER_OPTIONS_ITEMS_PER_PAGE,
-            ItemProvider::DEFAULT_PAGE_LIMIT
+            (string) ItemProvider::DEFAULT_PAGE_LIMIT
         );
     }
 
@@ -40,7 +40,7 @@ class AdminSettingsProvider
             return ItemProvider::DEFAULT_SORT_COLUMN;
         }
 
-        return $this->request->cookies->get(
+        return (string) $this->request->cookies->get(
             self::ITEM_FILTER_OPTIONS_ITEMS_SORT,
             ItemProvider::DEFAULT_SORT_COLUMN
         );
@@ -52,7 +52,7 @@ class AdminSettingsProvider
             return ItemProvider::DEFAULT_SORT_DIRECTION;
         }
 
-        return $this->request->cookies->get(
+        return (string) $this->request->cookies->get(
             self::ITEM_FILTER_OPTIONS_ITEMS_SORT_DIRECTION,
             ItemProvider::DEFAULT_SORT_DIRECTION
         );
@@ -64,7 +64,7 @@ class AdminSettingsProvider
             return '';
         }
 
-        return $this->request->cookies->get(
+        return (string) $this->request->cookies->get(
             self::ITEM_FILTER_OPTIONS_ALBUM,
             ''
         );

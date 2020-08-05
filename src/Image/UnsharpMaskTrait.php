@@ -27,11 +27,11 @@ trait UnsharpMaskTrait
         if ($amount > 500) {
             $amount = 500;
         }
-        $amount = $amount * 0.016;
+        $amount *= 0.016;
         if ($radius > 50) {
             $radius = 50;
         }
-        $radius = $radius * 2;
+        $radius *= 2;
         if ($threshold > 255) {
             $threshold = 255;
         }

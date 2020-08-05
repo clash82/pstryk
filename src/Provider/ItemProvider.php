@@ -22,6 +22,9 @@ class ItemProvider
         $this->itemRepository = $itemRepository;
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
+     */
     public function getAllPaginated(
         string $album,
         int $page = 1,

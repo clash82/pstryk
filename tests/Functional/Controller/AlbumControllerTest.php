@@ -14,7 +14,7 @@ class AlbumControllerTest extends WebTestCase
         $_SERVER['SERVER_NAME'] = self::HOST;
     }
 
-    public function testLogin()
+    public function testIndex()
     {
         /** @var KernelBrowser $client */
         $client = static::createClient();
