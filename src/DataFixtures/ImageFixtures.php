@@ -20,6 +20,7 @@ use Imagine\Image\Palette\RGB as PaletteRGB;
 use Imagine\Image\Point;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class ImageFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -44,21 +45,31 @@ class ImageFixtures extends Fixture implements DependentFixtureInterface
     /** @var StoragePathProvider */
     private $storagePathProvider;
 
+    /** @var bool */
+    private $populateImages = true;
+
     public function __construct(
         AlbumProvider $albumProvider,
         StoragePathProvider $storagePathProvider,
-        ImageConverter $imageConverter
+        ImageConverter $imageConverter,
+        ParameterBagInterface $parameterBag
     ) {
         $this->albumProvider = $albumProvider;
         $this->imageConverter = $imageConverter;
         $this->storagePathProvider = $storagePathProvider;
+
+        if ('test' === $parameterBag->get('kernel.environment')) {
+            $this->populateImages = false;
+        }
     }
 
     public function load(ObjectManager $manager): void
     {
-        $this->removeFiles($this->storagePathProvider->getRelativeDir(StoragePathProvider::PATH_RAW));
-        $this->removeFiles($this->storagePathProvider->getRelativeDir(StoragePathProvider::PATH_IMAGES));
-        $this->removeFiles($this->storagePathProvider->getRelativeDir(StoragePathProvider::PATH_THUMBS));
+        if ($this->populateImages) {
+            $this->removeFiles($this->storagePathProvider->getRelativeDir(StoragePathProvider::PATH_RAW));
+            $this->removeFiles($this->storagePathProvider->getRelativeDir(StoragePathProvider::PATH_IMAGES));
+            $this->removeFiles($this->storagePathProvider->getRelativeDir(StoragePathProvider::PATH_THUMBS));
+        }
 
         $albums = $this->albumProvider->getAll();
         $this->imageConverter->setApplyUnsharpMask(false);
@@ -93,9 +104,11 @@ class ImageFixtures extends Fixture implements DependentFixtureInterface
                         $file->getExtension()
                     );
 
-                    $this->createImage($filename, $file->getName());
-                    /* @noinspection PhpUnhandledExceptionInspection */
-                    $this->imageConverter->convert($file);
+                    if ($this->populateImages) {
+                        $this->createImage($filename, $file->getName());
+                        /* @noinspection PhpUnhandledExceptionInspection */
+                        $this->imageConverter->convert($file);
+                    }
                 }
             }
         }
