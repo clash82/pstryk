@@ -1,6 +1,7 @@
 /public_html/storage/raw/
 /public_html/storage/images/
 /public_html/storage/thumbs/
+/public_html/static/music/
 
 ###> symfony/framework-bundle ###
 /.env.local

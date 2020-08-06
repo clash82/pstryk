@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{{ album.title }}</title>
+        {{ encore_entry_link_tags(album.slug) }}
+        <base href="{{ getRoute(null) }}">
+        <meta name="author" content="Rafał Toborek">
+        <meta name="copyright" content="Rafał Toborek">
+        <meta name="robots" content="noindex, nofollow, noarchive">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <meta name="description" content="{{ album.description }}">
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="{{ getRouteWithPagination('') }}">
+        <meta property="og:title" content="{{ album.title }}">
+        <meta property="og:description" content="{{ album.description }}">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/favicon/rpfoto.png') }}">
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-sm-4 text-center text-sm-left about">
+                    <div class="note">
+                        Przez trzy lata (2007 ‒ 2010), razem z przyjacielem zajmowaliśmy się zawodowo obsługą fotograficzną i filmową wesel oraz innych uroczystości takich jak chrzciny, roczki czy studniówki. Było fajnie (dobrze się bawiłem) i pożytecznie (wiele się nauczyłem). W tym miejscu pozostawiam mały ślad tego co już minęło i nie powróci.
+                    </div>
+                    <div class="copyright">
+                        &copy; <a href="https://toborek.info" target="_blank">Rafał Toborek</a>
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-8">
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            {% for image in items[0].images %}
+                                <div class="swiper-slide">
+                                    <div class="frame">
+                                        <img src="{{ image.filePath.thumbPublicPath }}" class="img-fluid"
+                                             width="{{ image.imageDetails.thumbWidth }}"
+                                             height="{{ image.imageDetails.thumbHeight }}"
+                                             {% if image.description is not empty %}alt="{{ image.description }}"{% endif %}>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{ encore_entry_script_tags(album.slug) }}
+
+        <script>
+            var musicPath = '/static/music/';
+
+            function playAudio(list) {
+                var file = list[Math.floor(Math.random()*list.length)],
+                    audio = new Howl({
+                        src: [musicPath + file],
+                        volume: 0.1,
+                        autoplay: true,
+                        loop: true
+                    });
+
+                audio.play();
+            }
+
+            // load music files index and initialize audio player
+            s = document.createElement('script');
+            s.src = musicPath + 'playlist.js';
+            document.body.appendChild(s);
+
+            // initialize swiper gallery
+            new swiper('.swiper-container', {
+                cssMode: true,
+                loop: true,
+                autoHeight: true,
+                mousewheel: true,
+                centeredSlides: true,
+                lazy: true,
+                autoplay: {
+                    delay: 2500,
+                    disableOnInteraction: false
+                }
+            });
+
+            var _paq = window._paq = window._paq || [];
+            _paq.push(['trackPageView']);
+            _paq.push(['enableLinkTracking']);
+            (function() {
+                var u="https://analityka.toborek.info/";
+                _paq.push(['setTrackerUrl', u+'matomo.php']);
+                _paq.push(['setSiteId', '22']);
+                var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+                g.type='text/javascript'; g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+            })();
+        </script>
+    </body>
+</html>

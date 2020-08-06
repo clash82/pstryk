@@ -1,8 +1,8 @@
 This repository is a home for `Pstryk` gallery framework.
 
-App was built on top of Symfony 5 framework.
+App was built on top of Symfony 5.1 framework.
 
-Type `make` in project root directory to obtain list of useful commands to help you work with the common tasks (eg. `make cache`).
+Type `make` in project root directory to obtain list of useful commands which will help you work with the common tasks (eg. `make cache`).
 
 Installation
 ------------
@@ -70,6 +70,15 @@ make assets
 make db-reload
 ``` 
 
+Testing
+-------
+
+- use built-in command to run phpunit test suite:
+
+```bash
+make test
+```
+
 Deployment
 ----------
 
@@ -77,6 +86,12 @@ Deployment
 
 ```bash
 make prod
+```
+
+- go back to work in `dev` mode:
+
+```bash
+make dev
 ```
 
 Gallery in action
@@ -87,8 +102,14 @@ Sites powered by gallery framework:
 - [Stalker Photo](https://stalker.toborek.info)
 - [Galeria pewnego pstryka](https://pstryk.toborek.info)
 - [Rafał Story](https://rafal.toborek.info)
+- [Z archiwum RP Foto](https://rpfoto.toborek.info)
 
 Who and why?
 ------------
 
-Me - [Rafał Toborek](https://toborek.info/kontakt/) and because I was in need for a versatile solution to build galleries for my photos. Framework was build to satisfy my expectations and for sure will not be suitable for everyone. Anyways, feel free to check what's under the hood of my websites and to learn something new.
+Me - [Rafał Toborek](https://toborek.info/kontakt/) and because I was in need for a flexible solution to build galleries for my photos. Framework was build to satisfy my expectations and for sure will not be suitable for everyone. But anyways... feel free to check what's under the hood of my websites and to learn something new.
+
+My offer
+--------
+
+If you like my framework and/or you've seen my sites in action and you want me to help you to create a gallery for you then please do not hesitate to [contact me](https://toborek.info/kontakt/).

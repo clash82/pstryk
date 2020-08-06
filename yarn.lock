@@ -2487,6 +2487,13 @@ dom-serializer@0:
     domelementtype "^2.0.1"
     entities "^2.0.0"
 
+dom7@^3.0.0-alpha.7:
+  version "3.0.0-alpha.7"
+  resolved "https://registry.yarnpkg.com/dom7/-/dom7-3.0.0-alpha.7.tgz#3b4ba156a83fa37fb3fa34b8ab40a1a41a56feb1"
+  integrity sha512-3epkQPsKsbk2Dixqqgm2DT/KzhiAPByjDK7emu6owwFLbM5UoiqWKgdsH+6PpMEgoeR6Ex/bW1UbOe0FWZU0zg==
+  dependencies:
+    ssr-window "^3.0.0-alpha.1"
+
 domain-browser@^1.1.1:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/domain-browser/-/domain-browser-1.2.0.tgz#3d31f50191a6749dd1375a7f522e823d42e54eda"
@@ -3422,6 +3429,11 @@ hosted-git-info@^2.1.4:
   version "2.8.8"
   resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.8.8.tgz#7539bd4bc1e0e0a895815a2e0262420b12858488"
   integrity sha512-f/wzC2QaWBs7t9IYqB4T3sR1xviIViXJRJTWBlx2Gf3g0Xi5vI7Yy4koXQ1c9OYDGHN9sBy1DQ2AB8fqZBWhUg==
+
+howler@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/howler/-/howler-2.2.0.tgz#0e2c780997ae65ab9a1a186333031beac1c63c6b"
+  integrity sha512-sGPkrAQy7jh5mNDbkRNG0F82R2HFDYNsQXBcX4smXQT0y0F4UMsa/+jXaGwWvcrajWr2tDB7JUkH7G5qSnuIyQ==
 
 hpack.js@^2.1.6:
   version "2.1.6"
@@ -6274,6 +6286,11 @@ sshpk@^1.7.0:
     safer-buffer "^2.0.2"
     tweetnacl "~0.14.0"
 
+ssr-window@^3.0.0-alpha.1, ssr-window@^3.0.0-alpha.4:
+  version "3.0.0-alpha.4"
+  resolved "https://registry.yarnpkg.com/ssr-window/-/ssr-window-3.0.0-alpha.4.tgz#0c69a18c4305ecccdd8e11596155ca07b635f345"
+  integrity sha512-+dBRP/pZ+VyITxTzD0lMDzDwN/BmfUl8xi2e6t5Nz4+FqUphfcBLB1OOUSYCRNFB25rD3c8AJRYpY5rHTbL+kg==
+
 ssri@^6.0.1:
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/ssri/-/ssri-6.0.1.tgz#2a3c41b28dd45b62b63676ecb74001265ae9edd8"
@@ -6493,6 +6510,14 @@ svgo@^1.0.0:
     stable "^0.1.8"
     unquote "~1.1.1"
     util.promisify "~1.0.0"
+
+swiper@^6.1.1:
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/swiper/-/swiper-6.1.1.tgz#1246f28557dd33968dc43e926bc6e9e9a7b3850d"
+  integrity sha512-w6rmEUnpuSWvzuIDJ+nTi7YQ4+pvr++zUnBO2VxkzOZbzQzcMNKNw1yj0RFEok682IHDPCs3LXSl8zSQ+zDEdw==
+  dependencies:
+    dom7 "^3.0.0-alpha.7"
+    ssr-window "^3.0.0-alpha.4"
 
 symfony-collection@ninsuo/symfony-collection:
   version "2.1.30"

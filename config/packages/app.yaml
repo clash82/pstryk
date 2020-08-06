@@ -124,3 +124,27 @@ app:
 
             watermark:
                 enabled: false
+
+        rpfoto:
+            title: Z archiwum RP Foto
+            description: Kilka fotograficznych migawek z czasów działalności RP Foto.
+            pagination_limit: 1
+            feed_limit: 1
+
+            domains:
+                - rpfoto.toborek.info
+                - rpfoto.lh
+
+            image_horizontal_max_width: 1600
+            image_vertical_max_height: 1200
+
+            thumb_horizontal_max_width: 1300
+            thumb_vertical_max_height: 1000
+
+            tags:
+                author: Rafal Toborek
+                copyright: Rafal Toborek
+                description: https://rpfoto.toborek.info
+
+            watermark:
+                enabled: false
