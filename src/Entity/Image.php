@@ -35,7 +35,7 @@ class Image
     private $name;
 
     /**
-     * @var string
+     * @var string|null
      *
      * @ORM\Column(type="string", name="description", length=255, nullable=true)
      * @Assert\Type(type="string")
@@ -224,7 +224,7 @@ class Image
         return $this->description;
     }
 
-    public function setDescription(string $description): self
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
 

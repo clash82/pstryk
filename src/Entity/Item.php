@@ -43,7 +43,7 @@ class Item
     private $title;
 
     /**
-     * @var string
+     * @var string|null
      *
      * @ORM\Column(type="string", name="description", nullable=true)
      * @Assert\Type(type="string")
@@ -169,7 +169,7 @@ class Item
         return $this;
     }
 
-    public function setDescription(string $description): self
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
 
