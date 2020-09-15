@@ -138,10 +138,13 @@ class Image
 
         $this->file = null;
 
+        // we have to recreate object to generate new file paths
+        $this->filePath = new FilePath($this->storagePathProvider, $this->filename, $this->extension);
+
         /* @noinspection PhpUnhandledExceptionInspection */
         $this->imageConverter->convert($this);
 
-        // we're overriding existing file, file id was regenerated, thus we should remove leftovers
+        // we're overriding existing file so file id is being regenerated, now we should remove old files
         foreach ($this->filesToRemove as $oldFile) {
             @unlink($oldFile);
         }
