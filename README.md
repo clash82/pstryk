@@ -1,5 +1,10 @@
 This repository is a home for `Pstryk` gallery framework.
 
+[![SymfonyInsight](https://insight.symfony.com/projects/5a6bc537-52c1-4464-a19d-a0edbc2ec66e/mini.svg)](https://insight.symfony.com/projects/5a6bc537-52c1-4464-a19d-a0edbc2ec66e)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/clash82/pstryk/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/clash82/pstryk/?branch=master)
+[![Maintainability](https://api.codeclimate.com/v1/badges/8bbe8819071d7b533f33/maintainability)](https://codeclimate.com/github/clash82/pstryk/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/8bbe8819071d7b533f33/test_coverage)](https://codeclimate.com/github/clash82/pstryk/test_coverage)
+
 App was built on top of Symfony 5.1 framework.
 
 Type `make` in project root directory to obtain list of useful commands which will help you work with the common tasks (eg. `make cache`).
