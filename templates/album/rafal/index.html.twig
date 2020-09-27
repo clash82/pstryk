@@ -1,6 +1,6 @@
 {% extends 'album/rafal/base.html.twig' %}
 
-{% block title %}Co się wydarzyło już nie wróci...{% endblock %}
+{% block title %}Rafał Toborek{% endblock %}
 {% block description %}Tutaj opowiadam coś o sobie.{% endblock %}
 {% block image %}{% if items[0] is defined and items[0].mainImage is not empty %}{{ getRoute(null) }}/{{ items[0].mainImage.filePath.thumbPublicPath }}{% endif %}{% endblock %}
 
