@@ -25,6 +25,9 @@ class MatomoExtension extends AbstractExtension
         ];
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
+     */
     public function getCode(int $siteId, bool $useScriptTag = true): string
     {
         return $this->matomoHelper->getCode($siteId, $useScriptTag);

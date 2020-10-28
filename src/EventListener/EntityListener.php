@@ -85,12 +85,20 @@ class EntityListener
                 continue;
             }
 
-            /* @phan-suppress-next-line PhanTypeMismatchArgumentNullableInternal */
-            @unlink($file->getFilePath()->getRawRelativePath());
-            /* @phan-suppress-next-line PhanTypeMismatchArgumentNullableInternal */
-            @unlink($file->getFilePath()->getThumbRelativePath());
-            /* @phan-suppress-next-line PhanTypeMismatchArgumentNullableInternal */
-            @unlink($file->getFilePath()->getImageRelativePath());
+            if (file_exists($file->getFilePath()->getRawRelativePath())) {
+                /* @phan-suppress-next-line PhanTypeMismatchArgumentNullableInternal */
+                unlink($file->getFilePath()->getRawRelativePath());
+            }
+
+            if (file_exists($file->getFilePath()->getThumbRelativePath())) {
+                /* @phan-suppress-next-line PhanTypeMismatchArgumentNullableInternal */
+                unlink($file->getFilePath()->getThumbRelativePath());
+            }
+
+            if (file_exists($file->getFilePath()->getImageRelativePath())) {
+                /* @phan-suppress-next-line PhanTypeMismatchArgumentNullableInternal */
+                unlink($file->getFilePath()->getImageRelativePath());
+            }
         }
 
         $this->filesToDelete = [];

@@ -146,7 +146,11 @@ class Image
 
         // we're overriding existing file so file id is being regenerated, now we should remove old files
         foreach ($this->filesToRemove as $oldFile) {
-            @unlink($oldFile);
+            if (!file_exists($oldFile)) {
+                continue;
+            }
+
+            unlink($oldFile);
         }
     }
 
