@@ -2,6 +2,8 @@
 /public_html/storage/images/
 /public_html/storage/thumbs/
 /public_html/static/music/
+.htaccess
+.htpasswd
 
 ###> symfony/framework-bundle ###
 /.env.local
