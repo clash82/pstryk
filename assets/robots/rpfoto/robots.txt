@@ -1,2 +1,8 @@
 User-agent: *
-Disallow: /
+Disallow: /storage/*
+
+User-agent: Twitterbot
+Allow: /storage/*
+
+User-agent: facebookexternalhit
+Allow: /storage/*
