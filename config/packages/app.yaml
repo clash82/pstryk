@@ -13,7 +13,7 @@ app:
 
             domains:
                 - pstryk.toborek.info
-                - pstryk.lh
+                - pstryk.toborek.lh
                 - localhost # to support functional tests only
 
             image_horizontal_max_width: 1600
@@ -46,7 +46,7 @@ app:
 
             domains:
                 - stalker.toborek.info
-                - stalker.lh
+                - stalker.toborek.lh
 
             image_horizontal_max_width: 1600
             image_vertical_max_height: 1200
@@ -77,7 +77,7 @@ app:
 
             domains:
                 - tysia.toborek.info
-                - tysia.lh
+                - tysia.toborek.lh
 
             image_horizontal_max_width: 1600
             image_vertical_max_height: 1600
@@ -109,7 +109,7 @@ app:
 
             domains:
                 - rafal.toborek.info
-                - rafal.lh
+                - rafal.toborek.lh
 
             image_horizontal_max_width: 1600
             image_vertical_max_height: 1200
@@ -133,7 +133,7 @@ app:
 
             domains:
                 - rpfoto.toborek.info
-                - rpfoto.lh
+                - rpfoto.toborek.lh
 
             image_horizontal_max_width: 1600
             image_vertical_max_height: 1200
