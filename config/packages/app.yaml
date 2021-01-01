@@ -10,6 +10,7 @@ app:
             pagination_limit: 3
             feed_limit: 10
             feed_url: http://feeds.feedburner.com/RafalPstryka
+            sitemap: true
 
             domains:
                 - pstryk.toborek.info
@@ -43,6 +44,7 @@ app:
             pagination_limit: 3
             feed_limit: 10
             feed_url: http://feeds.feedburner.com/stalkerphoto
+            sitemap: true
 
             domains:
                 - stalker.toborek.info
@@ -74,6 +76,7 @@ app:
             description: Album Zuzi.
             pagination_limit: 5
             feed_limit: 10
+            sitemap: false
 
             domains:
                 - tysia.toborek.info
@@ -106,6 +109,7 @@ app:
             pagination_limit: 3
             feed_limit: 10
             feed_url: http://feeds.feedburner.com/rafaltoborek
+            sitemap: true
 
             domains:
                 - rafal.toborek.info
@@ -130,6 +134,7 @@ app:
             description: Kilka fotograficznych migawek z czasów działalności RP Foto.
             pagination_limit: 1
             feed_limit: 1
+            sitemap: false
 
             domains:
                 - rpfoto.toborek.info

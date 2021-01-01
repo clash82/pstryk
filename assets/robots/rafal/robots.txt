@@ -1,3 +1,5 @@
+Sitemap: https://rafal.toborek.info/sitemap.xml
+
 User-agent: *
 Disallow: /storage/*
 

@@ -64,7 +64,7 @@ class AlbumController extends AbstractController
     }
 
     /**
-     * @Route("/{itemSlug}", requirements={"itemSlug" = "^((?!feed|zaplecze|robots\.txt).)*$"}, name="app_album_item")
+     * @Route("/{itemSlug}", requirements={"itemSlug" = "^((?!feed|zaplecze|robots\.txt|sitemap\.xml).)*$"}, name="app_album_item")
      */
     public function item(string $itemSlug): Response
     {

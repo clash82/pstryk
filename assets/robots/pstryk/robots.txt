@@ -1,3 +1,5 @@
+Sitemap: https://pstryk.toborek.info/sitemap.xml
+
 User-agent: *
 Disallow: /storage/*
 

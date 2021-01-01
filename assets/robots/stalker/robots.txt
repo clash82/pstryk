@@ -1,3 +1,5 @@
+Sitemap: https://stalker.toborek.info/sitemap.xml
+
 User-agent: *
 Disallow: /storage/*
 

@@ -26,6 +26,9 @@ class Album
     /** @var string */
     private $feedUrl;
 
+    /** @var bool */
+    private $sitemap;
+
     /** @var Domains */
     private $domains;
 
@@ -80,6 +83,12 @@ class Album
             throw new ArrayKeyNotExistsException('feed_url');
         }
         $this->feedUrl = $album['feed_url'];
+
+        if (!isset($album['sitemap'])) {
+            /* @noinspection PhpUnhandledExceptionInspection */
+            throw new ArrayKeyNotExistsException('sitemap');
+        }
+        $this->sitemap = $album['sitemap'];
 
         if (!isset($album['image_horizontal_max_width'])) {
             /* @noinspection PhpUnhandledExceptionInspection */
@@ -143,6 +152,11 @@ class Album
     public function getFeedUrl(): string
     {
         return $this->feedUrl;
+    }
+
+    public function getSitemap(): bool
+    {
+        return $this->sitemap;
     }
 
     public function getDomains(): Domains
