@@ -1,0 +1,29 @@
+{% extends 'album/pstryk/base.html.twig' %}
+
+{% block title %}Wszystkie albumy{% endblock %}
+{% block description %}Wszystkie albumy posortowane na podstawie lat.{% endblock %}
+
+{% block body %}
+    <div class="row frame-item">
+        <div class="frame-item-title col-12 text-center">
+            {{ block('title') }}
+        </div>
+
+        {% if history is defined %}
+            <div class="frame-history col-12">
+                <ul class="frame-history-year">
+                    {% for year, items in history %}
+                        <li>
+                            {{ year }}
+                            <ul class="frame-history-items">
+                                {% for item in items %}
+                                    <li><a href="{{ getRoute(item.slug) }}">{{ item.title }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

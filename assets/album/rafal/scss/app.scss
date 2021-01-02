@@ -105,6 +105,34 @@ header {
   .frame-item-image-description:last-child{
     margin-bottom: 0;
   }
+
+  .frame-history {
+    margin-top: 1.5em;
+
+    .frame-history-year {
+      list-style-type: none;
+      font-weight: bold;
+
+      .frame-history-items {
+        font-weight: normal;
+        margin-top: .4em;
+        list-style-type: none;
+        padding-left: .8em;
+        padding-bottom: 1em;
+        padding-right: 2em;
+
+        a:link,
+        a:visited {
+          color: #939393;
+          text-decoration: none;
+        }
+
+        a:hover {
+          color: #d1d1d1;
+        }
+      }
+    }
+  }
 }
 
 .paginator {

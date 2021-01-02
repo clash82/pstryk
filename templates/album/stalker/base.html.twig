@@ -12,7 +12,9 @@
         <meta name="description" content="{{ block('description')|striptags }}">
         <meta property="og:type" content="website">
         <meta property="og:url" content="{{ getRouteWithPagination('') }}">
-        <meta property="og:image" content="{{ block('image') }}">
+        {% if block('image') is defined %}
+            <meta property="og:image" content="{{ block('image') }}">
+        {% endif %}
         <meta property="og:title" content="{{ block('title') }}">
         <meta property="og:description" content="{{ block('description')|striptags }}">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -47,7 +49,8 @@
                 <div class="row">
                     <div class="footer-details col-6 text-center align-self-center">
                         <a href="https://kontakt.toborek.info" target="_blank">Napisz do mnie</a> lub
-                        <a href="{{ album.feedUrl }}" target="_blank">zasubskrybuj kanał RSS</a>
+                        <a href="{{ album.feedUrl }}" target="_blank">zasubskrybuj kanał RSS</a><br>
+                        Przejrzyj listę <a href="{{ getRoute('sitemap') }}">wszystkich albumów</a>
                     </div>
                     <div class="footer-details col-6 text-center align-self-center">
                         Zobacz również:
