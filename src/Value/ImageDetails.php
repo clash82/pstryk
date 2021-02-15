@@ -62,7 +62,7 @@ class ImageDetails
         ];
 
         if (file_exists($file)) {
-            list($width, $height) = getimagesize($file);
+            [$width, $height] = getimagesize($file);
 
             $this->cache[$file] = [
                 self::ATTR_WIDTH => $width,

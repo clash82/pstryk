@@ -176,7 +176,7 @@ class Item
         return $this;
     }
 
-    public function setDate(\DateTime $date): self
+    public function setDate(DateTime $date): self
     {
         $this->date = $date;
 
@@ -219,7 +219,7 @@ class Item
         return $this->slug;
     }
 
-    public function getDate(): ?\DateTime
+    public function getDate(): ?DateTime
     {
         return $this->date;
     }

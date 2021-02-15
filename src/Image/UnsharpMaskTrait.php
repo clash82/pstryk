@@ -91,7 +91,7 @@ trait UnsharpMaskTrait
 
                     if (($rOrig !== $rNew) || ($gOrig !== $gNew) || ($bOrig !== $bNew)) {
                         $pixCol = imagecolorallocate($image, (int) $rNew, (int) $gNew, (int) $bNew);
-                        imagesetpixel($image, $x, $y, $pixCol);
+                        imagesetpixel($image, $x, $y, (int) $pixCol);
                     }
                 }
             }

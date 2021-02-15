@@ -68,7 +68,8 @@ if ["%1"] == ["psalm"] (
 )
 
 if ["%1"] == ["phan"] (
-    php vendor\phan\phan\phan
+    set PHAN_DISABLE_XDEBUG_WARN="1"
+    php vendor\phan\phan\phan --allow-polyfill-parser
 )
 
 if ["%1"] == ["phpmd"] (

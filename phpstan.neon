@@ -9,7 +9,6 @@ parameters:
     excludes_analyse:
         - %rootDir%/tests
     ignoreErrors:
-        - '#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition::children\(\).#'
         - '#Call to static method increment\(\) on an unknown class counter.#'
         - '#Call to static method getCode\(\) on an unknown class matomo.#'
     doctrine:

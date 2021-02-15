@@ -3,7 +3,7 @@ This repository is a home for `Pstryk` gallery framework.
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/clash82/pstryk/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/clash82/pstryk/?branch=master)
 [![Maintainability](https://api.codeclimate.com/v1/badges/8bbe8819071d7b533f33/maintainability)](https://codeclimate.com/github/clash82/pstryk/maintainability)
 
-App was built on top of Symfony 5.1 framework.
+App was built on top of PHP 7.4 and Symfony 5.2 framework.
 
 Type `make` in project root directory to obtain list of useful commands which will help you work with the common tasks (eg. `make cache`).
 
@@ -110,9 +110,9 @@ Sites powered by gallery framework:
 Who and why?
 ------------
 
-Me - [Rafał Toborek](https://toborek.info/kontakt/) and because I was in need for a flexible solution to build galleries for my photos. Framework was build to satisfy my expectations and for sure will not be suitable for everyone. But anyways... feel free to check what's under the hood of my websites and to learn something new.
+Me - [Rafał Toborek](https://kontakt.toborek.info) and because I was in need for a flexible solution to build galleries for my photos. Framework was build to satisfy my expectations and for sure will not be suitable for everyone. But anyways... feel free to check what's under the hood of my websites and to learn something new.
 
 My offer
 --------
 
-If you like my framework and/or you've seen my sites in action and you want me to help you to create a gallery for you then please do not hesitate to [contact me](https://toborek.info/kontakt/).
+If you like my framework and/or you've seen my sites in action and you want me to help you to create a gallery for you then please do not hesitate to [contact me](https://kontakt.toborek.info).
