@@ -51,9 +51,11 @@
         </main>
 
         <footer class="text-center">
-            &copy; 2020 <a href="https://toborek.info" target="_blank">Rafał Toborek</a>
+            &copy; 2020-{{ 'now'|date('Y') }} <a href="https://toborek.info" target="_blank">Rafał Toborek</a>
             <br>
-            Powered by Symfony Framework v5
+            Powered by Symfony Framework v{{ getSymfonyVersion() }}
+            <br>
+            on top of PHP v{{ getPhpVersion() }}
         </footer>
     </body>
 </html>
