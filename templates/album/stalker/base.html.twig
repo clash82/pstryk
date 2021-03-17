@@ -32,13 +32,6 @@
             </main>
 
             <footer>
-                <div class="row">
-                    <div class="col-12 footer-copyright text-center">
-                        Z potrzeby serca &copy; 2012 ‒ {{ 'now'|date('Y') }} <a href="https://toborek.info" target="_blank">Rafał Toborek</a>
-                        <br>
-                        Proszę nie upubliczniać bez wcześniejszej zgody
-                    </div>
-                </div>
                 <div class="row text-center">
                     <div class="col-12 footer-social text-center">
                         <a href="https://facebook.com/StalkerPhotoToborek" target="_blank" title="Odwiedź stronę na Facebooku">
@@ -47,15 +40,15 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="footer-details col-6 text-center align-self-center">
+                    <div class="footer-details col-12 col-md-6 text-center align-self-center">
                         <a href="https://kontakt.toborek.info" target="_blank">Napisz do mnie</a> lub
                         <a href="{{ album.feedUrl }}" target="_blank">zasubskrybuj kanał RSS</a><br>
                         Przejrzyj listę <a href="{{ getRoute('sitemap') }}">wszystkich albumów</a>
                     </div>
-                    <div class="footer-details col-6 text-center align-self-center">
-                        Zobacz również:
+                    <div class="footer-details col-12 col-md-6 text-center align-self-center">
+                        Z potrzeby serca &copy; 2012 ‒ {{ 'now'|date('Y') }} <a href="https://toborek.info" target="_blank">Rafał Toborek</a>
                         <br>
-                        <a href="https://tora.art.pl" target="_blank">Rafał Toborek Fotografia</a>
+                        Proszę nie upubliczniać bez wcześniejszej zgody
                     </div>
                 </div>
             </footer>
