@@ -145,6 +145,7 @@ header {
 }
 
 footer {
+  margin-top: 2em;
   margin-bottom: 2em;
 
   a:link,
@@ -166,13 +167,6 @@ footer {
 .footer-social {
   margin-top: 2em;
   margin-bottom: 2em;
-}
-
-.svg-facebook {
-  width: 6em;
-  height: 6em;
-  background: url('../../../images/album/stalker/facebook.svg');
-  margin: 0 auto;
 }
 
 .page-link {
