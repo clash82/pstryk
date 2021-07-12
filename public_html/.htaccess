@@ -1,3 +1,10 @@
+# Those rules can be removed on any other hosting except mine :-)
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{HTTP_HOST} ^(www.)?grenoble.art.pl(.*)$ [NC]
+    RewriteRule ^(.*)$ https://pstryk.toborek.info/francja-wspominajac-grenoble [R=301,L]
+</IfModule>
+
 <ifModule mod_deflate.c>
     AddOutputFilterByType DEFLATE text/html text/xml text/css text/plain
     AddOutputFilterByType DEFLATE image/svg+xml application/xhtml+xml application/xml
