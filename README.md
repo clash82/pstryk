@@ -3,7 +3,7 @@ This repository is a home for `Pstryk` gallery framework.
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/clash82/pstryk/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/clash82/pstryk/?branch=master)
 [![Maintainability](https://api.codeclimate.com/v1/badges/8bbe8819071d7b533f33/maintainability)](https://codeclimate.com/github/clash82/pstryk/maintainability)
 
-App was built on top of PHP 7.4 and Symfony 5.2 framework.
+App was built on top of PHP 8.0 and Symfony 5.4 framework.
 
 Type `make` in project root directory to obtain list of useful commands which will help you work with the common tasks (eg. `make cache`).
 

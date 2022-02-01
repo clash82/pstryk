@@ -20,7 +20,7 @@ class VersionExtension extends AbstractExtension
 
     public function getPhpVersion(): string
     {
-        return phpversion();
+        return PHP_VERSION;
     }
 
     public function getSymfonyVersion(): string

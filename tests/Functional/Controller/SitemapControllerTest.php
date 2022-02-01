@@ -9,7 +9,7 @@ class SitemapControllerTest extends WebTestCase
 {
     const HOST = 'localhost';
 
-    public function setUp()
+    public function setUp(): void
     {
         $_SERVER['SERVER_NAME'] = self::HOST;
     }
