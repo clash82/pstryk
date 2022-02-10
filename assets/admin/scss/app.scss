@@ -125,23 +125,6 @@ footer {
   box-shadow: 0.1em 0.1em 0.5em #888;
 }
 
-#drop-area {
-  display: none;
-  text-align: center;
-  padding: 2em 0;
-  margin: 1em 0;
-  color: #555;
-  border: 0.07em dashed #555;
-  border-radius: 7px;
-  cursor: default;
-  background: #F7FAFA;
-
-  &.hover {
-    color: #f00;
-    border: 0.07em solid #ed0000;
-  }
-}
-
 .filter-header,
 .filter-options {
   margin-bottom: 1em;
