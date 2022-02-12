@@ -11,9 +11,9 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserFixtures extends Fixture
 {
-    const DEFAULT_EMAIL = 'admin@toborek.info';
-    const DEFAULT_PASSWORD = 'admin';
-    const DEFAULT_ROLE = 'ROLE_ADMIN';
+    public const DEFAULT_EMAIL = 'admin@toborek.info';
+    public const DEFAULT_PASSWORD = 'admin';
+    public const DEFAULT_ROLE = 'ROLE_ADMIN';
 
     /** @var UserPasswordEncoderInterface */
     private $passwordEncoder;

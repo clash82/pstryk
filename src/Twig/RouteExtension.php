@@ -22,7 +22,7 @@ class RouteExtension extends AbstractExtension
         $request = $requestStack->getCurrentRequest();
 
         if (null !== $request) {
-            $this->attributes = $request->attributes->get('_route_params');
+            $this->attributes = (array) $request->attributes->get('_route_params');
         }
     }
 

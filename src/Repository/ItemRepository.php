@@ -84,10 +84,11 @@ class ItemRepository extends ServiceEntityRepository
 
     public function getById(int $itemId): Item
     {
+        /** @var Item $item */
         $item = $this->getEntityManager()->getRepository(Item::class)
             ->find($itemId);
 
-        if (!$item) {
+        if (!\is_object($item)) {
             /* @noinspection PhpUnhandledExceptionInspection */
             throw new RecordNotFoundException(sprintf('No item found for id [%d]', $itemId));
         }

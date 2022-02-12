@@ -12,14 +12,14 @@ use Doctrine\Persistence\ObjectManager;
 
 class ItemFixtures extends Fixture
 {
-    const ITEM_REFERENCE = '%s_item_%d';
-    const ITEM_LIMIT = 12;
+    public const ITEM_REFERENCE = '%s_item_%d';
+    public const ITEM_LIMIT = 12;
 
-    const DEFAULT_TITLE = '%s item title %d';
-    const DEFAULT_DESCRIPTION = '%s description for item %d';
-    const DEFAULT_SLUG = '%s-item-slug-%d';
-    const DEFAULT_LATITUDE = 50.31406826596857;
-    const DEFAULT_LONGITUDE = 19.119177460670475;
+    public const DEFAULT_TITLE = '%s item title %d';
+    public const DEFAULT_DESCRIPTION = '%s description for item %d';
+    public const DEFAULT_SLUG = '%s-item-slug-%d';
+    public const DEFAULT_LATITUDE = 50.31406826596857;
+    public const DEFAULT_LONGITUDE = 19.119177460670475;
 
     /** @var AlbumProvider */
     private $albumProvider;

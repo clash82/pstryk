@@ -665,6 +665,9 @@
     "twig/twig": {
         "version": "v3.0.3"
     },
+    "tysonandre/var_representation_polyfill": {
+        "version": "0.1.1"
+    },
     "vimeo/psalm": {
         "version": "3.12.1"
     },

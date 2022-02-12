@@ -33,7 +33,7 @@ class ControllerActionExtension extends AbstractExtension
         if (null !== $request) {
             $pattern = "#Controller\\\([a-zA-Z]*)Controller#";
             $matches = [];
-            preg_match($pattern, $request->get('_controller'), $matches);
+            preg_match($pattern, \strval($request->get('_controller')), $matches);
 
             return strtolower($matches[1]);
         }
@@ -48,7 +48,7 @@ class ControllerActionExtension extends AbstractExtension
         if (null !== $request) {
             $pattern = '#::([a-zA-Z]*)#';
             $matches = [];
-            preg_match($pattern, $request->get('_controller'), $matches);
+            preg_match($pattern, \strval($request->get('_controller')), $matches);
 
             return $matches[1];
         }

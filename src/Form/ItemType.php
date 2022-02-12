@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Form;
 
+use App\Entity\Item;
 use App\Provider\AdminSettingsProvider;
 use App\Provider\AlbumProvider;
 use Symfony\Component\Form\AbstractType;
@@ -40,6 +41,7 @@ class ItemType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options = []): void
     {
+        /** @var Item $data */
         $data = $builder->getData();
 
         $builder

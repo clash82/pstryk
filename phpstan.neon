@@ -6,7 +6,7 @@ parameters:
     checkGenericClassInNonGenericObjectType: false
     symfony:
         container_xml_path: '%rootDir%/../../../var/cache/dev/App_KernelDevDebugContainer.xml'
-    excludes_analyse:
+    excludePaths:
         - %rootDir%/tests
     ignoreErrors:
         - '#Call to static method increment\(\) on an unknown class counter.#'

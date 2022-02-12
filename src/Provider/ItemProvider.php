@@ -10,9 +10,9 @@ use Knp\Component\Pager\Pagination\PaginationInterface;
 
 class ItemProvider
 {
-    const DEFAULT_PAGE_LIMIT = 10;
-    const DEFAULT_SORT_COLUMN = 'date';
-    const DEFAULT_SORT_DIRECTION = 'desc';
+    public const DEFAULT_PAGE_LIMIT = 10;
+    public const DEFAULT_SORT_COLUMN = 'date';
+    public const DEFAULT_SORT_DIRECTION = 'desc';
 
     /** @var ItemRepository */
     private $itemRepository;

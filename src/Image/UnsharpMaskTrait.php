@@ -12,9 +12,9 @@ trait UnsharpMaskTrait
      * Unsharp mask algorithm by Torstein Hønsi 2003-07.
      * thoensi_at_netcom_dot_no. Please leave this notice.
      *
-     * @param resource $image
+     * @param \GdImage $image
      *
-     * @return resource
+     * @return \GdImage
      *
      * @SuppressWarnings(PHPMD.ElseExpression)
      */
@@ -44,9 +44,9 @@ trait UnsharpMaskTrait
         $w = imagesx($image);
         $h = imagesy($image);
 
-        /** @var resource $imgCanvas */
+        /** @var \GdImage $imgCanvas */
         $imgCanvas = imagecreatetruecolor($w, $h);
-        /** @var resource $imgBlur */
+        /** @var \GdImage $imgBlur */
         $imgBlur = imagecreatetruecolor($w, $h);
 
         // Gaussian blur matrix:

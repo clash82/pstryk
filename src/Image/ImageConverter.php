@@ -28,7 +28,7 @@ class ImageConverter
 {
     use UnsharpMaskTrait;
 
-    const JPEG_QUALITY = 93;
+    public const JPEG_QUALITY = 93;
 
     /** @var Album */
     private $album = null;
@@ -198,6 +198,7 @@ class ImageConverter
             /* @noinspection PhpUnhandledExceptionInspection */
             $reflectionProperty = new ReflectionProperty(Image::class, 'resource');
             $reflectionProperty->setAccessible(true);
+            /** @var \GdImage $resource */
             $resource = $reflectionProperty->getValue($image);
 
             $updatedResource = $this->applyUnsharpMask($resource, 60, 1, 1);

@@ -9,10 +9,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class AdminSettingsProvider
 {
-    const ITEM_FILTER_OPTIONS_ITEMS_PER_PAGE = 'itemsPerPage';
-    const ITEM_FILTER_OPTIONS_ITEMS_SORT = 'itemsSort';
-    const ITEM_FILTER_OPTIONS_ITEMS_SORT_DIRECTION = 'itemsSortDirection';
-    const ITEM_FILTER_OPTIONS_ALBUM = 'album';
+    public const ITEM_FILTER_OPTIONS_ITEMS_PER_PAGE = 'itemsPerPage';
+    public const ITEM_FILTER_OPTIONS_ITEMS_SORT = 'itemsSort';
+    public const ITEM_FILTER_OPTIONS_ITEMS_SORT_DIRECTION = 'itemsSortDirection';
+    public const ITEM_FILTER_OPTIONS_ALBUM = 'album';
 
     /** @var Request|null */
     private $request;

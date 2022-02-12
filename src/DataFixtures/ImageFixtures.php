@@ -24,17 +24,17 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class ImageFixtures extends Fixture implements DependentFixtureInterface
 {
-    const FILE_LIMIT = 5; // how many files should be generated per item
+    public const FILE_LIMIT = 5; // how many files should be generated per item
 
-    const DEFAULT_EXTENSION = 'jpg';
-    const DEFAULT_DESCRIPTION = 'Description for album %s, item %d, file %d';
-    const DEFAULT_NAME = 'album_%s_item_%d_file_%d.jpg';
-    const DEFAULT_IMAGE_WIDTH = 1600;
-    const DEFAULT_IMAGE_HEIGHT = 800;
-    const DEFAULT_IMAGE_COLOR = '6F890F';
-    const DEFAULT_FONT_PATH = 'c:\windows\fonts\tahoma.ttf';
-    const DEFAULT_FONT_SIZE = 30;
-    const DEFAULT_FONT_COLOR = [255, 255, 255];
+    public const DEFAULT_EXTENSION = 'jpg';
+    public const DEFAULT_DESCRIPTION = 'Description for album %s, item %d, file %d';
+    public const DEFAULT_NAME = 'album_%s_item_%d_file_%d.jpg';
+    public const DEFAULT_IMAGE_WIDTH = 1600;
+    public const DEFAULT_IMAGE_HEIGHT = 800;
+    public const DEFAULT_IMAGE_COLOR = '6F890F';
+    public const DEFAULT_FONT_PATH = 'c:\windows\fonts\tahoma.ttf';
+    public const DEFAULT_FONT_SIZE = 30;
+    public const DEFAULT_FONT_COLOR = [255, 255, 255];
 
     /** @var AlbumProvider */
     private $albumProvider;

@@ -8,43 +8,54 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class StoragePathProvider
 {
-    const PATH_RAW = 0;
-    const PATH_IMAGES = 1;
-    const PATH_THUMBS = 2;
+    public const PATH_RAW = 0;
+    public const PATH_IMAGES = 1;
+    public const PATH_THUMBS = 2;
 
-    const RELATIVE_PATH_PATTERN = '%s/../../public_html/%s';
+    public const RELATIVE_PATH_PATTERN = '%s/../../public_html/%s';
 
-    /** @var ParameterBagInterface */
-    private $parameterBag;
+    /** @var string */
+    private $storageImagesPath;
+
+    /** @var string */
+    private $storageThumbsPath;
+
+    /** @var string */
+    private $storageRawPath;
 
     public function __construct(ParameterBagInterface $parameterBag)
     {
-        $this->parameterBag = $parameterBag;
+        /** @var array $app */
+        $app = $parameterBag->get('app');
+
+        $this->storageImagesPath = $app['storage_images_path'];
+        $this->storageThumbsPath = $app['storage_thumbs_path'];
+        $this->storageRawPath = $app['storage_raw_path'];
     }
 
     public function getPublicDir(int $path): string
     {
         if (self::PATH_IMAGES === $path) {
-            return sprintf('/%s', $this->parameterBag->get('app')['storage_images_path']);
+            return sprintf('/%s', $this->storageImagesPath);
         }
 
         if (self::PATH_THUMBS === $path) {
-            return sprintf('/%s', $this->parameterBag->get('app')['storage_thumbs_path']);
+            return sprintf('/%s', $this->storageThumbsPath);
         }
 
-        return sprintf('/%s', $this->parameterBag->get('app')['storage_raw_path']);
+        return sprintf('/%s', $this->storageRawPath);
     }
 
     public function getRelativeDir(int $path): string
     {
         if (self::PATH_IMAGES === $path) {
-            return sprintf(self::RELATIVE_PATH_PATTERN, __DIR__, $this->parameterBag->get('app')['storage_images_path']);
+            return sprintf(self::RELATIVE_PATH_PATTERN, __DIR__, $this->storageImagesPath);
         }
 
         if (self::PATH_THUMBS === $path) {
-            return sprintf(self::RELATIVE_PATH_PATTERN, __DIR__, $this->parameterBag->get('app')['storage_thumbs_path']);
+            return sprintf(self::RELATIVE_PATH_PATTERN, __DIR__, $this->storageThumbsPath);
         }
 
-        return sprintf(self::RELATIVE_PATH_PATTERN, __DIR__, $this->parameterBag->get('app')['storage_raw_path']);
+        return sprintf(self::RELATIVE_PATH_PATTERN, __DIR__, $this->storageRawPath);
     }
 }

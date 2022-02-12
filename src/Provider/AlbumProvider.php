@@ -16,8 +16,12 @@ class AlbumProvider
 
     public function __construct(ParameterBagInterface $parameterBag)
     {
-        $albums = $parameterBag->get('app')['albums'];
+        $albums = (array) $parameterBag->get('app')['albums'];
 
+        /**
+         * @var string $album
+         * @var array $settings
+         */
         foreach ($albums as $album => $settings) {
             /* @noinspection PhpUnhandledExceptionInspection */
             $this->albums[] = new Album($album, $settings);

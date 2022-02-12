@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Controller\Helper\DomainHelper;
-use App\Provider\AlbumProvider;
 use App\Provider\ItemProvider;
 use App\Value\Album;
 use Knp\Component\Pager\Pagination\PaginationInterface;
@@ -18,19 +17,14 @@ class SitemapController extends AbstractController
     /** @var ItemProvider */
     private $itemProvider;
 
-    /** @var AlbumProvider */
-    private $albumProvider;
-
     /** @var DomainHelper */
     private $domainHelper;
 
     public function __construct(
         ItemProvider $itemProvider,
-        AlbumProvider $albumProvider,
         DomainHelper $domainHelper
     ) {
         $this->itemProvider = $itemProvider;
-        $this->albumProvider = $albumProvider;
         $this->domainHelper = $domainHelper;
     }
 

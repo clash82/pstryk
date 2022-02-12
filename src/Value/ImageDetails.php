@@ -6,8 +6,8 @@ namespace App\Value;
 
 class ImageDetails
 {
-    const ATTR_WIDTH = 'width';
-    const ATTR_HEIGHT = 'height';
+    public const ATTR_WIDTH = 'width';
+    public const ATTR_HEIGHT = 'height';
 
     /** @var FilePath */
     private $filePath;
@@ -62,7 +62,7 @@ class ImageDetails
         ];
 
         if (file_exists($file)) {
-            [$width, $height] = getimagesize($file);
+            [$width, $height] = (array) getimagesize($file);
 
             $this->cache[$file] = [
                 self::ATTR_WIDTH => $width,
