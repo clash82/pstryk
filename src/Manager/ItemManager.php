@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Manager;
 
@@ -9,8 +7,7 @@ use App\Repository\ItemRepository;
 
 class ItemManager
 {
-    /** @var ItemRepository */
-    private $itemRepository;
+    private ItemRepository $itemRepository;
 
     public function __construct(ItemRepository $itemRepository)
     {

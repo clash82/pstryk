@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Controller;
 
@@ -21,26 +19,19 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AdminController extends AbstractController
 {
-    /** @var ItemProvider */
-    private $itemProvider;
+    private ItemProvider $itemProvider;
 
-    /** @var ItemManager */
-    private $itemManager;
+    private ItemManager $itemManager;
 
-    /** @var AlbumProvider */
-    private $albumProvider;
+    private AlbumProvider $albumProvider;
 
-    /** @var ParametersHelper */
-    private $parametersHelper;
+    private ParametersHelper $parametersHelper;
 
-    /** @var RedirectHelper */
-    private $redirectHelper;
+    private RedirectHelper $redirectHelper;
 
-    /** @var AdminSettingsProvider */
-    private $adminSettingsProvider;
+    private AdminSettingsProvider $adminSettingsProvider;
 
-    /** @var AdminSettingsManager */
-    private $adminSettingsManager;
+    private AdminSettingsManager $adminSettingsManager;
 
     public function __construct(
         ItemProvider $itemProvider,
@@ -181,11 +172,9 @@ class AdminController extends AbstractController
             $errorDescription = $e->getMessage();
         }
 
-        $jsonResponse = new JsonResponse([
+        return new JsonResponse([
             'errorCode' => $errorCode,
             'errorDescription' => $errorDescription,
         ]);
-
-        return $jsonResponse;
     }
 }

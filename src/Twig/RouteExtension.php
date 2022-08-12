@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Twig;
 
@@ -11,8 +9,7 @@ use Twig\TwigFunction;
 
 class RouteExtension extends AbstractExtension
 {
-    /** @var array */
-    protected $attributes = [
+    protected array $attributes = [
         'page' => 1,
     ];
 

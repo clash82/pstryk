@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Value;
 
@@ -8,14 +6,11 @@ use App\Provider\StoragePathProvider;
 
 class FilePath
 {
-    /** @var string */
-    private $filename;
+    private string $filename;
 
-    /** @var string */
-    private $extension;
+    private string $extension;
 
-    /** @var StoragePathProvider */
-    private $storagePathProvider;
+    private StoragePathProvider $storagePathProvider;
 
     public function __construct(
         StoragePathProvider $storagePathProvider,

@@ -1,26 +1,24 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller;
 
-use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class AlbumControllerTest extends WebTestCase
 {
-    const HOST = 'localhost';
+    private const HOST = 'localhost';
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $_SERVER['SERVER_NAME'] = self::HOST;
     }
 
-    public function testIndex()
+    public function testIndex(): void
     {
-        /** @var KernelBrowser $client */
         $client = static::createClient();
 
         $client->request('GET', sprintf('https://%s', self::HOST));
 
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertSame(200, $client->getResponse()->getStatusCode());
     }
 }

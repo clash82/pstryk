@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\DataFixtures;
 
@@ -24,29 +22,25 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class ImageFixtures extends Fixture implements DependentFixtureInterface
 {
-    public const FILE_LIMIT = 5; // how many files should be generated per item
+    private const FILE_LIMIT = 5; // how many files should be generated per item
 
-    public const DEFAULT_EXTENSION = 'jpg';
-    public const DEFAULT_DESCRIPTION = 'Description for album %s, item %d, file %d';
-    public const DEFAULT_NAME = 'album_%s_item_%d_file_%d.jpg';
-    public const DEFAULT_IMAGE_WIDTH = 1600;
-    public const DEFAULT_IMAGE_HEIGHT = 800;
-    public const DEFAULT_IMAGE_COLOR = '6F890F';
-    public const DEFAULT_FONT_PATH = 'c:\windows\fonts\tahoma.ttf';
-    public const DEFAULT_FONT_SIZE = 30;
-    public const DEFAULT_FONT_COLOR = [255, 255, 255];
+    private const DEFAULT_EXTENSION = 'jpg';
+    private const DEFAULT_DESCRIPTION = 'Description for album %s, item %d, file %d';
+    private const DEFAULT_NAME = 'album_%s_item_%d_file_%d.jpg';
+    private const DEFAULT_IMAGE_WIDTH = 1600;
+    private const DEFAULT_IMAGE_HEIGHT = 800;
+    private const DEFAULT_IMAGE_COLOR = '6F890F';
+    private const DEFAULT_FONT_PATH = 'c:\windows\fonts\tahoma.ttf';
+    private const DEFAULT_FONT_SIZE = 30;
+    private const DEFAULT_FONT_COLOR = [255, 255, 255];
 
-    /** @var AlbumProvider */
-    private $albumProvider;
+    private AlbumProvider $albumProvider;
 
-    /** @var ImageConverter */
-    private $imageConverter;
+    private ImageConverter $imageConverter;
 
-    /** @var StoragePathProvider */
-    private $storagePathProvider;
+    private StoragePathProvider $storagePathProvider;
 
-    /** @var bool */
-    private $populateImages = true;
+    private bool $populateImages = true;
 
     public function __construct(
         AlbumProvider $albumProvider,

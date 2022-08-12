@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Value;
 
@@ -8,8 +6,7 @@ use App\Exception\ArrayKeyNotExistsException;
 
 class Domains
 {
-    /** @var array */
-    private $domains = [];
+    private array $domains = [];
 
     public function __construct(array $settings = [])
     {

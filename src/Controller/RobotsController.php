@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Controller;
 
@@ -12,11 +10,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class RobotsController extends AbstractController
 {
-    /** @var DomainHelper */
-    private $domainHelper;
+    private DomainHelper $domainHelper;
 
-    /** @var Packages */
-    private $packages;
+    private Packages $packages;
 
     public function __construct(
         DomainHelper $domainHelper,

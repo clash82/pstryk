@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Controller;
 
@@ -15,17 +13,13 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AlbumController extends AbstractController
 {
-    /** @var ItemProvider */
-    private $itemProvider;
+    private ItemProvider $itemProvider;
 
-    /** @var AlbumProvider */
-    private $albumProvider;
+    private AlbumProvider $albumProvider;
 
-    /** @var DomainHelper */
-    private $domainHelper;
+    private DomainHelper $domainHelper;
 
-    /** @var CounterHelper */
-    private $counterHelper;
+    private CounterHelper $counterHelper;
 
     public function __construct(
         ItemProvider $itemProvider,

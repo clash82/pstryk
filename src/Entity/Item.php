@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -25,75 +23,57 @@ class Item
     use Id;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", name="album", nullable=false)
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      */
-    private $album;
+    private ?string $album = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", name="title", nullable=false)
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      */
-    private $title;
+    private string $title;
 
     /**
-     * @var string|null
-     *
      * @ORM\Column(type="string", name="description", nullable=true)
      * @Assert\Type(type="string")
      */
-    private $description;
+    private ?string $description = null;
 
     /**
-     * @var string|null
-     *
      * @Gedmo\Slug(fields={"title"}, updatable=false, separator="-")
      * @ORM\Column(name="slug", nullable=true, length=191, unique=true)
      * @Assert\Type(type="string")
      */
-    private $slug;
+    private ?string $slug = null;
 
     /**
-     * @var \DateTime
-     *
      * @ORM\Column(type="datetime", name="date", nullable=false)
      */
-    private $date;
+    private DateTime $date;
 
     /**
-     * @var float
-     *
      * @ORM\Column(type="decimal", name="latitude", precision=10, scale=8, nullable=true)
      */
-    private $latitude;
+    private float $latitude;
 
     /**
-     * @var float
-     *
      * @ORM\Column(type="decimal", name="longitude", precision=11, scale=8, nullable=true)
      */
-    private $longitude;
+    private float $longitude;
 
     /**
-     * @var bool
-     *
      * @ORM\Column(type="boolean", name="is_active", nullable=false)
      */
-    private $isActive = true;
+    private bool $isActive = true;
 
     /**
-     * @var Collection
-     *
      * @ORM\OneToMany(targetEntity="Image", mappedBy="item", cascade={"persist"}, orphanRemoval=true)
      * @ORM\OrderBy({"position" = "ASC"})
      */
-    private $images;
+    private Collection $images;
 
     public function __construct()
     {
@@ -226,12 +206,12 @@ class Item
 
     public function getLatitude(): float
     {
-        return (float) $this->latitude;
+        return $this->latitude;
     }
 
     public function getLongitude(): float
     {
-        return (float) $this->longitude;
+        return $this->longitude;
     }
 
     public function getIsActive(): bool

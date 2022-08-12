@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Provider;
 
@@ -14,8 +12,7 @@ class ItemProvider
     public const DEFAULT_SORT_COLUMN = 'date';
     public const DEFAULT_SORT_DIRECTION = 'desc';
 
-    /** @var ItemRepository */
-    private $itemRepository;
+    private ItemRepository $itemRepository;
 
     public function __construct(ItemRepository $itemRepository)
     {

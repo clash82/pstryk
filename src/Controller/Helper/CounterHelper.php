@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Controller\Helper;
 
@@ -12,8 +10,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
  */
 class CounterHelper
 {
-    /** @var bool */
-    private $isEnabled = false;
+    private bool $isEnabled = false;
 
     public function __construct(ParameterBagInterface $parameterBag)
     {

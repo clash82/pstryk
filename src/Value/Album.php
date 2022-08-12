@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Value;
 
@@ -8,47 +6,33 @@ use App\Exception\ArrayKeyNotExistsException;
 
 class Album
 {
-    /** @var string */
-    private $slug;
+    private string $slug;
 
-    /** @var string */
-    private $title;
+    private string $title;
 
-    /** @var string */
-    private $description;
+    private string $description;
 
-    /** @var int */
-    private $paginationLimit;
+    private int $paginationLimit;
 
-    /** @var int */
-    private $feedLimit;
+    private int $feedLimit;
 
-    /** @var string */
-    private $feedUrl;
+    private string $feedUrl;
 
-    /** @var bool */
-    private $sitemap;
+    private bool $sitemap;
 
-    /** @var Domains */
-    private $domains;
+    private Domains $domains;
 
-    /** @var Tags */
-    private $tags;
+    private Tags $tags;
 
-    /** @var Watermark */
-    private $watermark;
+    private Watermark $watermark;
 
-    /** @var int */
-    private $imageHorizontalMaxWidth;
+    private int $imageHorizontalMaxWidth;
 
-    /** @var int */
-    private $imageVerticalMaxHeight;
+    private int $imageVerticalMaxHeight;
 
-    /** @var int */
-    private $thumbHorizontalMaxWidth;
+    private int $thumbHorizontalMaxWidth;
 
-    /** @var int */
-    private $thumbVerticalMaxHeight;
+    private int $thumbVerticalMaxHeight;
 
     public function __construct(string $slug, array $album = [])
     {

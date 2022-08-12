@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Manager;
 
@@ -11,8 +9,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class AdminSettingsManager
 {
-    /** @var JsonResponse */
-    private $jsonResponse;
+    private ?JsonResponse $jsonResponse = null;
 
     public function setJsonResponse(JsonResponse $response): self
     {

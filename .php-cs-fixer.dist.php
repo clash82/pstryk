@@ -1,15 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
 $finder = PhpCsFixer\Finder::create()
     ->ignoreVCSIgnored(true)
     ->path('src/')
-    ->in(__DIR__);
+    ->path('tests/')
+    ->in(__DIR__)
+;
 
-return (new PhpCsFixer\Config())
+$config = new PhpCsFixer\Config();
+
+return $config
     ->setRiskyAllowed(true)
     ->setRules([
         '@PHP71Migration' => true,
-        '@Symfony' => true,
         '@Symfony:risky' => true,
         'array_syntax' => ['syntax' => 'short'],
         'combine_consecutive_unsets' => true,
@@ -31,6 +34,7 @@ return (new PhpCsFixer\Config())
         'strict_comparison' => true,
         'strict_param' => true,
         'phpdoc_align' => false,
-        'declare_strict_types' => true
+        'declare_strict_types' => true,
     ])
-    ->setFinder($finder);
+    ->setFinder($finder)
+;

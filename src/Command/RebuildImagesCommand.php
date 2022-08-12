@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Command;
 
@@ -18,14 +16,11 @@ class RebuildImagesCommand extends Command
 {
     protected static $defaultName = 'app:rebuild-images';
 
-    /** @var ImageConverter */
-    private $imageConverter;
+    private ImageConverter $imageConverter;
 
-    /** @var ItemProvider */
-    private $itemProvider;
+    private ItemProvider $itemProvider;
 
-    /** @var AlbumProvider */
-    private $albumProvider;
+    private AlbumProvider $albumProvider;
 
     public function __construct(
         ImageConverter $imageConverter,

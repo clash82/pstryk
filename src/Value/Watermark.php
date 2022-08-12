@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Value;
 
@@ -9,29 +7,21 @@ use App\Value\Enum\WatermarkPosition;
 
 class Watermark
 {
-    /** @var bool */
-    private $isEnabled;
+    private bool $isEnabled;
 
-    /** @var string */
-    private $file;
+    private string $file;
 
-    /** @var int */
-    private $width;
+    private int $width;
 
-    /** @var int */
-    private $height;
+    private int $height;
 
-    /** @var int */
-    private $transparency;
+    private int $transparency;
 
-    /** @var int */
-    private $position;
+    private int $position;
 
-    /** @var int */
-    private $horizontalMargin;
+    private int $horizontalMargin;
 
-    /** @var int */
-    private $verticalMargin;
+    private int $verticalMargin;
 
     public function __construct(array $settings = [])
     {

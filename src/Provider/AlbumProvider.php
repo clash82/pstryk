@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Provider;
 
@@ -12,7 +10,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 class AlbumProvider
 {
     /** @var Album[] */
-    private $albums = [];
+    private array $albums = [];
 
     public function __construct(ParameterBagInterface $parameterBag)
     {

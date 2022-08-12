@@ -4,7 +4,7 @@ namespace App\Tests\Functional\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class SitemapControllerTest extends WebTestCase
+class RobotsControllerTest extends WebTestCase
 {
     private const HOST = 'localhost';
 
@@ -18,15 +18,6 @@ class SitemapControllerTest extends WebTestCase
         $client = static::createClient();
 
         $client->request('GET', sprintf('https://%s/sitemap', self::HOST));
-
-        $this->assertSame(200, $client->getResponse()->getStatusCode());
-    }
-
-    public function testIndexXml(): void
-    {
-        $client = static::createClient();
-
-        $client->request('GET', sprintf('https://%s/sitemap.xml', self::HOST));
 
         $this->assertSame(200, $client->getResponse()->getStatusCode());
     }

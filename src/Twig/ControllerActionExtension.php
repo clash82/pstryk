@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Twig;
 
@@ -10,8 +8,7 @@ use Twig\TwigFunction;
 
 class ControllerActionExtension extends AbstractExtension
 {
-    /** @var RequestStack */
-    protected $requestStack;
+    protected RequestStack $requestStack;
 
     public function __construct(RequestStack $requestStack)
     {

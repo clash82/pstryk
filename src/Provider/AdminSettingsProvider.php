@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Provider;
 
@@ -14,8 +12,7 @@ class AdminSettingsProvider
     public const ITEM_FILTER_OPTIONS_ITEMS_SORT_DIRECTION = 'itemsSortDirection';
     public const ITEM_FILTER_OPTIONS_ALBUM = 'album';
 
-    /** @var Request|null */
-    private $request;
+    private ?Request $request = null;
 
     public function __construct(RequestStack $requestStack)
     {

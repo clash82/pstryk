@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\DataFixtures;
 
@@ -15,14 +13,13 @@ class ItemFixtures extends Fixture
     public const ITEM_REFERENCE = '%s_item_%d';
     public const ITEM_LIMIT = 12;
 
-    public const DEFAULT_TITLE = '%s item title %d';
-    public const DEFAULT_DESCRIPTION = '%s description for item %d';
-    public const DEFAULT_SLUG = '%s-item-slug-%d';
-    public const DEFAULT_LATITUDE = 50.31406826596857;
-    public const DEFAULT_LONGITUDE = 19.119177460670475;
+    private const DEFAULT_TITLE = '%s item title %d';
+    private const DEFAULT_DESCRIPTION = '%s description for item %d';
+    private const DEFAULT_SLUG = '%s-item-slug-%d';
+    private const DEFAULT_LATITUDE = 50.31406826596857;
+    private const DEFAULT_LONGITUDE = 19.119177460670475;
 
-    /** @var AlbumProvider */
-    private $albumProvider;
+    private AlbumProvider $albumProvider;
 
     public function __construct(AlbumProvider $albumProvider)
     {

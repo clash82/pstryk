@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Controller\Helper;
 
@@ -11,8 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class DomainHelper extends AbstractController
 {
-    /** @var AlbumProvider */
-    private $albumProvider;
+    private AlbumProvider $albumProvider;
 
     public function __construct(AlbumProvider $albumProvider)
     {

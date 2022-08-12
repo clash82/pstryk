@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Image;
 
@@ -12,13 +10,9 @@ trait UnsharpMaskTrait
      * Unsharp mask algorithm by Torstein Hønsi 2003-07.
      * thoensi_at_netcom_dot_no. Please leave this notice.
      *
-     * @param \GdImage $image
-     *
-     * @return \GdImage
-     *
      * @SuppressWarnings(PHPMD.ElseExpression)
      */
-    private function applyUnsharpMask($image, float $amount, float $radius, float $threshold)
+    private function applyUnsharpMask(\GdImage $image, float $amount, float $radius, float $threshold): \GdImage
     {
         // image is an image that is already created within php using
         // imgcreatetruecolor. No url! $img must be a truecolor image.

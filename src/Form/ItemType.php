@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Form;
 
@@ -22,11 +20,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ItemType extends AbstractType
 {
-    /** @var array */
-    private $albums = [];
+    private array $albums = [];
 
-    /** @var string|null */
-    private $defaultAlbum;
+    private ?string $defaultAlbum;
 
     public function __construct(AlbumProvider $albumProvider, AdminSettingsProvider $adminSettingsProvider)
     {
@@ -125,7 +121,7 @@ class ItemType extends AbstractType
         ]);
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'item';
     }

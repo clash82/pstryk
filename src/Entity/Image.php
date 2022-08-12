@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -26,80 +24,60 @@ class Image
     use Id;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", name="name", length=191, nullable=true)
      * @Assert\Type(type="string")
      * @Assert\Length(max=191)
      */
-    private $name;
+    private string $name;
 
     /**
-     * @var string|null
-     *
      * @ORM\Column(type="string", name="description", length=255, nullable=true)
      * @Assert\Type(type="string")
      * @Assert\Length(max=255)
      */
-    private $description;
+    private ?string $description;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", name="filename", length=40, nullable=true, unique=true)
      * @Assert\Type(type="string")
      * @Assert\Length(max=40)
      */
-    private $filename;
+    private string $filename;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", name="extension", length=3, nullable=true)
      * @Assert\Type(type="string")
      * @Assert\Length(max=3)
      */
-    private $extension;
+    private ?string $extension = null;
 
     /**
-     * @var bool
-     *
      * @ORM\Column(type="boolean", name="is_main", nullable=false)
      */
-    private $isMain = false;
+    private bool $isMain = false;
 
     /**
-     * @var int
-     *
      * @ORM\Column(type="integer", name="position")
      */
-    private $position = 0;
+    private int $position = 0;
 
     /**
-     * @var Item
-     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Item", inversedBy="images")
      * @ORM\JoinColumn(name="item_id", referencedColumnName="id", onDelete="CASCADE")
      */
-    private $item;
+    private Item $item;
 
-    /** @var StoragePathProvider */
-    private $storagePathProvider;
+    private StoragePathProvider $storagePathProvider;
 
-    /** @var ImageConverter */
-    private $imageConverter;
+    private ImageConverter $imageConverter;
 
-    /** @var UploadedFile|null */
-    private $file;
+    private ?UploadedFile $file = null;
 
-    /** @var array */
-    private $filesToRemove = [];
+    private array $filesToRemove = [];
 
-    /** @var FilePath */
-    private $filePath;
+    private ?FilePath $filePath = null;
 
-    /** @var ImageDetails */
-    private $imageDetails;
+    private ?ImageDetails $imageDetails = null;
 
     public function __toString(): string
     {

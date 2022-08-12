@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Image;
 
@@ -30,20 +28,15 @@ class ImageConverter
 
     public const JPEG_QUALITY = 93;
 
-    /** @var Album */
-    private $album = null;
+    private ?Album $album = null;
 
-    /** @var bool */
-    private $applyUnsharpMask = true;
+    private bool $applyUnsharpMask = true;
 
-    /** @var array */
-    private $watermark = [];
+    private array $watermark = [];
 
-    /** @var ParameterBagInterface */
-    private $parameterBag;
+    private ParameterBagInterface $parameterBag;
 
-    /** @var Packages */
-    private $packages;
+    private Packages $packages;
 
     public function __construct(ParameterBagInterface $parameterBag, Packages $packages)
     {

@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Controller;
 
@@ -14,11 +12,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SitemapController extends AbstractController
 {
-    /** @var ItemProvider */
-    private $itemProvider;
+    private ItemProvider $itemProvider;
 
-    /** @var DomainHelper */
-    private $domainHelper;
+    private DomainHelper $domainHelper;
 
     public function __construct(
         ItemProvider $itemProvider,

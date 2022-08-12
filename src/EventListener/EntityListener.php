@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\EventListener;
 
@@ -13,17 +11,13 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 
 class EntityListener
 {
-    /** @var StoragePathProvider */
-    private $storagePathProvider;
+    private StoragePathProvider $storagePathProvider;
 
-    /** @var ImageConverter */
-    private $imageConverter;
+    private ImageConverter $imageConverter;
 
-    /** @var AlbumProvider */
-    private $albumProvider;
+    private AlbumProvider $albumProvider;
 
-    /** @var array */
-    private $filesToDelete = [];
+    private array $filesToDelete = [];
 
     public function __construct(
         StoragePathProvider $storagePathProvider,

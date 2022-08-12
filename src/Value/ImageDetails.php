@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Value;
 
@@ -9,11 +7,9 @@ class ImageDetails
     public const ATTR_WIDTH = 'width';
     public const ATTR_HEIGHT = 'height';
 
-    /** @var FilePath */
-    private $filePath;
+    private FilePath $filePath;
 
-    /** @var array */
-    private $cache = [];
+    private array $cache = [];
 
     public function __construct(FilePath $filePath)
     {

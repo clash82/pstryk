@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Controller;
 
@@ -13,14 +11,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class FeedController extends AbstractController
 {
-    /** @var ItemProvider */
-    private $itemProvider;
+    private ItemProvider $itemProvider;
 
-    /** @var AlbumProvider */
-    private $albumProvider;
+    private AlbumProvider $albumProvider;
 
-    /** @var DomainHelper */
-    private $domainHelper;
+    private DomainHelper $domainHelper;
 
     public function __construct(
         ItemProvider $itemProvider,

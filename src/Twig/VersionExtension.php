@@ -1,10 +1,8 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Twig;
 
-use App\Kernel;
+use Symfony\Component\HttpKernel\Kernel as KernelAlias;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -25,6 +23,6 @@ class VersionExtension extends AbstractExtension
 
     public function getSymfonyVersion(): string
     {
-        return Kernel::VERSION;
+        return KernelAlias::VERSION;
     }
 }

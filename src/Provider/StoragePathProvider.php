@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Provider;
 
@@ -14,14 +12,11 @@ class StoragePathProvider
 
     public const RELATIVE_PATH_PATTERN = '%s/../../public_html/%s';
 
-    /** @var string */
-    private $storageImagesPath;
+    private string $storageImagesPath;
 
-    /** @var string */
-    private $storageThumbsPath;
+    private string $storageThumbsPath;
 
-    /** @var string */
-    private $storageRawPath;
+    private string $storageRawPath;
 
     public function __construct(ParameterBagInterface $parameterBag)
     {

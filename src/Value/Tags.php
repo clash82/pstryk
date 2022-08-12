@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Value;
 
@@ -8,14 +6,11 @@ use App\Exception\ArrayKeyNotExistsException;
 
 class Tags
 {
-    /** @var string */
-    private $author;
+    private string $author;
 
-    /** @var string */
-    private $copyright;
+    private string $copyright;
 
-    /** @var string */
-    private $description;
+    private string $description;
 
     public function __construct(array $settings = [])
     {

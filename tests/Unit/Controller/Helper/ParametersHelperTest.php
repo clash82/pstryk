@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Tests\Unit\Controller\Helper;
 
@@ -9,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class ParametersHelperTest extends TestCase
 {
-    public function testResolveParameters()
+    public function testResolveParameters(): void
     {
         $parametersHelper = new ParametersHelper();
 
@@ -18,7 +16,7 @@ class ParametersHelperTest extends TestCase
             'field2' => 'value2',
         ];
 
-        $this->assertEquals($expected, $parametersHelper->resolveParameters([
+        $this->assertSame($expected, $parametersHelper->resolveParameters([
             'field1', 'field2',
         ], $expected));
     }

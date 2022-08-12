@@ -4,7 +4,9 @@
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
     <url>
         <loc>{{ getRoute('sitemap') }}</loc>
-        <lastmod>{{ items[0].date|date('Y-m-d') }}</lastmod>
+        {% if items is not empty %}
+            <lastmod>{{ items[0].date|date('Y-m-d') }}</lastmod>
+        {% endif %}
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
