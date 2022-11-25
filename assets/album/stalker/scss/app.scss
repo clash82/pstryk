@@ -146,7 +146,6 @@ header {
 
 footer {
   margin-top: 2em;
-  margin-bottom: 2em;
 
   a:link,
   a:visited {
@@ -157,16 +156,14 @@ footer {
     color: #6f931f;
     text-decoration: none;
   }
+
+  .row div {
+    margin-bottom: 2em;
+  }
 }
 
 .footer-details {
   color: #6a6a6a;
-  margin-bottom: 1em;
-}
-
-.footer-social {
-  margin-top: 2em;
-  margin-bottom: 2em;
 }
 
 .page-link {

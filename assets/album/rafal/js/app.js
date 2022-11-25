@@ -2,6 +2,7 @@ require('bootstrap/dist/css/bootstrap.css');
 require('baguettebox.js/dist/baguetteBox.css');
 require('@fortawesome/fontawesome-free/css/all.css');
 require('fontsource-open-sans/latin-ext.css');
+require('../../common/scss/footer.scss');
 require('../scss/app.scss');
 
 const baguetteBox = require('baguettebox.js');
