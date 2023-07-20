@@ -12,7 +12,7 @@ class AdminSettingsProvider
     public const ITEM_FILTER_OPTIONS_ITEMS_SORT_DIRECTION = 'itemsSortDirection';
     public const ITEM_FILTER_OPTIONS_ALBUM = 'album';
 
-    private ?Request $request = null;
+    private ?Request $request;
 
     public function __construct(RequestStack $requestStack)
     {
@@ -21,7 +21,7 @@ class AdminSettingsProvider
 
     public function getItemsPerPage(): int
     {
-        if (null === $this->request) {
+        if (!$this->request instanceof Request) {
             return ItemProvider::DEFAULT_PAGE_LIMIT;
         }
 
@@ -33,7 +33,7 @@ class AdminSettingsProvider
 
     public function getItemsSort(): string
     {
-        if (null === $this->request) {
+        if (!$this->request instanceof Request) {
             return ItemProvider::DEFAULT_SORT_COLUMN;
         }
 
@@ -45,7 +45,7 @@ class AdminSettingsProvider
 
     public function getItemsSortDirection(): string
     {
-        if (null === $this->request) {
+        if (!$this->request instanceof Request) {
             return ItemProvider::DEFAULT_SORT_DIRECTION;
         }
 
@@ -57,7 +57,7 @@ class AdminSettingsProvider
 
     public function getAlbum(): string
     {
-        if (null === $this->request) {
+        if (!$this->request instanceof Request) {
             return '';
         }
 

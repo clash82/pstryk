@@ -2,17 +2,15 @@
 
 namespace App\Twig;
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 class ControllerActionExtension extends AbstractExtension
 {
-    protected RequestStack $requestStack;
-
-    public function __construct(RequestStack $requestStack)
+    public function __construct(protected RequestStack $requestStack)
     {
-        $this->requestStack = $requestStack;
     }
 
     public function getFunctions(): array
@@ -27,10 +25,10 @@ class ControllerActionExtension extends AbstractExtension
     {
         $request = $this->requestStack->getCurrentRequest();
 
-        if (null !== $request) {
+        if ($request instanceof Request) {
             $pattern = "#Controller\\\([a-zA-Z]*)Controller#";
             $matches = [];
-            preg_match($pattern, \strval($request->get('_controller')), $matches);
+            preg_match($pattern, (string) $request->get('_controller'), $matches);
 
             return strtolower($matches[1]);
         }
@@ -42,10 +40,10 @@ class ControllerActionExtension extends AbstractExtension
     {
         $request = $this->requestStack->getCurrentRequest();
 
-        if (null !== $request) {
+        if ($request instanceof Request) {
             $pattern = '#::([a-zA-Z]*)#';
             $matches = [];
-            preg_match($pattern, \strval($request->get('_controller')), $matches);
+            preg_match($pattern, (string) $request->get('_controller'), $matches);
 
             return $matches[1];
         }

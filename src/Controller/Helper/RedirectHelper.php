@@ -9,7 +9,7 @@ class RedirectHelper extends AbstractController
 {
     public function redirectToList(?string $returnPath, string $listRoute): RedirectResponse
     {
-        if (!empty($returnPath)) {
+        if ($returnPath !== null && $returnPath !== '') {
             $this->redirect($returnPath)->sendHeaders();
 
             exit;

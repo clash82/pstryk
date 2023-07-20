@@ -6,8 +6,6 @@ use App\Exception\ArrayKeyNotExistsException;
 
 class Album
 {
-    private string $slug;
-
     private string $title;
 
     private string $description;
@@ -34,10 +32,8 @@ class Album
 
     private int $thumbVerticalMaxHeight;
 
-    public function __construct(string $slug, array $album = [])
+    public function __construct(private string $slug, array $album = [])
     {
-        $this->slug = $slug;
-
         if (!isset($album['title'])) {
             /* @noinspection PhpUnhandledExceptionInspection */
             throw new ArrayKeyNotExistsException('title');

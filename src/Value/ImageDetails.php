@@ -7,13 +7,10 @@ class ImageDetails
     public const ATTR_WIDTH = 'width';
     public const ATTR_HEIGHT = 'height';
 
-    private FilePath $filePath;
-
     private array $cache = [];
 
-    public function __construct(FilePath $filePath)
+    public function __construct(private FilePath $filePath)
     {
-        $this->filePath = $filePath;
     }
 
     public function getRawWidth(): int
@@ -58,12 +55,14 @@ class ImageDetails
         ];
 
         if (file_exists($file)) {
-            [$width, $height] = (array) getimagesize($file);
+            $imageDetails = getimagesize($file);
 
-            $this->cache[$file] = [
-                self::ATTR_WIDTH => $width,
-                self::ATTR_HEIGHT => $height,
-            ];
+            if ($imageDetails !== false) {
+                $this->cache[$file] = [
+                    self::ATTR_WIDTH => $imageDetails[0],
+                    self::ATTR_HEIGHT => $imageDetails[1],
+                ];
+            }
         }
 
         return $this->cache[$file][$imageAttr];

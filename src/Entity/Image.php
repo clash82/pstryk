@@ -19,7 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * )
  * @ORM\Entity(repositoryClass="App\Repository\ImageRepository")
  */
-class Image
+class Image implements \Stringable
 {
     use Id;
 
@@ -35,7 +35,7 @@ class Image
      * @Assert\Type(type="string")
      * @Assert\Length(max=255)
      */
-    private ?string $description;
+    private ?string $description = null;
 
     /**
      * @ORM\Column(type="string", name="filename", length=40, nullable=true, unique=true)
@@ -105,7 +105,7 @@ class Image
      */
     public function upload(): void
     {
-        if (null === $this->file) {
+        if (!$this->file instanceof UploadedFile) {
             return;
         }
 
@@ -142,7 +142,7 @@ class Image
         $this->file = $uploadedFile;
 
         /* @phan-suppress-next-line PhanTypeMismatchArgumentNullableInternal */
-        if (null !== $this->getFilePath() && file_exists($this->getFilePath()->getRawRelativePath())) {
+        if ($this->getFilePath() instanceof FilePath && file_exists($this->getFilePath()->getRawRelativePath())) {
             // we want to update existing file, so we need to save a list of files
             // to be removed upon uploading process start
             $this->filesToRemove = [
@@ -152,11 +152,11 @@ class Image
             ];
         }
 
-        $this->name = empty($uploadedFile->getClientOriginalName()) ? '' : $uploadedFile->getClientOriginalName();
+        $this->name = '';
         $this->extension = $uploadedFile->getClientOriginalExtension();
         $this->filename = sha1(sprintf(
             '%d-%s-%s',
-            rand(1, 1000),
+            random_int(1, 1000),
             uniqid(),
             $this->name
         ));
@@ -170,7 +170,7 @@ class Image
             return null;
         }
 
-        if (null === $this->filePath) {
+        if (!$this->filePath instanceof FilePath) {
             $this->filePath = new FilePath($this->storagePathProvider, $this->filename, $this->extension);
         }
 
@@ -181,11 +181,11 @@ class Image
     {
         $filePath = $this->getFilePath();
 
-        if (null === $filePath) {
+        if (!$filePath instanceof FilePath) {
             return null;
         }
 
-        if (null === $this->imageDetails) {
+        if (!$this->imageDetails instanceof ImageDetails) {
             $this->imageDetails = new ImageDetails($this->filePath);
         }
 

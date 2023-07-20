@@ -13,24 +13,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AlbumController extends AbstractController
 {
-    private ItemProvider $itemProvider;
-
-    private AlbumProvider $albumProvider;
-
-    private DomainHelper $domainHelper;
-
-    private CounterHelper $counterHelper;
-
-    public function __construct(
-        ItemProvider $itemProvider,
-        AlbumProvider $albumProvider,
-        DomainHelper $domainHelper,
-        CounterHelper $counterHelper
-    ) {
-        $this->itemProvider = $itemProvider;
-        $this->albumProvider = $albumProvider;
-        $this->domainHelper = $domainHelper;
-        $this->counterHelper = $counterHelper;
+    public function __construct(private ItemProvider $itemProvider, private AlbumProvider $albumProvider, private DomainHelper $domainHelper, private CounterHelper $counterHelper)
+    {
     }
 
     /**
@@ -67,7 +51,7 @@ class AlbumController extends AbstractController
 
         try {
             $item = $this->itemProvider->getBySlug($album->getSlug(), $itemSlug);
-        } catch (RecordNotFoundException $e) {
+        } catch (RecordNotFoundException) {
             return $this->redirectToRoute('app_album_index');
         }
 

@@ -16,21 +16,11 @@ class RebuildImagesCommand extends Command
 {
     protected static $defaultName = 'app:rebuild-images';
 
-    private ImageConverter $imageConverter;
-
-    private ItemProvider $itemProvider;
-
-    private AlbumProvider $albumProvider;
-
     public function __construct(
-        ImageConverter $imageConverter,
-        ItemProvider $itemProvider,
-        AlbumProvider $albumProvider
+        private ImageConverter $imageConverter,
+        private ItemProvider $itemProvider,
+        private AlbumProvider $albumProvider
     ) {
-        $this->imageConverter = $imageConverter;
-        $this->itemProvider = $itemProvider;
-        $this->albumProvider = $albumProvider;
-
         parent::__construct();
     }
 
@@ -49,7 +39,7 @@ class RebuildImagesCommand extends Command
             );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         /** @var string $slug */
         $slug = $input->getArgument('album');
@@ -59,13 +49,13 @@ class RebuildImagesCommand extends Command
 
         try {
             $this->imageConverter->setAlbum($this->albumProvider->getBySlug($slug));
-        } catch (AlbumSettingsNotFoundException $e) {
+        } catch (AlbumSettingsNotFoundException) {
             $output->writeln(sprintf('<error>`%s` album was not found</error>', $slug));
 
             return 1;
         }
 
-        $this->imageConverter->setApplyUnsharpMask('false' === $input->getOption('unsharp') ? false : true);
+        $this->imageConverter->setApplyUnsharpMask('false' !== $input->getOption('unsharp'));
 
         $items = $this->itemProvider->getAllByAlbum($slug);
         $processedCounter = 0;

@@ -8,6 +8,8 @@ use App\Exception\FileNotExistsException;
 use App\Exception\ObjectNotInitializedException;
 use App\Value\Album;
 use App\Value\Enum\WatermarkPosition;
+use App\Value\FilePath;
+use Exception;
 use iBudasov\Iptc\Domain\Binary;
 use iBudasov\Iptc\Domain\Tag;
 use iBudasov\Iptc\Infrastructure\StandardPhpFileSystem;
@@ -34,14 +36,8 @@ class ImageConverter
 
     private array $watermark = [];
 
-    private ParameterBagInterface $parameterBag;
-
-    private Packages $packages;
-
-    public function __construct(ParameterBagInterface $parameterBag, Packages $packages)
+    public function __construct(private ParameterBagInterface $parameterBag, private Packages $packages)
     {
-        $this->parameterBag = $parameterBag;
-        $this->packages = $packages;
     }
 
     public function setAlbum(Album $album): self
@@ -60,12 +56,12 @@ class ImageConverter
 
     public function convert(ImageEntity $image): void
     {
-        if (null === $this->album) {
+        if (!$this->album instanceof \App\Value\Album) {
             /* @noinspection PhpUnhandledExceptionInspection */
             throw new AlbumNotSpecifiedException();
         }
 
-        if (null === $image->getFilePath()) {
+        if (!$image->getFilePath() instanceof FilePath) {
             /* @noinspection PhpUnhandledExceptionInspection */
             throw new ObjectNotInitializedException('FilePath');
         }
@@ -219,7 +215,7 @@ class ImageConverter
 
         try {
             $manager->write();
-        } catch (\Exception $e) {
+        } catch (Exception) {
             // should be fine, but in any case we'll just skip
         }
     }

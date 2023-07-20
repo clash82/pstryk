@@ -76,7 +76,7 @@ class AdminSettingsManager
 
     private function checkIfResponseIsInitialized(): void
     {
-        if (null === $this->jsonResponse) {
+        if (!$this->jsonResponse instanceof JsonResponse) {
             /* @noinspection PhpUnhandledExceptionInspection */
             throw new JsonResponseNotSetException();
         }

@@ -9,11 +9,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class DomainHelper extends AbstractController
 {
-    private AlbumProvider $albumProvider;
-
-    public function __construct(AlbumProvider $albumProvider)
+    public function __construct(private AlbumProvider $albumProvider)
     {
-        $this->albumProvider = $albumProvider;
     }
 
     public function getCurrentAlbum(): Album

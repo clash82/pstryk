@@ -6,20 +6,8 @@ use App\Provider\StoragePathProvider;
 
 class FilePath
 {
-    private string $filename;
-
-    private string $extension;
-
-    private StoragePathProvider $storagePathProvider;
-
-    public function __construct(
-        StoragePathProvider $storagePathProvider,
-        string $filename,
-        string $extension
-    ) {
-        $this->storagePathProvider = $storagePathProvider;
-        $this->filename = $filename;
-        $this->extension = $extension;
+    public function __construct(private StoragePathProvider $storagePathProvider, private string $filename, private string $extension)
+    {
     }
 
     public function getImagePublicPath(): string
