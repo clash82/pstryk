@@ -31,7 +31,6 @@ class MatomoHelper
 
     /**
      * @SuppressWarnings(PHPMD.StaticAccess)
-     * @psalm-suppress UndefinedClass
      */
     public function getCode(int $siteId, bool $useScriptTag): string
     {
@@ -40,7 +39,6 @@ class MatomoHelper
         }
 
         /* @noinspection PhpUndefinedClassInspection */
-        /* @phan-suppress-next-line PhanUndeclaredClassMethod */
         return \matomo::getCode($siteId, $useScriptTag);
     }
 }

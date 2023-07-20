@@ -141,7 +141,6 @@ class Image implements \Stringable
     {
         $this->file = $uploadedFile;
 
-        /* @phan-suppress-next-line PhanTypeMismatchArgumentNullableInternal */
         if ($this->getFilePath() instanceof FilePath && file_exists($this->getFilePath()->getRawRelativePath())) {
             // we want to update existing file, so we need to save a list of files
             // to be removed upon uploading process start
