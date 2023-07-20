@@ -12,16 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SitemapController extends AbstractController
 {
-    private ItemProvider $itemProvider;
-
-    private DomainHelper $domainHelper;
-
-    public function __construct(
-        ItemProvider $itemProvider,
-        DomainHelper $domainHelper
-    ) {
-        $this->itemProvider = $itemProvider;
-        $this->domainHelper = $domainHelper;
+    public function __construct(private ItemProvider $itemProvider, private DomainHelper $domainHelper)
+    {
     }
 
     /**
@@ -32,7 +24,7 @@ class SitemapController extends AbstractController
         /* @noinspection PhpUnhandledExceptionInspection */
         $album = $this->domainHelper->getCurrentAlbum();
 
-        if (false === $album->getSitemap()) {
+        if (!$album->getSitemap()) {
             return $this->redirectToRoute('app_album_index');
         }
 
@@ -59,7 +51,7 @@ class SitemapController extends AbstractController
         /* @noinspection PhpUnhandledExceptionInspection */
         $album = $this->domainHelper->getCurrentAlbum();
 
-        if (false === $album->getSitemap()) {
+        if (!$album->getSitemap()) {
             return $this->redirectToRoute('app_album_index');
         }
 
@@ -74,7 +66,7 @@ class SitemapController extends AbstractController
         return $this->itemProvider->getAllPaginated(
             $album->getSlug(),
             1,
-            999999
+            \PHP_INT_MAX
         );
     }
 }

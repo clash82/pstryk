@@ -7,11 +7,8 @@ use App\Repository\ItemRepository;
 
 class ItemManager
 {
-    private ItemRepository $itemRepository;
-
-    public function __construct(ItemRepository $itemRepository)
+    public function __construct(private ItemRepository $itemRepository)
     {
-        $this->itemRepository = $itemRepository;
     }
 
     public function deleteById(int $itemId): void

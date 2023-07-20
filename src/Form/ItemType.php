@@ -116,7 +116,7 @@ class ItemType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => 'App\Entity\Item',
+            'data_class' => Item::class,
             'creation_type' => null,
         ]);
     }

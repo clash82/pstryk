@@ -11,22 +11,10 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 
 class EntityListener
 {
-    private StoragePathProvider $storagePathProvider;
-
-    private ImageConverter $imageConverter;
-
-    private AlbumProvider $albumProvider;
-
     private array $filesToDelete = [];
 
-    public function __construct(
-        StoragePathProvider $storagePathProvider,
-        ImageConverter $imageConverter,
-        AlbumProvider $albumProvider
-    ) {
-        $this->storagePathProvider = $storagePathProvider;
-        $this->imageConverter = $imageConverter;
-        $this->albumProvider = $albumProvider;
+    public function __construct(private StoragePathProvider $storagePathProvider, private ImageConverter $imageConverter, private AlbumProvider $albumProvider)
+    {
     }
 
     public function postLoad(LifecycleEventArgs $args): void

@@ -11,6 +11,7 @@ use App\Manager\ItemManager;
 use App\Provider\AdminSettingsProvider;
 use App\Provider\AlbumProvider;
 use App\Provider\ItemProvider;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,36 +20,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AdminController extends AbstractController
 {
-    private ItemProvider $itemProvider;
-
-    private ItemManager $itemManager;
-
-    private AlbumProvider $albumProvider;
-
-    private ParametersHelper $parametersHelper;
-
-    private RedirectHelper $redirectHelper;
-
-    private AdminSettingsProvider $adminSettingsProvider;
-
-    private AdminSettingsManager $adminSettingsManager;
-
-    public function __construct(
-        ItemProvider $itemProvider,
-        ItemManager $itemManager,
-        AlbumProvider $albumProvider,
-        ParametersHelper $parametersHelper,
-        RedirectHelper $redirectHelper,
-        AdminSettingsProvider $adminSettingsProvider,
-        AdminSettingsManager $adminSettingsManager
-    ) {
-        $this->itemProvider = $itemProvider;
-        $this->itemManager = $itemManager;
-        $this->albumProvider = $albumProvider;
-        $this->parametersHelper = $parametersHelper;
-        $this->redirectHelper = $redirectHelper;
-        $this->adminSettingsProvider = $adminSettingsProvider;
-        $this->adminSettingsManager = $adminSettingsManager;
+    public function __construct(private ItemProvider $itemProvider, private ItemManager $itemManager, private AlbumProvider $albumProvider, private ParametersHelper $parametersHelper, private RedirectHelper $redirectHelper, private AdminSettingsProvider $adminSettingsProvider, private AdminSettingsManager $adminSettingsManager)
+    {
     }
 
     /**
@@ -114,12 +87,9 @@ class AdminController extends AbstractController
         $form = $this->createForm(ItemType::class, $item);
         $form->handleRequest($request);
 
-        if ($request->isMethod('POST')) {
-            if ($form->isSubmitted() && $form->isValid()) {
-                $this->itemManager->update($item);
-
-                $this->redirectHelper->redirectToList($request->query->get('return'), 'app_admin_item_list');
-            }
+        if ($request->isMethod('POST') && ($form->isSubmitted() && $form->isValid())) {
+            $this->itemManager->update($item);
+            $this->redirectHelper->redirectToList($request->query->get('return'), 'app_admin_item_list');
         }
 
         return $this->render('admin/parts/form.html.twig', [
@@ -139,12 +109,9 @@ class AdminController extends AbstractController
         ]);
         $form->handleRequest($request);
 
-        if ($request->isMethod('POST')) {
-            if ($form->isSubmitted() && $form->isValid()) {
-                $this->itemManager->update($item);
-
-                $this->redirectHelper->redirectToList($request->query->get('return'), 'app_admin_item_list');
-            }
+        if ($request->isMethod('POST') && ($form->isSubmitted() && $form->isValid())) {
+            $this->itemManager->update($item);
+            $this->redirectHelper->redirectToList($request->query->get('return'), 'app_admin_item_list');
         }
 
         return $this->render('admin/parts/form.html.twig', [
@@ -167,7 +134,7 @@ class AdminController extends AbstractController
 
         try {
             $this->itemManager->deleteById((int) $parameters['itemId']);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $errorCode = 1;
             $errorDescription = $e->getMessage();
         }

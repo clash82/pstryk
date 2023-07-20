@@ -18,7 +18,7 @@ class RouteExtension extends AbstractExtension
         /** @var Request $request */
         $request = $requestStack->getCurrentRequest();
 
-        if (null !== $request) {
+        if ($request instanceof Request) {
             $this->attributes = (array) $request->attributes->get('_route_params');
         }
     }

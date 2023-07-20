@@ -12,11 +12,8 @@ class ItemProvider
     public const DEFAULT_SORT_COLUMN = 'date';
     public const DEFAULT_SORT_DIRECTION = 'desc';
 
-    private ItemRepository $itemRepository;
-
-    public function __construct(ItemRepository $itemRepository)
+    public function __construct(private ItemRepository $itemRepository)
     {
-        $this->itemRepository = $itemRepository;
     }
 
     /**

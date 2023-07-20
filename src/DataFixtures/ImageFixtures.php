@@ -34,24 +34,14 @@ class ImageFixtures extends Fixture implements DependentFixtureInterface
     private const DEFAULT_FONT_SIZE = 30;
     private const DEFAULT_FONT_COLOR = [255, 255, 255];
 
-    private AlbumProvider $albumProvider;
-
-    private ImageConverter $imageConverter;
-
-    private StoragePathProvider $storagePathProvider;
-
     private bool $populateImages = true;
 
     public function __construct(
-        AlbumProvider $albumProvider,
-        StoragePathProvider $storagePathProvider,
-        ImageConverter $imageConverter,
+        private AlbumProvider $albumProvider,
+        private StoragePathProvider $storagePathProvider,
+        private ImageConverter $imageConverter,
         ParameterBagInterface $parameterBag
     ) {
-        $this->albumProvider = $albumProvider;
-        $this->imageConverter = $imageConverter;
-        $this->storagePathProvider = $storagePathProvider;
-
         if ('test' === $parameterBag->get('kernel.environment')) {
             $this->populateImages = false;
         }

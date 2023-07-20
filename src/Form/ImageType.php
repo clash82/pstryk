@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Image;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType as CoreFileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -68,7 +69,7 @@ class ImageType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => 'App\Entity\Image',
+            'data_class' => Image::class,
             'creation_type' => null,
         ]);
     }
