@@ -2,6 +2,13 @@ includes:
     - vendor/phpstan/phpstan-symfony/extension.neon
     - vendor/phpstan/phpstan-doctrine/extension.neon
 parameters:
+    level: 7
+    paths:
+        - src/
+        - tests/
+        - public_html/index.php
+        - rector.php
+        - .php-cs-fixer.php
     checkMissingIterableValueType: false
     checkGenericClassInNonGenericObjectType: false
     symfony:
