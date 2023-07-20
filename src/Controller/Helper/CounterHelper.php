@@ -31,7 +31,6 @@ class CounterHelper
 
     /**
      * @SuppressWarnings(PHPMD.StaticAccess)
-     * @psalm-suppress UndefinedClass
      */
     public function increment(string $counter): void
     {
@@ -40,7 +39,6 @@ class CounterHelper
         }
 
         /* @noinspection PhpUndefinedClassInspection */
-        /* @phan-suppress-next-line PhanUndeclaredClassMethod */
         \counter::increment($counter);
     }
 }
