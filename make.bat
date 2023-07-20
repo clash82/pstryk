@@ -9,21 +9,15 @@ if ["%1"] == [""] (
     echo assets       - build assets using webpack-encore
     echo assets-watch - recompile assets automatically when files change
     echo.
-    echo === Coding standards tools ===
-    echo phpstan      - analyse code with phpstan tool
-    echo phan         - analyse code with phan tool
-    echo phpmd        - analyse code with php md tool
-    echo psalm        - analyse code with psalm
-    echo phpcs        - analyse code with phpcs tool
-    echo phpcbf       - fix coding standards using phpcbf tool
+    echo Coding standards tools:
+    echo phpstan      - analyse code with phpstan
+    echo rector       - fix code deprecations using rector tool
     echo cs-fix       - fix coding standards using php-cs-fixer tool
-    echo cs-all       - execute all available coding analysers
-    echo fix-all      - execute all available fixers
     echo.
-    echo === Tests ===
+    echo Tests:
     echo test         - execute PhpUnit tests
     echo.
-    echo === Deployment tools ===
+    echo Deployment tools:
     echo dev          - prepare development environment
     echo prod         - install only `prod` dependencies and optimize build before deployment
     echo pass         - start user password generator
@@ -60,41 +54,11 @@ if ["%1"] == ["cs-fix"] (
 )
 
 if ["%1"] == ["phpstan"] (
-    php vendor\phpstan\phpstan\phpstan analyse src --level=max --memory-limit=1G
+    php vendor\phpstan\phpstan\phpstan analyse --memory-limit=1G
 )
 
-if ["%1"] == ["psalm"] (
-    vendor\bin\psalm.bat --show-info=false
-)
-
-if ["%1"] == ["phan"] (
-    set PHAN_DISABLE_XDEBUG_WARN="1"
-    php vendor\phan\phan\phan --allow-polyfill-parser
-)
-
-if ["%1"] == ["phpmd"] (
-    php vendor\phpmd\phpmd\src\bin\phpmd src text cleancode
-)
-
-if ["%1"] == ["phpcs"] (
-    php vendor\squizlabs\php_codesniffer\bin\phpcs src --standard=PSR2 -p -n
-)
-
-if ["%1"] == ["phpcbf"] (
-    php vendor\squizlabs\php_codesniffer\bin\phpcbf src --standard=PSR2 -p
-)
-
-if ["%1"] == ["fix-all"] (
-    make cs-fix
-    make phpcbf
-)
-
-if ["%1"] == ["cs-all"] (
-    make phpstan
-    make phpcs
-    make phpmd
-    make psalm
-    make phan
+if ["%1"] == ["rector"] (
+    vendor\bin\rector process
 )
 
 if ["%1"] == ["test"] (
@@ -118,7 +82,6 @@ if ["%1"] == ["dev"] (
     make assets
 
     echo Build optimized for development.
-    echo Type `make prod` before deployment.
 )
 
 if ["%1"] == ["prod"] (
@@ -128,5 +91,4 @@ if ["%1"] == ["prod"] (
     yarn encore production
 
     echo Build optimized for deployment.
-    echo This build from now on will not work in `dev` environment.
 )

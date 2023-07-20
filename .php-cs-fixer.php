@@ -4,8 +4,10 @@ $finder = PhpCsFixer\Finder::create()
     ->ignoreVCSIgnored(true)
     ->path('src/')
     ->path('tests/')
-    ->in(__DIR__)
-;
+    ->path('public_html/index.php')
+    ->path('rector.php')
+    ->path('php-cs-fixer.php')
+    ->in(__DIR__);
 
 $config = new PhpCsFixer\Config();
 
@@ -36,5 +38,4 @@ return $config
         'phpdoc_align' => false,
         'declare_strict_types' => true,
     ])
-    ->setFinder($finder)
-;
+    ->setFinder($finder);
