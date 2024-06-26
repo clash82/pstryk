@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class FeedController extends AbstractController
 {
-    public function __construct(private ItemProvider $itemProvider, private AlbumProvider $albumProvider, private DomainHelper $domainHelper)
+    public function __construct(private readonly ItemProvider $itemProvider, private readonly AlbumProvider $albumProvider, private readonly DomainHelper $domainHelper)
     {
     }
 

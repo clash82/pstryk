@@ -6,33 +6,33 @@ use App\Exception\ArrayKeyNotExistsException;
 
 class Album
 {
-    private string $title;
+    private readonly string $title;
 
-    private string $description;
+    private readonly string $description;
 
-    private int $paginationLimit;
+    private readonly int $paginationLimit;
 
-    private int $feedLimit;
+    private readonly int $feedLimit;
 
-    private string $feedUrl;
+    private readonly string $feedUrl;
 
-    private bool $sitemap;
+    private readonly bool $sitemap;
 
-    private Domains $domains;
+    private readonly Domains $domains;
 
-    private Tags $tags;
+    private readonly Tags $tags;
 
-    private Watermark $watermark;
+    private readonly Watermark $watermark;
 
-    private int $imageHorizontalMaxWidth;
+    private readonly int $imageHorizontalMaxWidth;
 
-    private int $imageVerticalMaxHeight;
+    private readonly int $imageVerticalMaxHeight;
 
-    private int $thumbHorizontalMaxWidth;
+    private readonly int $thumbHorizontalMaxWidth;
 
-    private int $thumbVerticalMaxHeight;
+    private readonly int $thumbVerticalMaxHeight;
 
-    public function __construct(private string $slug, array $album = [])
+    public function __construct(private readonly string $slug, array $album = [])
     {
         if (!isset($album['title'])) {
             /* @noinspection PhpUnhandledExceptionInspection */

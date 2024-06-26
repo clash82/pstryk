@@ -6,11 +6,11 @@ use App\Exception\ArrayKeyNotExistsException;
 
 class Tags
 {
-    private string $author;
+    private readonly string $author;
 
-    private string $copyright;
+    private readonly string $copyright;
 
-    private string $description;
+    private readonly string $description;
 
     public function __construct(array $settings = [])
     {

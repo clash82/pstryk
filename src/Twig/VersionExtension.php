@@ -11,8 +11,8 @@ class VersionExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('getPhpVersion', [$this, 'getPhpVersion']),
-            new TwigFunction('getSymfonyVersion', [$this, 'getSymfonyVersion']),
+            new TwigFunction('getPhpVersion', $this->getPhpVersion(...)),
+            new TwigFunction('getSymfonyVersion', $this->getSymfonyVersion(...)),
         ];
     }
 

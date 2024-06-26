@@ -7,12 +7,12 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class AdminSettingsProvider
 {
-    public const ITEM_FILTER_OPTIONS_ITEMS_PER_PAGE = 'itemsPerPage';
-    public const ITEM_FILTER_OPTIONS_ITEMS_SORT = 'itemsSort';
-    public const ITEM_FILTER_OPTIONS_ITEMS_SORT_DIRECTION = 'itemsSortDirection';
-    public const ITEM_FILTER_OPTIONS_ALBUM = 'album';
+    final public const ITEM_FILTER_OPTIONS_ITEMS_PER_PAGE = 'itemsPerPage';
+    final public const ITEM_FILTER_OPTIONS_ITEMS_SORT = 'itemsSort';
+    final public const ITEM_FILTER_OPTIONS_ITEMS_SORT_DIRECTION = 'itemsSortDirection';
+    final public const ITEM_FILTER_OPTIONS_ALBUM = 'album';
 
-    private ?Request $request;
+    private readonly ?Request $request;
 
     public function __construct(RequestStack $requestStack)
     {

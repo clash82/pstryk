@@ -11,7 +11,7 @@ use Knp\Component\Pager\PaginatorInterface;
 
 class ItemRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry, private PaginatorInterface $paginator)
+    public function __construct(ManagerRegistry $registry, private readonly PaginatorInterface $paginator)
     {
         parent::__construct($registry, Item::class);
     }

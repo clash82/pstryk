@@ -6,7 +6,7 @@ use App\Provider\StoragePathProvider;
 
 class FilePath
 {
-    public function __construct(private StoragePathProvider $storagePathProvider, private string $filename, private string $extension)
+    public function __construct(private readonly StoragePathProvider $storagePathProvider, private readonly string $filename, private readonly string $extension)
     {
     }
 

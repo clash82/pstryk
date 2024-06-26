@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class RobotsController extends AbstractController
 {
-    public function __construct(private DomainHelper $domainHelper, private Packages $packages)
+    public function __construct(private readonly DomainHelper $domainHelper, private readonly Packages $packages)
     {
     }
 

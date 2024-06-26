@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class DomainHelper extends AbstractController
 {
-    public function __construct(private AlbumProvider $albumProvider)
+    public function __construct(private readonly AlbumProvider $albumProvider)
     {
     }
 

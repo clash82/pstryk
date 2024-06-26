@@ -7,7 +7,7 @@ use App\Repository\ItemRepository;
 
 class ItemManager
 {
-    public function __construct(private ItemRepository $itemRepository)
+    public function __construct(private readonly ItemRepository $itemRepository)
     {
     }
 

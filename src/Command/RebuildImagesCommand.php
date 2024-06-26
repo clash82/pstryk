@@ -17,9 +17,9 @@ class RebuildImagesCommand extends Command
     protected static $defaultName = 'app:rebuild-images';
 
     public function __construct(
-        private ImageConverter $imageConverter,
-        private ItemProvider $itemProvider,
-        private AlbumProvider $albumProvider
+        private readonly ImageConverter $imageConverter,
+        private readonly ItemProvider $itemProvider,
+        private readonly AlbumProvider $albumProvider
     ) {
         parent::__construct();
     }

@@ -7,21 +7,21 @@ use App\Value\Enum\WatermarkPosition;
 
 class Watermark
 {
-    private bool $isEnabled;
+    private readonly bool $isEnabled;
 
-    private string $file;
+    private readonly string $file;
 
-    private int $width;
+    private readonly int $width;
 
-    private int $height;
+    private readonly int $height;
 
-    private int $transparency;
+    private readonly int $transparency;
 
     private int $position;
 
-    private int $horizontalMargin;
+    private readonly int $horizontalMargin;
 
-    private int $verticalMargin;
+    private readonly int $verticalMargin;
 
     public function __construct(array $settings = [])
     {

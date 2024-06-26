@@ -10,8 +10,8 @@ use Doctrine\Persistence\ObjectManager;
 
 class ItemFixtures extends Fixture
 {
-    public const ITEM_REFERENCE = '%s_item_%d';
-    public const ITEM_LIMIT = 12;
+    final public const ITEM_REFERENCE = '%s_item_%d';
+    final public const ITEM_LIMIT = 12;
 
     private const DEFAULT_TITLE = '%s item title %d';
     private const DEFAULT_DESCRIPTION = '%s description for item %d';
@@ -19,7 +19,7 @@ class ItemFixtures extends Fixture
     private const DEFAULT_LATITUDE = 50.31406826596857;
     private const DEFAULT_LONGITUDE = 19.119177460670475;
 
-    public function __construct(private AlbumProvider $albumProvider)
+    public function __construct(private readonly AlbumProvider $albumProvider)
     {
     }
 

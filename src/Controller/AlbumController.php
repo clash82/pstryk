@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AlbumController extends AbstractController
 {
-    public function __construct(private ItemProvider $itemProvider, private AlbumProvider $albumProvider, private DomainHelper $domainHelper, private CounterHelper $counterHelper)
+    public function __construct(private readonly ItemProvider $itemProvider, private readonly AlbumProvider $albumProvider, private readonly DomainHelper $domainHelper, private readonly CounterHelper $counterHelper)
     {
     }
 

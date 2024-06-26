@@ -4,12 +4,12 @@ namespace App\Value;
 
 class ImageDetails
 {
-    public const ATTR_WIDTH = 'width';
-    public const ATTR_HEIGHT = 'height';
+    final public const ATTR_WIDTH = 'width';
+    final public const ATTR_HEIGHT = 'height';
 
     private array $cache = [];
 
-    public function __construct(private FilePath $filePath)
+    public function __construct(private readonly FilePath $filePath)
     {
     }
 

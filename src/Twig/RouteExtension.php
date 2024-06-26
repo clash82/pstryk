@@ -26,8 +26,8 @@ class RouteExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('getRoute', [$this, 'getRoute']),
-            new TwigFunction('getRouteWithPagination', [$this, 'getRouteWithPagination']),
+            new TwigFunction('getRoute', $this->getRoute(...)),
+            new TwigFunction('getRouteWithPagination', $this->getRouteWithPagination(...)),
         ];
     }
 

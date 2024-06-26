@@ -22,7 +22,7 @@ class ItemType extends AbstractType
 {
     private array $albums = [];
 
-    private ?string $defaultAlbum;
+    private readonly ?string $defaultAlbum;
 
     public function __construct(AlbumProvider $albumProvider, AdminSettingsProvider $adminSettingsProvider)
     {

@@ -16,8 +16,8 @@ class ControllerActionExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('getControllerName', [$this, 'getControllerName']),
-            new TwigFunction('getActionName', [$this, 'getActionName']),
+            new TwigFunction('getControllerName', $this->getControllerName(...)),
+            new TwigFunction('getActionName', $this->getActionName(...)),
         ];
     }
 

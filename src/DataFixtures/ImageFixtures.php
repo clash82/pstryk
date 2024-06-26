@@ -37,9 +37,9 @@ class ImageFixtures extends Fixture implements DependentFixtureInterface
     private bool $populateImages = true;
 
     public function __construct(
-        private AlbumProvider $albumProvider,
-        private StoragePathProvider $storagePathProvider,
-        private ImageConverter $imageConverter,
+        private readonly AlbumProvider $albumProvider,
+        private readonly StoragePathProvider $storagePathProvider,
+        private readonly ImageConverter $imageConverter,
         ParameterBagInterface $parameterBag
     ) {
         if ('test' === $parameterBag->get('kernel.environment')) {

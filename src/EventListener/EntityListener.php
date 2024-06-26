@@ -13,7 +13,7 @@ class EntityListener
 {
     private array $filesToDelete = [];
 
-    public function __construct(private StoragePathProvider $storagePathProvider, private ImageConverter $imageConverter, private AlbumProvider $albumProvider)
+    public function __construct(private readonly StoragePathProvider $storagePathProvider, private readonly ImageConverter $imageConverter, private readonly AlbumProvider $albumProvider)
     {
     }
 

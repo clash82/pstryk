@@ -13,7 +13,7 @@ class UserFixtures extends Fixture
     private const DEFAULT_PASSWORD = 'admin';
     private const DEFAULT_ROLE = 'ROLE_ADMIN';
 
-    public function __construct(private UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(private readonly UserPasswordEncoderInterface $passwordEncoder)
     {
     }
 

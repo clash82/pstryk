@@ -28,7 +28,7 @@ class ImageConverter
 {
     use UnsharpMaskTrait;
 
-    public const JPEG_QUALITY = 93;
+    final public const JPEG_QUALITY = 93;
 
     private ?Album $album = null;
 
@@ -36,7 +36,7 @@ class ImageConverter
 
     private array $watermark = [];
 
-    public function __construct(private ParameterBagInterface $parameterBag, private Packages $packages)
+    public function __construct(private readonly ParameterBagInterface $parameterBag, private readonly Packages $packages)
     {
     }
 

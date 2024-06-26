@@ -5,7 +5,7 @@ This repository is a home for `Pstryk` gallery framework.
 ![phpstan](https://github.com/clash82/pstryk/actions/workflows/phpstan.yaml/badge.svg)
 ![phpunit](https://github.com/clash82/pstryk/actions/workflows/phpunit.yaml/badge.svg)
 
-App was built on top of PHP 8.0 and Symfony 5.4 framework.
+App was built on top of PHP 8.2 and Symfony 5.4 framework.
 
 Refer to the included [how-to](docs/how-to.md) to get details about installation and deployment.
 

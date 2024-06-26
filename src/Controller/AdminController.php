@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AdminController extends AbstractController
 {
-    public function __construct(private ItemProvider $itemProvider, private ItemManager $itemManager, private AlbumProvider $albumProvider, private ParametersHelper $parametersHelper, private RedirectHelper $redirectHelper, private AdminSettingsProvider $adminSettingsProvider, private AdminSettingsManager $adminSettingsManager)
+    public function __construct(private readonly ItemProvider $itemProvider, private readonly ItemManager $itemManager, private readonly AlbumProvider $albumProvider, private readonly ParametersHelper $parametersHelper, private readonly RedirectHelper $redirectHelper, private readonly AdminSettingsProvider $adminSettingsProvider, private readonly AdminSettingsManager $adminSettingsManager)
     {
     }
 

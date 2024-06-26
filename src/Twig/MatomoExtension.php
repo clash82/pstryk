@@ -8,14 +8,14 @@ use Twig\TwigFunction;
 
 class MatomoExtension extends AbstractExtension
 {
-    public function __construct(private MatomoHelper $matomoHelper)
+    public function __construct(private readonly MatomoHelper $matomoHelper)
     {
     }
 
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('getMatomoCode', [$this, 'getCode']),
+            new TwigFunction('getMatomoCode', $this->getCode(...)),
         ];
     }
 
