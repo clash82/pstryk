@@ -17,7 +17,7 @@ class SecurityControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $client->request('GET', sprintf('https://%s/zaplecze/login', self::HOST));
+        $client->request('GET', \sprintf('https://%s/zaplecze/login', self::HOST));
 
         $this->assertSame(200, $client->getResponse()->getStatusCode());
     }

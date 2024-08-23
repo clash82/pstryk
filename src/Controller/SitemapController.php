@@ -37,7 +37,7 @@ class SitemapController extends AbstractController
         }
 
         /* @noinspection PhpUnhandledExceptionInspection */
-        return $this->render(sprintf('album/%s/sitemap.html.twig', $album->getSlug()), [
+        return $this->render(\sprintf('album/%s/sitemap.html.twig', $album->getSlug()), [
             'history' => $history,
             'album' => $album,
         ]);

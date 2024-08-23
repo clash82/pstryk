@@ -31,26 +31,26 @@ class StoragePathProvider
     public function getPublicDir(int $path): string
     {
         if (self::PATH_IMAGES === $path) {
-            return sprintf('/%s', $this->storageImagesPath);
+            return \sprintf('/%s', $this->storageImagesPath);
         }
 
         if (self::PATH_THUMBS === $path) {
-            return sprintf('/%s', $this->storageThumbsPath);
+            return \sprintf('/%s', $this->storageThumbsPath);
         }
 
-        return sprintf('/%s', $this->storageRawPath);
+        return \sprintf('/%s', $this->storageRawPath);
     }
 
     public function getRelativeDir(int $path): string
     {
         if (self::PATH_IMAGES === $path) {
-            return sprintf(self::RELATIVE_PATH_PATTERN, __DIR__, $this->storageImagesPath);
+            return \sprintf(self::RELATIVE_PATH_PATTERN, __DIR__, $this->storageImagesPath);
         }
 
         if (self::PATH_THUMBS === $path) {
-            return sprintf(self::RELATIVE_PATH_PATTERN, __DIR__, $this->storageThumbsPath);
+            return \sprintf(self::RELATIVE_PATH_PATTERN, __DIR__, $this->storageThumbsPath);
         }
 
-        return sprintf(self::RELATIVE_PATH_PATTERN, __DIR__, $this->storageRawPath);
+        return \sprintf(self::RELATIVE_PATH_PATTERN, __DIR__, $this->storageRawPath);
     }
 }

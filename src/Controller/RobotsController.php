@@ -23,10 +23,10 @@ class RobotsController extends AbstractController
         $album = $this->domainHelper->getCurrentAlbum();
 
         /** @var string $robots */
-        $robots = file_get_contents(sprintf(
+        $robots = file_get_contents(\sprintf(
             '%s/%s',
             getcwd(),
-            $this->packages->getUrl(sprintf(
+            $this->packages->getUrl(\sprintf(
                 'assets/robots/%s/robots.txt',
                 $album->getSlug()
             ))

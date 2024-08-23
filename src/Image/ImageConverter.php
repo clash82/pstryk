@@ -88,10 +88,10 @@ class ImageConverter
         ImageInterface $image
     ): ImageInterface {
         if (!isset($this->watermark[$this->album->getSlug()])) {
-            $watermarkFile = sprintf(
+            $watermarkFile = \sprintf(
                 '%s/public_html%s',
                 $this->parameterBag->get('kernel.project_dir'),
-                $this->packages->getUrl(sprintf(
+                $this->packages->getUrl(\sprintf(
                     'assets/images/watermark/%s',
                     $this->album->getWatermark()->getFile()
                 ))

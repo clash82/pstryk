@@ -111,7 +111,7 @@ class Image implements \Stringable
 
         $this->file->move(
             $this->storagePathProvider->getRelativeDir(StoragePathProvider::PATH_RAW),
-            sprintf('%s.%s', $this->filename, $this->extension)
+            \sprintf('%s.%s', $this->filename, $this->extension)
         );
 
         $this->file = null;
@@ -152,7 +152,7 @@ class Image implements \Stringable
         }
 
         $this->extension = $uploadedFile->getClientOriginalExtension();
-        $this->filename = sha1(sprintf(
+        $this->filename = sha1(\sprintf(
             '%d-%s-%s',
             random_int(1, 1000),
             uniqid(),

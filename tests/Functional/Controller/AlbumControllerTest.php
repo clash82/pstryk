@@ -17,7 +17,7 @@ class AlbumControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $client->request('GET', sprintf('https://%s', self::HOST));
+        $client->request('GET', \sprintf('https://%s', self::HOST));
 
         $this->assertSame(200, $client->getResponse()->getStatusCode());
     }

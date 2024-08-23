@@ -66,14 +66,14 @@ class ImageFixtures extends Fixture implements DependentFixtureInterface
                     $slug = $album->getSlug();
 
                     /** @var Item $itemReference */
-                    $itemReference = $this->getReference(sprintf(ItemFixtures::ITEM_REFERENCE, $slug, $item));
-                    $fileId = sha1(sprintf('%s-%d-%d', $slug, $item, $i));
+                    $itemReference = $this->getReference(\sprintf(ItemFixtures::ITEM_REFERENCE, $slug, $item));
+                    $fileId = sha1(\sprintf('%s-%d-%d', $slug, $item, $i));
 
                     $file = (new Image())
                         ->setItem($itemReference)
                         ->setExtension(self::DEFAULT_EXTENSION)
-                        ->setDescription(sprintf(self::DEFAULT_DESCRIPTION, $slug, $item, $i))
-                        ->setName(sprintf(self::DEFAULT_NAME, $slug, $item, $i))
+                        ->setDescription(\sprintf(self::DEFAULT_DESCRIPTION, $slug, $item, $i))
+                        ->setName(\sprintf(self::DEFAULT_NAME, $slug, $item, $i))
                         ->setFilename($fileId)
                         ->setIsMain(2 === $i)
                         ->setPosition($i);
@@ -81,7 +81,7 @@ class ImageFixtures extends Fixture implements DependentFixtureInterface
                     $manager->persist($file);
                     $manager->flush();
 
-                    $filename = sprintf(
+                    $filename = \sprintf(
                         '%s/%s.%s',
                         $this->storagePathProvider->getRelativeDir(StoragePathProvider::PATH_RAW),
                         $file->getFilename(),
@@ -137,7 +137,7 @@ class ImageFixtures extends Fixture implements DependentFixtureInterface
             if (!$filename->isDir()
                 && '.gitkeep' !== $filename->getFileName()
                 && '.htaccess' !== $filename->getFileName()) {
-                unlink(sprintf('%s/%s', $path, $filename->getFileName()));
+                unlink(\sprintf('%s/%s', $path, $filename->getFileName()));
             }
         }
     }

@@ -48,6 +48,6 @@ class FilePath
 
     private function createPath(string $path, string $extension = 'jpg'): string
     {
-        return sprintf('%s/%s.%s', $path, $this->filename, $extension);
+        return \sprintf('%s/%s.%s', $path, $this->filename, $extension);
     }
 }

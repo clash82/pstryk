@@ -41,7 +41,7 @@ class RouteExtension extends AbstractExtension
         $route = $this->generateRoute($itemSlug);
 
         if (isset($this->attributes['page']) && (int) $this->attributes['page'] > 1) {
-            return sprintf('%s/%d', $route, $this->attributes['page']);
+            return \sprintf('%s/%d', $route, $this->attributes['page']);
         }
 
         return $route;
@@ -58,11 +58,11 @@ class RouteExtension extends AbstractExtension
             $itemSlug = $this->attributes['itemSlug'] ?? null;
         }
 
-        return sprintf(
+        return \sprintf(
             'http%s://%s%s',
             !isset($_SERVER['HTTPS']) || 'on' !== $_SERVER['HTTPS'] ? '' : 's',
             $_SERVER['SERVER_NAME'],
-            empty($itemSlug) ? '' : sprintf('/%s', $itemSlug)
+            empty($itemSlug) ? '' : \sprintf('/%s', $itemSlug)
         );
     }
 }

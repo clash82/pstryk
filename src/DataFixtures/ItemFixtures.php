@@ -33,10 +33,10 @@ class ItemFixtures extends Fixture
             for ($i = 1; $i <= self::ITEM_LIMIT; ++$i) {
                 $item = (new Item())
                     ->setAlbum($slug)
-                    ->setDate((new DateTime())->modify(sprintf('+%d day', $i)))
-                    ->setTitle(sprintf(self::DEFAULT_TITLE, $slug, $i))
-                    ->setDescription(sprintf(self::DEFAULT_DESCRIPTION, $slug, $i))
-                    ->setSlug(sprintf(self::DEFAULT_SLUG, $slug, $i))
+                    ->setDate((new DateTime())->modify(\sprintf('+%d day', $i)))
+                    ->setTitle(\sprintf(self::DEFAULT_TITLE, $slug, $i))
+                    ->setDescription(\sprintf(self::DEFAULT_DESCRIPTION, $slug, $i))
+                    ->setSlug(\sprintf(self::DEFAULT_SLUG, $slug, $i))
                     ->setLatitude(self::DEFAULT_LATITUDE)
                     ->setLongitude(self::DEFAULT_LONGITUDE)
                     ->setIsActive(true);
@@ -44,7 +44,7 @@ class ItemFixtures extends Fixture
                 $manager->persist($item);
                 $manager->flush();
 
-                $this->addReference(sprintf(self::ITEM_REFERENCE, $slug, $i), $item);
+                $this->addReference(\sprintf(self::ITEM_REFERENCE, $slug, $i), $item);
             }
         }
     }

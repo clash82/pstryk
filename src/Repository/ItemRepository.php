@@ -26,7 +26,7 @@ class ItemRepository extends ServiceEntityRepository
     ): PaginationInterface {
         $query = $this
             ->createQueryBuilder('i')
-            ->orderBy(sprintf('i.%s', $itemsSort), $itemsSortDirection);
+            ->orderBy(\sprintf('i.%s', $itemsSort), $itemsSortDirection);
 
         if ($activeOnly) {
             $query
@@ -83,7 +83,7 @@ class ItemRepository extends ServiceEntityRepository
 
         if (!\is_object($item)) {
             /* @noinspection PhpUnhandledExceptionInspection */
-            throw new RecordNotFoundException(sprintf('No item found for id [%d]', $itemId));
+            throw new RecordNotFoundException(\sprintf('No item found for id [%d]', $itemId));
         }
 
         return $item;
@@ -103,7 +103,7 @@ class ItemRepository extends ServiceEntityRepository
 
         if (!$item) {
             /* @noinspection PhpUnhandledExceptionInspection */
-            throw new RecordNotFoundException(sprintf('No item found for slug [%s:%s]', $albumSlug, $itemSlug));
+            throw new RecordNotFoundException(\sprintf('No item found for slug [%s:%s]', $albumSlug, $itemSlug));
         }
 
         return $item;

@@ -17,7 +17,7 @@ class FeedControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $client->request('GET', sprintf('https://%s/feed', self::HOST));
+        $client->request('GET', \sprintf('https://%s/feed', self::HOST));
 
         $this->assertSame(200, $client->getResponse()->getStatusCode());
     }

@@ -44,13 +44,13 @@ class RebuildImagesCommand extends Command
         /** @var string $slug */
         $slug = $input->getArgument('album');
 
-        $output->writeln(sprintf('Selected album: <comment>%s</comment>', $slug));
+        $output->writeln(\sprintf('Selected album: <comment>%s</comment>', $slug));
         $output->writeln('');
 
         try {
             $this->imageConverter->setAlbum($this->albumProvider->getBySlug($slug));
         } catch (AlbumSettingsNotFoundException) {
-            $output->writeln(sprintf('<error>`%s` album was not found</error>', $slug));
+            $output->writeln(\sprintf('<error>`%s` album was not found</error>', $slug));
 
             return 1;
         }
@@ -63,14 +63,14 @@ class RebuildImagesCommand extends Command
             $files = $item->getImages();
 
             foreach ($files as $file) {
-                $output->writeln(sprintf('Converting (<comment>%d</comment>): <info>%s</info>', ++$processedCounter, $file));
+                $output->writeln(\sprintf('Converting (<comment>%d</comment>): <info>%s</info>', ++$processedCounter, $file));
                 /* @noinspection PhpUnhandledExceptionInspection */
                 $this->imageConverter->convert($file);
             }
         }
 
         $output->writeln('');
-        $output->writeln(sprintf('Done, <comment>%d</comment> images processed.', $processedCounter));
+        $output->writeln(\sprintf('Done, <comment>%d</comment> images processed.', $processedCounter));
 
         return 0;
     }

@@ -17,7 +17,7 @@ class RobotsControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $client->request('GET', sprintf('https://%s/sitemap', self::HOST));
+        $client->request('GET', \sprintf('https://%s/sitemap', self::HOST));
 
         $this->assertSame(200, $client->getResponse()->getStatusCode());
     }

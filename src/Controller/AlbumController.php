@@ -35,7 +35,7 @@ class AlbumController extends AbstractController
         );
 
         /* @noinspection PhpUnhandledExceptionInspection */
-        return $this->render(sprintf('album/%s/index.html.twig', $album->getSlug()), [
+        return $this->render(\sprintf('album/%s/index.html.twig', $album->getSlug()), [
             'items' => $items,
             'album' => $this->albumProvider->getBySlug($album->getSlug()),
         ]);
@@ -58,7 +58,7 @@ class AlbumController extends AbstractController
         $this->counterHelper->increment($album->getSlug());
 
         /* @noinspection PhpUnhandledExceptionInspection */
-        return $this->render(sprintf('album/%s/item.html.twig', $album->getSlug()), [
+        return $this->render(\sprintf('album/%s/item.html.twig', $album->getSlug()), [
             'item' => $item,
             'next_item' => $this->itemProvider->getNext($item),
             'prev_item' => $this->itemProvider->getPrevious($item),

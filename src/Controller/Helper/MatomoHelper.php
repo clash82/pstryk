@@ -19,7 +19,7 @@ class MatomoHelper
         }
 
         // this file is hosted only on my server
-        $wrapperFile = sprintf('%s/../../include/wrappers/matomo.php', getcwd());
+        $wrapperFile = \sprintf('%s/../../include/wrappers/matomo.php', getcwd());
 
         if (file_exists($wrapperFile)) {
             /* @noinspection PhpIncludeInspection */

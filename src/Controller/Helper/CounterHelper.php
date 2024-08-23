@@ -19,7 +19,7 @@ class CounterHelper
         }
 
         // this file is hosted only on my server
-        $wrapperFile = sprintf('%s/../../include/wrappers/counter.php', getcwd());
+        $wrapperFile = \sprintf('%s/../../include/wrappers/counter.php', getcwd());
 
         if (file_exists($wrapperFile)) {
             /* @noinspection PhpIncludeInspection */
