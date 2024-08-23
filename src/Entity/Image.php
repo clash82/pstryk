@@ -24,7 +24,7 @@ class Image implements \Stringable
     use Id;
 
     /**
-     * @ORM\Column(type="string", name="name", length=191, nullable=true)
+     * @ORM\Column(type="string", name="name", length=191, nullable=false)
      * @Assert\Type(type="string")
      * @Assert\Length(max=191)
      */
@@ -151,7 +151,6 @@ class Image implements \Stringable
             ];
         }
 
-        $this->name = '';
         $this->extension = $uploadedFile->getClientOriginalExtension();
         $this->filename = sha1(sprintf(
             '%d-%s-%s',

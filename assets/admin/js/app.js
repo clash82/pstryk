@@ -24,7 +24,7 @@ require('jqueryui');
 require('symfony-collection');
 require('magnific-popup');
 
-const flatpickr = require('flatpickr');
+const flatpickr = require('flatpickr').default;
 const flatpickrPL = require('flatpickr/dist/l10n/pl.js').default.pl;
 flatpickr.localize(flatpickrPL);
 
