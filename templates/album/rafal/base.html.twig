@@ -24,12 +24,11 @@
     </head>
     <body>
         <div class="container">
-            <header class="text-center">
-                <div class="header-title">
-                    {{ album.title }}
-                </div>
-                <div class="header-lead">
-                    Co się wydarzyło już nie wróci...
+            <header class="text-center row">
+                <div class="col-sm-4 offset-sm-4 col-8 offset-2">
+                    <a href="/">
+                        <img src="{{ asset('assets/images/album/rafal/logo.png') }}" alt="{{ album.title }}" class="img-fluid">
+                    </a>
                 </div>
             </header>
 
