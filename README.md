@@ -15,7 +15,6 @@ Gallery in action
 Here are my sites powered by gallery framework:
 
 - [Stalker Photo](https://stalker.toborek.info)
-- [Galeria pewnego pstryka](https://pstryk.toborek.info)
 - [Rafał Story](https://rafal.toborek.info)
 - [Z archiwum RP Foto](https://rpfoto.toborek.info)
 

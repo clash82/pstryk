@@ -4,40 +4,6 @@ app:
     storage_thumbs_path: storage/thumbs
 
     albums:
-        pstryk:
-            title: Galeria pewnego pstryka
-            description: Nie ma co gadać, tutaj Rafał pstryka.
-            pagination_limit: 3
-            feed_limit: 10
-            feed_url: http://feeds.feedburner.com/RafalPstryka
-            sitemap: true
-
-            domains:
-                - pstryk.toborek.info
-                - pstryk.toborek.lh
-                - localhost # to support functional tests only
-
-            image_horizontal_max_width: 1600
-            image_vertical_max_height: 1200
-
-            thumb_horizontal_max_width: 1300
-            thumb_vertical_max_height: 1000
-
-            tags:
-                author: Rafal Toborek
-                copyright: Rafal Toborek
-                description: https://pstryk.toborek.info
-
-            watermark:
-                enabled: true
-                file: pstryk.png
-                width: 180
-                height: 51
-                transparency: 100
-                position: bottom-right
-                horizontal_margin: 10
-                vertical_margin: 10
-
         stalker:
             title: Stalker Photo
             description: Inspiracją do stworzenia tego albumu była książka braci Strugackich pt. Piknik na skraju drogi. To właśnie do tej książki odsyłam cię jeśli chcesz dowiedzieć się kim są stalkerzy i czym się zajmują.
@@ -48,7 +14,7 @@ app:
 
             domains:
                 - stalker.toborek.info
-                - stalker.toborek.lh
+                - stalker.toborek.info.lh
 
             image_horizontal_max_width: 1600
             image_vertical_max_height: 1200
@@ -80,7 +46,7 @@ app:
 
             domains:
                 - tysia.toborek.info
-                - tysia.toborek.lh
+                - tysia.toborek.info.lh
 
             image_horizontal_max_width: 1600
             image_vertical_max_height: 1600
@@ -91,7 +57,7 @@ app:
             tags:
                 author: Rafal Toborek
                 copyright: Rafal Toborek
-                description: https://pstryk.toborek.info
+                description: https://rafal.toborek.info
 
             watermark:
                 enabled: true
@@ -113,7 +79,8 @@ app:
 
             domains:
                 - rafal.toborek.info
-                - rafal.toborek.lh
+                - rafal.toborek.info.lh
+                - localhost # to support functional tests only
 
             image_horizontal_max_width: 1600
             image_vertical_max_height: 1200
@@ -138,7 +105,7 @@ app:
 
             domains:
                 - rpfoto.toborek.info
-                - rpfoto.toborek.lh
+                - rpfoto.toborek.info.lh
 
             image_horizontal_max_width: 1600
             image_vertical_max_height: 1200

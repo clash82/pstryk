@@ -25,7 +25,6 @@ Encore
      */
     .addEntry('admin', './assets/admin/js/app.js')
     .addEntry('stalker', './assets/album/stalker/js/app.js')
-    .addEntry('pstryk', './assets/album/pstryk/js/app.js')
     .addEntry('tysia', './assets/album/tysia/js/app.js')
     .addEntry('rafal', './assets/album/rafal/js/app.js')
     .addEntry('rpfoto', './assets/album/rpfoto/js/app.js')

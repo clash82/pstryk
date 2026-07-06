@@ -1,21 +1,22 @@
 {
     "devDependencies": {
-        "@symfony/webpack-encore": "^0.29.0",
+        "@babel/core": "7.24.0",
+        "@babel/preset-env": "7.24.0",
+        "@symfony/webpack-encore": "6.0.0",
         "bootstrap": "^4.4.1",
         "core-js": "^3.0.0",
         "jquery": "3.4.1",
         "popper.js": "^1.16.1",
         "regenerator-runtime": "^0.13.2",
+        "sass": "^1.101.0",
+        "sass-loader": "16.0.1",
+        "webpack": "^5.108.4",
+        "webpack-cli": "^7.2.1",
+        "webpack-dev-server": "^6.0.0",
         "webpack-notifier": "^1.6.0"
     },
     "license": "UNLICENSED",
     "private": true,
-    "scripts": {
-        "dev-server": "encore dev-server",
-        "dev": "encore dev",
-        "watch": "encore dev --watch",
-        "build": "encore production --progress"
-    },
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.13.1",
         "baguettebox.js": "^1.11.1",
@@ -26,8 +27,6 @@
         "jqueryui": "^1.11.1",
         "js-cookie": "^2.2.1",
         "magnific-popup": "^1.1.0",
-        "node-sass": "^4.14.1",
-        "sass-loader": "7.0.1",
         "swiper": "^6.1.1",
         "symfony-collection": "ninsuo/symfony-collection",
         "timeago.js": "^4.0.2"
