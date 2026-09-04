@@ -1,7 +1,4 @@
 {
-    "behat/transliterator": {
-        "version": "v1.3.0"
-    },
     "composer/semver": {
         "version": "1.5.1"
     },
@@ -46,6 +43,15 @@
     },
     "doctrine/dbal": {
         "version": "v2.10.1"
+    },
+    "doctrine/deprecations": {
+        "version": "1.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "1.0",
+            "ref": "fdd756167454623e21f1d769c5b814b243782a67"
+        }
     },
     "doctrine/doctrine-bundle": {
         "version": "2.0",
@@ -460,9 +466,6 @@
     "symfony/polyfill-mbstring": {
         "version": "v1.15.0"
     },
-    "symfony/polyfill-php73": {
-        "version": "v1.15.0"
-    },
     "symfony/polyfill-php80": {
         "version": "v1.17.0"
     },
@@ -508,9 +511,6 @@
         "version": "v5.0.7"
     },
     "symfony/security-csrf": {
-        "version": "v5.0.7"
-    },
-    "symfony/security-guard": {
         "version": "v5.0.7"
     },
     "symfony/security-http": {
