@@ -59,7 +59,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
-    // Backwards compatibility for any code still calling getUsername()
+    // Backwards compatibility for code calling getUsername()
     public function getUsername(): string
     {
         return $this->getUserIdentifier();
@@ -71,7 +71,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
@@ -113,7 +112,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function eraseCredentials(): void
     {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+        // clear any temporary, sensitive data here
     }
 }
