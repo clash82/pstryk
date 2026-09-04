@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Entity\Traits\Id;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 /**
  * @ORM\Table(
@@ -12,7 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * )
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User implements UserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     use Id;
 
@@ -53,9 +54,15 @@ class User implements UserInterface
      *
      * @see UserInterface
      */
-    public function getUsername(): string
+    public function getUserIdentifier(): string
     {
         return $this->email;
+    }
+
+    // Backwards compatibility for any code still calling getUsername()
+    public function getUsername(): string
+    {
+        return $this->getUserIdentifier();
     }
 
     /**
@@ -78,7 +85,7 @@ class User implements UserInterface
     }
 
     /**
-     * @see UserInterface
+     * @see PasswordAuthenticatedUserInterface
      */
     public function getPassword(): string
     {
@@ -95,10 +102,10 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function getSalt(): string
+    public function getSalt(): ?string
     {
-        // not needed when using the "bcrypt" algorithm in security.yaml
-        return '';
+        // not needed when using modern hashing algorithms
+        return null;
     }
 
     /**
