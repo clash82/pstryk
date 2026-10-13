@@ -22,17 +22,17 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class ImageFixtures extends Fixture implements DependentFixtureInterface
 {
-    private const FILE_LIMIT = 5; // how many files should be generated per item
+    private const int FILE_LIMIT = 5; // how many files should be generated per item
 
-    private const DEFAULT_EXTENSION = 'jpg';
-    private const DEFAULT_DESCRIPTION = 'Description for album %s, item %d, file %d';
-    private const DEFAULT_NAME = 'album_%s_item_%d_file_%d.jpg';
-    private const DEFAULT_IMAGE_WIDTH = 1600;
-    private const DEFAULT_IMAGE_HEIGHT = 800;
-    private const DEFAULT_IMAGE_COLOR = '6F890F';
-    private const DEFAULT_FONT_PATH = 'c:\windows\fonts\tahoma.ttf';
-    private const DEFAULT_FONT_SIZE = 30;
-    private const DEFAULT_FONT_COLOR = [255, 255, 255];
+    private const string DEFAULT_EXTENSION = 'jpg';
+    private const string DEFAULT_DESCRIPTION = 'Description for album %s, item %d, file %d';
+    private const string DEFAULT_NAME = 'album_%s_item_%d_file_%d.jpg';
+    private const int DEFAULT_IMAGE_WIDTH = 1600;
+    private const int DEFAULT_IMAGE_HEIGHT = 800;
+    private const string DEFAULT_IMAGE_COLOR = '6F890F';
+    private const string DEFAULT_FONT_PATH = 'c:\windows\fonts\tahoma.ttf';
+    private const int DEFAULT_FONT_SIZE = 30;
+    private const array DEFAULT_FONT_COLOR = [255, 255, 255];
 
     private bool $populateImages = true;
 
@@ -69,7 +69,7 @@ class ImageFixtures extends Fixture implements DependentFixtureInterface
                     $itemReference = $this->getReference(\sprintf(ItemFixtures::ITEM_REFERENCE, $slug, $item), Item::class);
                     $fileId = sha1(\sprintf('%s-%d-%d', $slug, $item, $i));
 
-                    $file = (new Image())
+                    $file = new Image()
                         ->setItem($itemReference)
                         ->setExtension(self::DEFAULT_EXTENSION)
                         ->setDescription(\sprintf(self::DEFAULT_DESCRIPTION, $slug, $item, $i))
