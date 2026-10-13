@@ -4,67 +4,49 @@ namespace App\Entity;
 
 use App\Entity\Traits\Id;
 use App\Image\ImageConverter;
+use App\Repository\ImageRepository;
 use App\Provider\StoragePathProvider;
 use App\Value\FilePath;
 use App\Value\ImageDetails;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\Index;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Table(
- *     name="pstryk_image",
- *     indexes={@Index(name="name_idx", columns={"name"})}
- * )
- * @ORM\Entity(repositoryClass="App\Repository\ImageRepository")
- */
+#[ORM\Table(name: 'pstryk_image')]
+#[ORM\Index(name: 'name_idx', columns: ['name'])]
+#[ORM\Entity(repositoryClass: ImageRepository::class)]
 class Image implements \Stringable
 {
     use Id;
 
-    /**
-     * @ORM\Column(type="string", name="name", length=191, nullable=false)
-     * @Assert\Type(type="string")
-     * @Assert\Length(max=191)
-     */
+    #[ORM\Column(name: 'name', type: 'string', length: 191, nullable: false)]
+    #[Assert\Type(type: 'string')]
+    #[Assert\Length(max: 191)]
     private string $name;
 
-    /**
-     * @ORM\Column(type="string", name="description", length=255, nullable=true)
-     * @Assert\Type(type="string")
-     * @Assert\Length(max=255)
-     */
+    #[ORM\Column(name: 'description', type: 'string', length: 255, nullable: true)]
+    #[Assert\Type(type: 'string')]
+    #[Assert\Length(max: 255)]
     private ?string $description = null;
 
-    /**
-     * @ORM\Column(type="string", name="filename", length=40, nullable=true, unique=true)
-     * @Assert\Type(type="string")
-     * @Assert\Length(max=40)
-     */
+    #[ORM\Column(name: 'filename', type: 'string', length: 40, unique: true, nullable: true)]
+    #[Assert\Type(type: 'string')]
+    #[Assert\Length(max: 40)]
     private string $filename;
 
-    /**
-     * @ORM\Column(type="string", name="extension", length=3, nullable=true)
-     * @Assert\Type(type="string")
-     * @Assert\Length(max=3)
-     */
+    #[ORM\Column(name: 'extension', type: 'string', length: 3, nullable: true)]
+    #[Assert\Type(type: 'string')]
+    #[Assert\Length(max: 3)]
     private ?string $extension = null;
 
-    /**
-     * @ORM\Column(type="boolean", name="is_main", nullable=false)
-     */
+    #[ORM\Column(name: 'is_main', type: 'boolean', nullable: false)]
     private bool $isMain = false;
 
-    /**
-     * @ORM\Column(type="integer", name="position")
-     */
+    #[ORM\Column(name: 'position', type: 'integer')]
     private int $position = 0;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Item", inversedBy="images")
-     * @ORM\JoinColumn(name="item_id", referencedColumnName="id", onDelete="CASCADE")
-     */
+    #[ORM\ManyToOne(targetEntity: Item::class, inversedBy: 'images')]
+    #[ORM\JoinColumn(name: 'item_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     private Item $item;
 
     private StoragePathProvider $storagePathProvider;

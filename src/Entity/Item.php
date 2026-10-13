@@ -7,72 +7,50 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\Index;
 use Gedmo\Mapping\Annotation as Gedmo;
+use App\Repository\ItemRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Table(
- *     name="pstryk_item",
- *     indexes={@Index(name="slug_idx", columns={"slug"})}
- * )
- * @ORM\Entity(repositoryClass="App\Repository\ItemRepository")
- */
+#[ORM\Table(name: 'pstryk_item')]
+#[ORM\Index(name: 'slug_idx', columns: ['slug'])]
+#[ORM\Entity(repositoryClass: ItemRepository::class)]
 class Item
 {
     use Id;
 
-    /**
-     * @ORM\Column(type="string", name="album", nullable=false)
-     * @Assert\NotBlank()
-     * @Assert\Type(type="string")
-     */
+    #[ORM\Column(name: 'album', type: 'string', nullable: false)]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'string')]
     private ?string $album = null;
 
-    /**
-     * @ORM\Column(type="string", name="title", nullable=false)
-     * @Assert\NotBlank()
-     * @Assert\Type(type="string")
-     */
+    #[ORM\Column(name: 'title', type: 'string', nullable: false)]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'string')]
     private string $title;
 
-    /**
-     * @ORM\Column(type="string", name="description", nullable=true)
-     * @Assert\Type(type="string")
-     */
+    #[ORM\Column(name: 'description', type: 'string', nullable: true)]
+    #[Assert\Type(type: 'string')]
     private ?string $description = null;
 
-    /**
-     * @Gedmo\Slug(fields={"title"}, updatable=false, separator="-")
-     * @ORM\Column(name="slug", nullable=true, length=191, unique=true)
-     * @Assert\Type(type="string")
-     */
+    #[Gedmo\Slug(fields: ['title'], updatable: false, separator: '-')]
+    #[ORM\Column(name: 'slug', length: 191, unique: true, nullable: true)]
+    #[Assert\Type(type: 'string')]
     private ?string $slug = null;
 
-    /**
-     * @ORM\Column(type="datetime", name="date", nullable=false)
-     */
+    #[ORM\Column(name: 'date', type: 'datetime', nullable: false)]
     private DateTime $date;
 
-    /**
-     * @ORM\Column(type="decimal", name="latitude", precision=10, scale=8, nullable=true)
-     */
+    #[ORM\Column(name: 'latitude', type: 'decimal', precision: 10, scale: 8, nullable: true)]
     private float $latitude;
 
-    /**
-     * @ORM\Column(type="decimal", name="longitude", precision=11, scale=8, nullable=true)
-     */
+    #[ORM\Column(name: 'longitude', type: 'decimal', precision: 11, scale: 8, nullable: true)]
     private float $longitude;
 
-    /**
-     * @ORM\Column(type="boolean", name="is_active", nullable=false)
-     */
+    #[ORM\Column(name: 'is_active', type: 'boolean', nullable: false)]
     private bool $isActive = true;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Image", mappedBy="item", cascade={"persist"}, orphanRemoval=true)
-     * @ORM\OrderBy({"position" = "ASC"})
-     */
+    #[ORM\OneToMany(mappedBy: 'item', targetEntity: Image::class, cascade: ['persist'], orphanRemoval: true)]
+    #[ORM\OrderBy(['position' => 'ASC'])]
     private Collection $images;
 
     public function __construct()
