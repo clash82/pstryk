@@ -10,7 +10,7 @@ parameters:
         - rector.php
         - .php-cs-fixer.php
     symfony:
-        container_xml_path: '%rootDir%/../../../var/cache/dev/App_KernelDevDebugContainer.xml'
+        containerXmlPath: '%rootDir%/../../../var/cache/dev/App_KernelDevDebugContainer.xml'
     ignoreErrors:
         - identifier: missingType.iterableValue
         - identifier: missingType.generics
