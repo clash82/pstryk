@@ -4,8 +4,8 @@ namespace App\Entity;
 
 use App\Entity\Traits\Id;
 use App\Image\ImageConverter;
-use App\Repository\ImageRepository;
 use App\Provider\StoragePathProvider;
+use App\Repository\ImageRepository;
 use App\Value\FilePath;
 use App\Value\ImageDetails;
 use Doctrine\ORM\Mapping as ORM;
