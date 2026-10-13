@@ -41,10 +41,14 @@ class Item
     private DateTime $date;
 
     #[ORM\Column(name: 'latitude', type: 'decimal', precision: 10, scale: 8, nullable: true)]
-    private float $latitude;
+    /**
+     * DBAL maps "decimal" columns to strings (to avoid float precision loss), so the
+     * property is a string here and converted to float in the accessors.
+     */
+    private ?string $latitude = null;
 
     #[ORM\Column(name: 'longitude', type: 'decimal', precision: 11, scale: 8, nullable: true)]
-    private float $longitude;
+    private ?string $longitude = null;
 
     #[ORM\Column(name: 'is_active', type: 'boolean', nullable: false)]
     private bool $isActive = true;
@@ -141,16 +145,16 @@ class Item
         return $this;
     }
 
-    public function setLatitude(float $latitude): self
+    public function setLatitude(?float $latitude): self
     {
-        $this->latitude = $latitude;
+        $this->latitude = null === $latitude ? null : \sprintf('%.8F', $latitude);
 
         return $this;
     }
 
-    public function setLongitude(float $longitude): self
+    public function setLongitude(?float $longitude): self
     {
-        $this->longitude = $longitude;
+        $this->longitude = null === $longitude ? null : \sprintf('%.8F', $longitude);
 
         return $this;
     }
@@ -182,14 +186,14 @@ class Item
         return $this->date;
     }
 
-    public function getLatitude(): float
+    public function getLatitude(): ?float
     {
-        return $this->latitude;
+        return null === $this->latitude ? null : (float) $this->latitude;
     }
 
-    public function getLongitude(): float
+    public function getLongitude(): ?float
     {
-        return $this->longitude;
+        return null === $this->longitude ? null : (float) $this->longitude;
     }
 
     public function getIsActive(): bool
