@@ -16,7 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class AdminController extends AbstractController
 {
@@ -24,9 +24,7 @@ class AdminController extends AbstractController
     {
     }
 
-    /**
-     * @Route("/zaplecze/{page}", name="app_admin_item_list", requirements={"page" = "\d+"}, defaults={"page" = "1"})
-     */
+    #[Route('/zaplecze/{page}', name: 'app_admin_item_list', requirements: ['page' => '\d+'], defaults: ['page' => 1])]
     public function list(int $page): Response
     {
         $itemsPerPage = $this->adminSettingsProvider->getItemsPerPage();
@@ -53,9 +51,7 @@ class AdminController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/zaplecze/item-filter-options", name="app_admin_item_filter_options", condition="request.isXmlHttpRequest()")
-     */
+    #[Route('/zaplecze/item-filter-options', name: 'app_admin_item_filter_options', condition: 'request.isXmlHttpRequest()')]
     public function filterOptions(Request $request): JsonResponse
     {
         $parameters = $this->parametersHelper->resolveParameters([
@@ -78,9 +74,7 @@ class AdminController extends AbstractController
             ->getJsonResponse();
     }
 
-    /**
-     * @Route("/zaplecze/item/edit/{itemId}", name="app_admin_item_edit", requirements={"itemId" = "\d+"})
-     */
+    #[Route('/zaplecze/item/edit/{itemId}', name: 'app_admin_item_edit', requirements: ['itemId' => '\d+'])]
     public function editItem(Request $request, int $itemId): Response
     {
         $item = $this->itemProvider->getById($itemId);
@@ -99,9 +93,7 @@ class AdminController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/zaplecze/item/add", name="app_admin_item_add")
-     */
+    #[Route('/zaplecze/item/add', name: 'app_admin_item_add')]
     public function addItem(Request $request): Response
     {
         $item = new Item();
@@ -122,9 +114,7 @@ class AdminController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/zaplecze/item/delete", name="app_admin_item_delete", condition="request.isXmlHttpRequest()")
-     */
+    #[Route('/zaplecze/item/delete', name: 'app_admin_item_delete', condition: 'request.isXmlHttpRequest()')]
     public function deleteItem(Request $request): JsonResponse
     {
         $parameters = $this->parametersHelper->resolveParameters([

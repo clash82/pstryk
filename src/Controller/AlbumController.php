@@ -9,7 +9,7 @@ use App\Provider\AlbumProvider;
 use App\Provider\ItemProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class AlbumController extends AbstractController
 {
@@ -17,9 +17,7 @@ class AlbumController extends AbstractController
     {
     }
 
-    /**
-     * @Route("/{page}", name="app_album_index", requirements={"page" = "\d+"}, defaults={"page" = "1"})
-     */
+    #[Route('/{page}', name: 'app_album_index', requirements: ['page' => '\d+'], defaults: ['page' => 1])]
     public function index(int $page): Response
     {
         /* @noinspection PhpUnhandledExceptionInspection */
@@ -41,9 +39,7 @@ class AlbumController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{itemSlug}", requirements={"itemSlug" = "^((?!feed|sitemap|zaplecze|robots\.txt|sitemap\.xml).)*$"}, name="app_album_item")
-     */
+    #[Route('/{itemSlug}', name: 'app_album_item', requirements: ['itemSlug' => '^((?!feed|sitemap|zaplecze|robots\.txt|sitemap\.xml).)*$'])]
     public function item(string $itemSlug): Response
     {
         /* @noinspection PhpUnhandledExceptionInspection */

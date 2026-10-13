@@ -2,6 +2,6 @@ services:
     gedmo.listener.sluggable:
         class: Gedmo\Sluggable\SluggableListener
         tags:
-            - { name: doctrine.event_subscriber, connection: default }
-        calls:
-            - [ setAnnotationReader, [ "@annotation_reader" ] ]
+            - { name: doctrine.event_listener, event: prePersist, connection: default }
+            - { name: doctrine.event_listener, event: onFlush, connection: default }
+            - { name: doctrine.event_listener, event: loadClassMetadata, connection: default }

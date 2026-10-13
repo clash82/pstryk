@@ -1,5 +1,6 @@
 security:
-    encoders:
+    # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
+    password_hashers:
         App\Entity\User:
             algorithm: auto
 
@@ -15,11 +16,10 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            anonymous: true
+            lazy: true
             provider: app_user_provider
-            guard:
-                authenticators:
-                    - App\Security\LoginFormAuthenticator
+            custom_authenticators:
+                - App\Security\LoginFormAuthenticator
             logout:
                 path: app_admin_logout
                 # where to redirect after logout
@@ -43,6 +43,6 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: '^/zaplecze/login$', roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: '^/zaplecze/login$', roles: PUBLIC_ACCESS, requires_channel: https }
         - { path: '^/zaplecze', roles: ROLE_ADMIN, requires_channel: https }
-        - { path: '^/', roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: '^/', roles: PUBLIC_ACCESS, requires_channel: https }

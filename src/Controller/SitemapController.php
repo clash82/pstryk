@@ -8,7 +8,7 @@ use App\Value\Album;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class SitemapController extends AbstractController
 {
@@ -16,9 +16,7 @@ class SitemapController extends AbstractController
     {
     }
 
-    /**
-     * @Route("/sitemap", name="app_sitemap_index")
-     */
+    #[Route('/sitemap', name: 'app_sitemap_index')]
     public function index(): Response
     {
         /* @noinspection PhpUnhandledExceptionInspection */
@@ -43,9 +41,7 @@ class SitemapController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/sitemap.xml", name="app_sitemap_xml_index", defaults={"_format"="xml"})
-     */
+    #[Route('/sitemap.xml', name: 'app_sitemap_xml_index', defaults: ['_format' => 'xml'])]
     public function indexXml(): Response
     {
         /* @noinspection PhpUnhandledExceptionInspection */

@@ -7,7 +7,11 @@ use App\Entity\Item;
 use App\Image\ImageConverter;
 use App\Provider\AlbumProvider;
 use App\Provider\StoragePathProvider;
-use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\PostLoadEventArgs;
+use Doctrine\ORM\Event\PostPersistEventArgs;
+use Doctrine\ORM\Event\PostRemoveEventArgs;
+use Doctrine\ORM\Event\PostUpdateEventArgs;
+use Doctrine\ORM\Event\PreRemoveEventArgs;
 
 class EntityListener
 {
@@ -17,32 +21,32 @@ class EntityListener
     {
     }
 
-    public function postLoad(LifecycleEventArgs $args): void
+    public function postLoad(PostLoadEventArgs $args): void
     {
-        $this->injectStoragePathProvider($args->getEntity());
+        $this->injectStoragePathProvider($args->getObject());
     }
 
-    public function postPersist(LifecycleEventArgs $args): void
+    public function postPersist(PostPersistEventArgs $args): void
     {
-        $entity = $args->getEntity();
+        $entity = $args->getObject();
 
         $this->injectStoragePathProvider($entity);
         $this->injectImageConverter($entity);
         $this->triggerUpload($entity);
     }
 
-    public function postUpdate(LifecycleEventArgs $args): void
+    public function postUpdate(PostUpdateEventArgs $args): void
     {
-        $entity = $args->getEntity();
+        $entity = $args->getObject();
 
         $this->injectStoragePathProvider($entity);
         $this->injectImageConverter($entity);
         $this->triggerUpload($entity);
     }
 
-    public function preRemove(LifecycleEventArgs $args): void
+    public function preRemove(PreRemoveEventArgs $args): void
     {
-        $entity = $args->getEntity();
+        $entity = $args->getObject();
 
         // cache assigned files to remove (those will be deleted in postRemove event)
         if ($entity instanceof Item) {
@@ -57,7 +61,7 @@ class EntityListener
         }
     }
 
-    public function postRemove(LifecycleEventArgs $args): void
+    public function postRemove(PostRemoveEventArgs $args): void
     {
         // we should remove assigned files only after successful entity removal
         foreach ($this->filesToDelete as $file) {

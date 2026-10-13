@@ -7,7 +7,7 @@ use App\Provider\AlbumProvider;
 use App\Provider\ItemProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class FeedController extends AbstractController
 {
@@ -15,9 +15,7 @@ class FeedController extends AbstractController
     {
     }
 
-    /**
-     * @Route("/feed", name="app_feed_index", defaults={"_format"="xml"})
-     */
+    #[Route('/feed', name: 'app_feed_index', defaults: ['_format' => 'xml'])]
     public function index(): Response
     {
         /* @noinspection PhpUnhandledExceptionInspection */
