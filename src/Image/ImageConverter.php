@@ -186,7 +186,6 @@ class ImageConverter
             // very dirty way to replace Image resource
             /* @noinspection PhpUnhandledExceptionInspection */
             $reflectionProperty = new ReflectionProperty(Image::class, 'resource');
-            $reflectionProperty->setAccessible(true);
             /** @var \GdImage $resource */
             $resource = $reflectionProperty->getValue($image);
 

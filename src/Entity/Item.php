@@ -12,7 +12,7 @@ use App\Repository\ItemRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table(name: 'pstryk_item')]
-#[ORM\Index(name: 'slug_idx', columns: ['slug'])]
+#[ORM\Index(columns: ['slug'], name: 'slug_idx')]
 #[ORM\Entity(repositoryClass: ItemRepository::class)]
 class Item
 {

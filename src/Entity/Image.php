@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table(name: 'pstryk_image')]
-#[ORM\Index(name: 'name_idx', columns: ['name'])]
+#[ORM\Index(columns: ['name'], name: 'name_idx')]
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
 class Image implements \Stringable
 {
