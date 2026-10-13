@@ -2,3 +2,5 @@ doctrine:
     dbal:
         driver: 'pdo_sqlite'
         url: 'sqlite:///%kernel.project_dir%/var/test.db3'
+        # required by dama/doctrine-test-bundle (nested transactions)
+        use_savepoints: true
