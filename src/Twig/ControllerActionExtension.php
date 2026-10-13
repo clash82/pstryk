@@ -30,7 +30,7 @@ class ControllerActionExtension extends AbstractExtension
             $matches = [];
             preg_match($pattern, (string) $request->attributes->get('_controller'), $matches);
 
-            return strtolower($matches[1]);
+            return strtolower($matches[1] ?? '');
         }
 
         return '';
@@ -45,7 +45,7 @@ class ControllerActionExtension extends AbstractExtension
             $matches = [];
             preg_match($pattern, (string) $request->attributes->get('_controller'), $matches);
 
-            return $matches[1];
+            return $matches[1] ?? '';
         }
 
         return '';

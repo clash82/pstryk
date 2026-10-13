@@ -45,8 +45,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *
      * @see UserInterface
      */
+    /**
+     * @return non-empty-string
+     */
     public function getUserIdentifier(): string
     {
+        if ('' === $this->email) {
+            throw new \LogicException('User e-mail address must not be empty.');
+        }
+
         return $this->email;
     }
 

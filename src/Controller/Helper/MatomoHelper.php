@@ -30,7 +30,7 @@ class MatomoHelper
     }
 
     /**
-     * @SuppressWarnings(PHPMD.StaticAccess)
+     * @SuppressWarnings("PHPMD.StaticAccess")
      */
     public function getCode(int $siteId, bool $useScriptTag): string
     {

@@ -30,7 +30,7 @@ class SeoHelper
     }
 
     /**
-     * @SuppressWarnings(PHPMD.StaticAccess)
+     * @SuppressWarnings("PHPMD.StaticAccess")
      */
     public function getSeoButtons(array $style): string
     {

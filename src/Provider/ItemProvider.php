@@ -17,7 +17,7 @@ class ItemProvider
     }
 
     /**
-     * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
+     * @SuppressWarnings("PHPMD.BooleanArgumentFlag")
      */
     public function getAllPaginated(
         string $album,

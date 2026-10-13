@@ -89,14 +89,14 @@ class EntityListener
 
     private function injectStoragePathProvider(object $entity): void
     {
-        if ($entity instanceof Image && method_exists($entity, 'setStoragePathProvider')) {
+        if ($entity instanceof Image) {
             $entity->setStoragePathProvider($this->storagePathProvider);
         }
     }
 
     private function injectImageConverter(object $entity): void
     {
-        if ($entity instanceof Image && method_exists($entity, 'setImageConverter')) {
+        if ($entity instanceof Image) {
             $slug = $entity->getItem()->getAlbum();
 
             if ($slug) {
@@ -112,7 +112,7 @@ class EntityListener
 
     private function triggerUpload(object $entity): void
     {
-        if ($entity instanceof Image && method_exists($entity, 'upload')) {
+        if ($entity instanceof Image) {
             $entity->upload();
         }
     }

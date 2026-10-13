@@ -20,7 +20,7 @@ class SeoExtension extends AbstractExtension
     }
 
     /**
-     * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
+     * @SuppressWarnings("PHPMD.BooleanArgumentFlag")
      */
     public function getCode(array $style): string
     {
