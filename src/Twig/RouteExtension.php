@@ -15,7 +15,6 @@ class RouteExtension extends AbstractExtension
 
     public function __construct(RequestStack $requestStack)
     {
-        /** @var Request $request */
         $request = $requestStack->getCurrentRequest();
 
         if ($request instanceof Request) {

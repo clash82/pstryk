@@ -20,7 +20,7 @@ class MatomoExtension extends AbstractExtension
     }
 
     /**
-     * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
+     * @SuppressWarnings("PHPMD.BooleanArgumentFlag")
      */
     public function getCode(int $siteId, bool $useScriptTag = true): string
     {

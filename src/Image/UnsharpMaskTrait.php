@@ -10,7 +10,7 @@ trait UnsharpMaskTrait
      * Unsharp mask algorithm by Torstein Hønsi 2003-07.
      * thoensi_at_netcom_dot_no. Please leave this notice.
      *
-     * @SuppressWarnings(PHPMD.ElseExpression)
+     * @SuppressWarnings("PHPMD.ElseExpression")
      */
     private function applyUnsharpMask(\GdImage $image, float $amount, float $radius, float $threshold): \GdImage
     {
@@ -84,7 +84,7 @@ trait UnsharpMaskTrait
                         : $bOrig;
 
                     if (($rOrig !== $rNew) || ($gOrig !== $gNew) || ($bOrig !== $bNew)) {
-                        $pixCol = imagecolorallocate($image, (int) $rNew, (int) $gNew, (int) $bNew);
+                        $pixCol = imagecolorallocate($image, max(0, min(255, (int) $rNew)), max(0, min(255, (int) $gNew)), max(0, min(255, (int) $bNew)));
                         imagesetpixel($image, $x, $y, (int) $pixCol);
                     }
                 }
@@ -127,8 +127,7 @@ trait UnsharpMaskTrait
                         $bNew = 0;
                     }
 
-                    /** @var int $rgbNew */
-                    $rgbNew = ($rNew << 16) + ($gNew << 8) + $bNew;
+                    $rgbNew = ((int) $rNew << 16) + ((int) $gNew << 8) + (int) $bNew;
                     imagesetpixel($image, $x, $y, $rgbNew);
                 }
             }

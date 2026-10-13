@@ -30,7 +30,7 @@ class CounterHelper
     }
 
     /**
-     * @SuppressWarnings(PHPMD.StaticAccess)
+     * @SuppressWarnings("PHPMD.StaticAccess")
      */
     public function increment(string $counter): void
     {
