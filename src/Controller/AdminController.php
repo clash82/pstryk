@@ -89,7 +89,8 @@ class AdminController extends AbstractController
 
         if ($request->isMethod('POST') && ($form->isSubmitted() && $form->isValid())) {
             $this->itemManager->update($item);
-            $this->redirectHelper->redirectToList($request->query->get('return'), 'app_admin_item_list');
+
+            return $this->redirectHelper->redirectToList($request->query->get('return'), 'app_admin_item_list');
         }
 
         return $this->render('admin/parts/form.html.twig', [
@@ -111,7 +112,8 @@ class AdminController extends AbstractController
 
         if ($request->isMethod('POST') && ($form->isSubmitted() && $form->isValid())) {
             $this->itemManager->update($item);
-            $this->redirectHelper->redirectToList($request->query->get('return'), 'app_admin_item_list');
+
+            return $this->redirectHelper->redirectToList($request->query->get('return'), 'app_admin_item_list');
         }
 
         return $this->render('admin/parts/form.html.twig', [
