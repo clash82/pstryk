@@ -10,5 +10,5 @@ return RectorConfig::configure()
         __DIR__.'/rector.php',
         __DIR__.'/.php-cs-fixer.php',
     ])
-    ->withPreparedSets(codeQuality: true, deadCode: true)
+    ->withPreparedSets(deadCode: true, codeQuality: true)
     ->withPhpSets(php84: true);

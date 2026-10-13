@@ -6,7 +6,7 @@ use App\Exception\ArrayKeyNotExistsException;
 
 class Domains
 {
-    private array $domains = [];
+    private readonly array $domains;
 
     public function __construct(array $settings = [])
     {

@@ -36,13 +36,7 @@ class AlbumProvider
 
     public function slugExists(string $id): bool
     {
-        foreach ($this->albums as $album) {
-            if ($album->getSlug() === $id) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_any($this->albums, fn($album) => $album->getSlug() === $id);
     }
 
     public function getBySlug(string $slug): Album
