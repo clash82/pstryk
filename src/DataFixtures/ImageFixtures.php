@@ -66,7 +66,7 @@ class ImageFixtures extends Fixture implements DependentFixtureInterface
                     $slug = $album->getSlug();
 
                     /** @var Item $itemReference */
-                    $itemReference = $this->getReference(\sprintf(ItemFixtures::ITEM_REFERENCE, $slug, $item));
+                    $itemReference = $this->getReference(\sprintf(ItemFixtures::ITEM_REFERENCE, $slug, $item), Item::class);
                     $fileId = sha1(\sprintf('%s-%d-%d', $slug, $item, $i));
 
                     $file = (new Image())
