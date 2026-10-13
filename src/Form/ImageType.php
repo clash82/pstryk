@@ -54,14 +54,14 @@ class ImageType extends AbstractType
                 'label' => false,
                 'required' => true,
                 'constraints' => [
-                    new File([
-                        'maxSize' => '5M',
-                        'maxSizeMessage' => 'Maksymalny rozmiar dla pliku to 5M',
-                        'mimeTypes' => [
+                    new File(
+                        maxSize: '5M',
+                        mimeTypes: [
                             'image/jpeg',
                         ],
-                        'mimeTypesMessage' => 'Możesz dodać wyłącznie pliki w formacie JPEG',
-                    ]),
+                        maxSizeMessage: 'Maksymalny rozmiar dla pliku to 5M',
+                        mimeTypesMessage: 'Możesz dodać wyłącznie pliki w formacie JPEG',
+                    ),
                 ],
             ]);
     }
