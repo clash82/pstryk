@@ -38,7 +38,7 @@ if ["%1"] == ["db-reload"] (
 )
 
 if ["%1"] == ["pass"] (
-    php bin/console security:encode-password
+    php bin/console security:hash-password
 )
 
 if ["%1"] == ["assets"] (
