@@ -1,4 +1,4 @@
-FROM php:8.0.28-apache
+FROM php:8.4-apache
 
 RUN apt update && apt upgrade -y && apt install -y \
       git\
@@ -25,8 +25,8 @@ COPY .docker/composer_installer.sh /tmp/composer_installer.sh
 RUN sh /tmp/composer_installer.sh
 
 # install node
-RUN curl -fsSL https://deb.nodesource.com/setup_10.x | sudo -E bash -
-RUN apt update && apt install -y nodejs npm
+RUN curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
+RUN apt update && apt install -y nodejs
 
 # install yarn
 RUN npm install -g yarn

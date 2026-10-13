@@ -9,13 +9,13 @@ parameters:
         - public_html/index.php
         - rector.php
         - .php-cs-fixer.php
-    checkMissingIterableValueType: false
-    checkGenericClassInNonGenericObjectType: false
     symfony:
         container_xml_path: '%rootDir%/../../../var/cache/dev/App_KernelDevDebugContainer.xml'
     excludePaths:
         - %rootDir%/tests
     ignoreErrors:
+        - identifier: missingType.iterableValue
+        - identifier: missingType.generics
         - '#Call to static method increment\(\) on an unknown class counter.#'
         - '#Call to static method getCode\(\) on an unknown class matomo.#'
         - '#Call to static method getButtons\(\) on an unknown class seo.#'
