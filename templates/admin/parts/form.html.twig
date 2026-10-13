@@ -11,7 +11,7 @@
             });
 
             $('.btn-return').click(function() {
-                location.href = '{{ app.request.get('return')|raw }}';
+                location.href = '{{ app.request.query.get('return')|e('js') }}';
             });
 
             function onInit() {
