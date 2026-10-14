@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class AlbumControllerTest extends WebTestCase
 {
-    private const HOST = 'localhost';
+    private const string HOST = 'localhost';
 
     protected function setUp(): void
     {

@@ -4,8 +4,8 @@ namespace App\Value;
 
 class ImageDetails
 {
-    final public const ATTR_WIDTH = 'width';
-    final public const ATTR_HEIGHT = 'height';
+    final public const string ATTR_WIDTH = 'width';
+    final public const string ATTR_HEIGHT = 'height';
 
     private array $cache = [];
 

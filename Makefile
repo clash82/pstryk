@@ -84,7 +84,7 @@ cs-fix:
 .PHONY:
 
 rector:
-	@docker exec -t ${APP_IMAGE_NAME} vendor/bin/rector process
+	@docker exec -t ${APP_IMAGE_NAME} vendor/bin/rector process --clear-cache
 .PHONY:
 
 phpstan:

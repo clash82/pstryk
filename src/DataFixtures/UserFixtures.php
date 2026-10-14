@@ -9,9 +9,9 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserFixtures extends Fixture
 {
-    private const DEFAULT_EMAIL = 'admin@toborek.info';
-    private const DEFAULT_PASSWORD = 'admin';
-    private const DEFAULT_ROLE = 'ROLE_ADMIN';
+    private const string DEFAULT_EMAIL = 'admin@toborek.info';
+    private const string DEFAULT_PASSWORD = 'admin';
+    private const string DEFAULT_ROLE = 'ROLE_ADMIN';
 
     public function __construct(private readonly UserPasswordHasherInterface $passwordHasher)
     {

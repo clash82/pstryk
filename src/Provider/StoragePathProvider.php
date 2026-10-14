@@ -6,11 +6,11 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class StoragePathProvider
 {
-    final public const PATH_RAW = 0;
-    final public const PATH_IMAGES = 1;
-    final public const PATH_THUMBS = 2;
+    final public const int PATH_RAW = 0;
+    final public const int PATH_IMAGES = 1;
+    final public const int PATH_THUMBS = 2;
 
-    final public const RELATIVE_PATH_PATTERN = '%s/../../public_html/%s';
+    final public const string RELATIVE_PATH_PATTERN = '%s/../../public_html/%s';
 
     private readonly string $storageImagesPath;
 
