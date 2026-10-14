@@ -10,14 +10,14 @@ use Doctrine\Persistence\ObjectManager;
 
 class ItemFixtures extends Fixture
 {
-    final public const ITEM_REFERENCE = '%s_item_%d';
-    final public const ITEM_LIMIT = 12;
+    final public const string ITEM_REFERENCE = '%s_item_%d';
+    final public const int ITEM_LIMIT = 12;
 
-    private const DEFAULT_TITLE = '%s item title %d';
-    private const DEFAULT_DESCRIPTION = '%s description for item %d';
-    private const DEFAULT_SLUG = '%s-item-slug-%d';
-    private const DEFAULT_LATITUDE = 50.31406826596857;
-    private const DEFAULT_LONGITUDE = 19.119177460670475;
+    private const string DEFAULT_TITLE = '%s item title %d';
+    private const string DEFAULT_DESCRIPTION = '%s description for item %d';
+    private const string DEFAULT_SLUG = '%s-item-slug-%d';
+    private const float DEFAULT_LATITUDE = 50.31406826596857;
+    private const float DEFAULT_LONGITUDE = 19.119177460670475;
 
     public function __construct(private readonly AlbumProvider $albumProvider)
     {
@@ -31,9 +31,9 @@ class ItemFixtures extends Fixture
             $slug = $album->getSlug();
 
             for ($i = 1; $i <= self::ITEM_LIMIT; ++$i) {
-                $item = (new Item())
+                $item = new Item()
                     ->setAlbum($slug)
-                    ->setDate((new DateTime())->modify(\sprintf('+%d day', $i)))
+                    ->setDate(new DateTime()->modify(\sprintf('+%d day', $i)))
                     ->setTitle(\sprintf(self::DEFAULT_TITLE, $slug, $i))
                     ->setDescription(\sprintf(self::DEFAULT_DESCRIPTION, $slug, $i))
                     ->setSlug(\sprintf(self::DEFAULT_SLUG, $slug, $i))

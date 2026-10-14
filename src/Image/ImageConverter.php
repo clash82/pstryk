@@ -28,7 +28,7 @@ class ImageConverter
 {
     use UnsharpMaskTrait;
 
-    final public const JPEG_QUALITY = 93;
+    final public const int JPEG_QUALITY = 93;
 
     private ?Album $album = null;
 
