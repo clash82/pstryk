@@ -31,6 +31,9 @@ RUN apt update && apt install -y nodejs
 # install yarn
 RUN npm install -g yarn
 
+# upload limits (default PHP values are too low for 5 MB images)
+COPY .docker/uploads.ini /usr/local/etc/php/conf.d/uploads.ini
+
 # modify default apache site
 RUN sed -i 's#/var/www/html#/var/www/html/public_html#' /etc/apache2/sites-enabled/000-default.conf
 
