@@ -128,7 +128,8 @@
                     if ($last.length) {
                         $last.find('.collection-add').first().trigger('click');
                     } else {
-                        $collection.find('.collection-add').first().trigger('click');
+                        // with no rows left the plugin only renders its "rescue" add button
+                        $collection.find('.collection-rescue-add').first().trigger('click');
                     }
 
                     return $collection.find('.form-images-container').last();
@@ -164,6 +165,8 @@
                             errors.push(file.name + ': plik został już dodany');
                         } else if (addFile(file)) {
                             added[key] = true;
+                        } else {
+                            errors.push(file.name + ': nie udało się dodać pliku do listy');
                         }
                     });
 
