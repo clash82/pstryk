@@ -42,6 +42,9 @@ class Image implements \Stringable
     #[ORM\Column(name: 'is_main', type: 'boolean', nullable: false)]
     private bool $isMain = false;
 
+    #[ORM\Column(name: 'is_public', type: 'boolean', nullable: false, options: ['default' => true])]
+    private bool $isPublic = true;
+
     #[ORM\Column(name: 'position', type: 'integer')]
     private int $position = 0;
 
@@ -228,6 +231,23 @@ class Image implements \Stringable
     public function setIsMain(bool $isMain): self
     {
         $this->isMain = $isMain;
+
+        if ($isMain) {
+            // cover image must always be public
+            $this->isPublic = true;
+        }
+
+        return $this;
+    }
+
+    public function getIsPublic(): bool
+    {
+        return $this->isMain || $this->isPublic;
+    }
+
+    public function setIsPublic(bool $isPublic): self
+    {
+        $this->isPublic = $this->isMain || $isPublic;
 
         return $this;
     }

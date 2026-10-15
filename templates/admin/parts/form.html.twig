@@ -28,8 +28,23 @@
                     }
                 });
 
-                $('input[type=radio]').change(function () {
+                // the cover image must always be public, so its "Publiczny" checkbox is forced and locked
+                function syncPublicCheckboxes() {
+                    $('.form-images-container').each(function () {
+                        var isMain = $(this).find('input[type=radio]').prop('checked');
+                        var $public = $(this).find('input[type=checkbox]');
+
+                        if (isMain) {
+                            $public.prop('checked', true).prop('disabled', true);
+                        } else {
+                            $public.prop('disabled', false);
+                        }
+                    });
+                }
+
+                $('input[type=radio]').off('change.public').on('change.public', function () {
                     $('input[type=radio]').not($(this)).prop('checked', false);
+                    syncPublicCheckboxes();
                 });
 
                 $('input[type=file]').change(function() {
@@ -55,6 +70,8 @@
                 if ($('input[type=radio]:checked').length === 0) {
                     $('input[type=radio]').first().prop('checked', true);
                 }
+
+                syncPublicCheckboxes();
             }
 
             $('.images-collection').collection({

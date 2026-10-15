@@ -21,14 +21,14 @@
 
                     <div class="row">
                         <div class="frame-thumb col-12 text-center">
-                            <a href="{{ item.mainImage.filePath.imagePublicPath }}">
-                                {% if item.mainImage is not empty %}
+                            {% if item.mainImage is not empty %}
+                                <a href="{{ item.mainImage.filePath.imagePublicPath }}">
                                     <img src="{{ item.mainImage.filePath.thumbPublicPath }}" class="img-fluid"
                                          width="{{ item.mainImage.imageDetails.thumbWidth }}"
                                          height="{{ item.mainImage.imageDetails.thumbHeight }}"
                                          alt="{{ item.title }}">
-                                {% endif %}
-                            </a>
+                                </a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

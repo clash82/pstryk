@@ -82,20 +82,25 @@ class Item
         return $this->images;
     }
 
+    /**
+     * @return Image[]
+     */
+    public function getPublicImages(): array
+    {
+        return $this->images->filter(static fn (Image $image): bool => $image->getIsPublic())->getValues();
+    }
+
     public function getMainImage(): ?Image
     {
-        /** @var Image $image */
-        foreach ($this->images as $image) {
+        $publicImages = $this->getPublicImages();
+
+        foreach ($publicImages as $image) {
             if ($image->getIsMain()) {
                 return $image;
             }
         }
 
-        if (\count($this->images) > 0) {
-            return $this->images[0];
-        }
-
-        return null;
+        return $publicImages[0] ?? null;
     }
 
     public function setAlbum(string $album): self
