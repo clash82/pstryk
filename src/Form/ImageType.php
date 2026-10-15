@@ -58,7 +58,7 @@ class ImageType extends AbstractType
             ])
             ->add('file', CoreFileType::class, [
                 'label' => false,
-                'required' => true,
+                'required' => false,
                 'constraints' => [
                     new File(
                         maxSize: '5M',

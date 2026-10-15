@@ -16,6 +16,9 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ItemType extends AbstractType
@@ -111,6 +114,10 @@ class ItemType extends AbstractType
             ])
             ->add('save', SubmitType::class)
             ->add('back', ButtonType::class);
+
+        // image entries added without a file are silently dropped (both when adding and editing an item);
+        // this must run before the collection resizes itself, hence the higher priority
+        $builder->get('images')->addEventListener(FormEvents::PRE_SUBMIT, $this->removeEmptyImages(...), 10);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -124,5 +131,27 @@ class ItemType extends AbstractType
     public function getBlockPrefix(): string
     {
         return 'item';
+    }
+
+    private function removeEmptyImages(FormEvent $event): void
+    {
+        $images = $event->getData();
+
+        if (!\is_array($images)) {
+            return;
+        }
+
+        foreach ($images as $key => $image) {
+            // already stored images are submitted with their (read only) name, new entries have it set
+            // by JavaScript only after the file has been chosen
+            $hasFile = ($image['file'] ?? null) instanceof UploadedFile;
+            $hasName = '' !== trim((string) ($image['name'] ?? ''));
+
+            if (!$hasFile && !$hasName) {
+                unset($images[$key]);
+            }
+        }
+
+        $event->setData($images);
     }
 }

@@ -4,11 +4,10 @@ namespace App\Tests\Unit\Entity;
 
 use App\Entity\Image;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Validator\Validation;
 
 class ImageTest extends TestCase
 {
-    public function testEmptyImageCanBeReadWithoutErrors(): void
+    public function testNewImageCanBeReadWithoutErrors(): void
     {
         $image = new Image();
 
@@ -16,23 +15,13 @@ class ImageTest extends TestCase
         self::assertSame('', (string) $image);
         self::assertNull($image->getFilename());
         self::assertNull($image->getFilePath());
+        self::assertTrue($image->isEmpty());
     }
 
-    public function testImageWithoutFileIsInvalid(): void
+    public function testImageWithStoredFileIsNotEmpty(): void
     {
-        $validator = Validation::createValidatorBuilder()->enableAttributeMapping()->getValidator();
+        $image = new Image()->setName('photo.jpg')->setFilename('abc')->setExtension('jpg');
 
-        $violations = $validator->validate(new Image());
-
-        self::assertGreaterThan(0, $violations->count());
-    }
-
-    public function testImageWithStoredFileIsValid(): void
-    {
-        $validator = Validation::createValidatorBuilder()->enableAttributeMapping()->getValidator();
-
-        $image = (new Image())->setName('photo.jpg')->setFilename('abc')->setExtension('jpg');
-
-        self::assertCount(0, $validator->validate($image));
+        self::assertFalse($image->isEmpty());
     }
 }

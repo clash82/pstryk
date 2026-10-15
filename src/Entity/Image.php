@@ -11,7 +11,6 @@ use App\Value\ImageDetails;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 #[ORM\Table(name: 'pstryk_image')]
 #[ORM\Index(columns: ['name'], name: 'name_idx')]
@@ -23,7 +22,6 @@ class Image implements \Stringable
     #[ORM\Column(name: 'name', type: 'string', length: 191, nullable: false)]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 191)]
-    #[Assert\NotBlank(message: 'Dodaj plik ze zdjęciem lub usuń pusty wpis przed zapisaniem.')]
     private string $name = '';
 
     #[ORM\Column(name: 'description', type: 'string', length: 255, nullable: true)]
@@ -120,18 +118,11 @@ class Image implements \Stringable
     }
 
     /**
-     * Every image entry must have a file: either freshly uploaded or already stored.
+     * An image is empty when it has neither a freshly uploaded file nor an already stored one.
      */
-    #[Assert\Callback]
-    public function validateFile(ExecutionContextInterface $context): void
+    public function isEmpty(): bool
     {
-        if ($this->file instanceof UploadedFile || $this->filename) {
-            return;
-        }
-
-        $context->buildViolation('Dodaj plik ze zdjęciem lub usuń pusty wpis przed zapisaniem.')
-            ->atPath('file')
-            ->addViolation();
+        return !$this->file instanceof UploadedFile && !$this->filename;
     }
 
     public function getFile(): ?UploadedFile
