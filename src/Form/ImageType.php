@@ -26,6 +26,7 @@ class ImageType extends AbstractType
             ->add('name', TextType::class, [
                 'label' => false,
                 'required' => true,
+                'empty_data' => '',
                 'attr' => [
                     'readonly' => true,
                     'placeholder' => 'Nazwa pliku',
