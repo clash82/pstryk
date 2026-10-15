@@ -91,6 +91,123 @@
                     return true;
                 }
             });
+
+            // drop zone placed right above the list of attached images; every dropped file gets its own row
+            (function () {
+                var $collection = $('.images-collection');
+                var maxSize = 5 * 1024 * 1024;
+                var added = {};
+
+                if ($collection.length === 0 || typeof DataTransfer === 'undefined') {
+                    return;
+                }
+
+                var $zone = $(
+                    '<div class="dropzone">' +
+                        '<span class="fas fa-cloud-upload-alt dropzone-icon"></span>' +
+                        '<div>Przeciągnij tutaj zdjęcia (JPEG, maks. 5 MB)</div>' +
+                        '<div class="dropzone-messages"></div>' +
+                    '</div>'
+                ).insertBefore($collection);
+                var $messages = $zone.find('.dropzone-messages');
+
+                function isEmptyRow($row) {
+                    return $.trim($row.find('input[id$="_name"]').val() || '') === '';
+                }
+
+                function nextRow() {
+                    var $rows = $collection.find('.form-images-container');
+                    var $last = $rows.last();
+
+                    // reuse a trailing row that has no image yet
+                    if ($last.length && isEmptyRow($last)) {
+                        return $last;
+                    }
+
+                    // otherwise append a new row after the last one (or via the main "add" button for an empty list)
+                    if ($last.length) {
+                        $last.find('.collection-add').first().trigger('click');
+                    } else {
+                        $collection.find('.collection-add').first().trigger('click');
+                    }
+
+                    return $collection.find('.form-images-container').last();
+                }
+
+                function addFile(file) {
+                    var $row = nextRow();
+                    var $input = $row.find('input[type=file]');
+
+                    if ($input.length === 0) {
+                        return false;
+                    }
+
+                    var transfer = new DataTransfer();
+                    transfer.items.add(file);
+                    $input.get(0).files = transfer.files;
+                    $input.trigger('change');
+
+                    return true;
+                }
+
+                function handleFiles(files) {
+                    var errors = [];
+
+                    $.each(files, function (i, file) {
+                        var key = [file.name, file.size, file.lastModified].join('|');
+
+                        if (file.type !== 'image/jpeg') {
+                            errors.push(file.name + ': dozwolone są tylko pliki JPEG');
+                        } else if (file.size > maxSize) {
+                            errors.push(file.name + ': plik jest większy niż 5 MB');
+                        } else if (added[key]) {
+                            errors.push(file.name + ': plik został już dodany');
+                        } else if (addFile(file)) {
+                            added[key] = true;
+                        }
+                    });
+
+                    $messages.empty();
+                    $.each(errors, function (i, message) {
+                        $('<div class="dropzone-error"></div>').text(message).appendTo($messages);
+                    });
+                }
+
+                function hasFiles(event) {
+                    var types = event.originalEvent.dataTransfer && event.originalEvent.dataTransfer.types;
+
+                    return !!types && $.inArray('Files', types) !== -1;
+                }
+
+                var depth = 0;
+
+                $zone.on('dragenter', function (e) {
+                    if (!hasFiles(e)) { return; }
+                    e.preventDefault();
+                    depth++;
+                    $zone.addClass('dragover');
+                }).on('dragover', function (e) {
+                    if (!hasFiles(e)) { return; }
+                    e.preventDefault();
+                    e.originalEvent.dataTransfer.dropEffect = 'copy';
+                }).on('dragleave', function () {
+                    depth = Math.max(0, depth - 1);
+                    if (depth === 0) { $zone.removeClass('dragover'); }
+                }).on('drop', function (e) {
+                    if (!hasFiles(e)) { return; }
+                    e.preventDefault();
+                    depth = 0;
+                    $zone.removeClass('dragover');
+                    handleFiles(e.originalEvent.dataTransfer.files);
+                });
+
+                // a file dropped beside the zone must not make the browser navigate to it
+                $(window).on('dragover drop', function (e) {
+                    if (hasFiles(e) && !$(e.target).closest('.dropzone').length) {
+                        e.preventDefault();
+                    }
+                });
+            })();
         });
     </script>
 
