@@ -56,28 +56,40 @@ class ImageConverter
 
     public function convert(ImageEntity $image): void
     {
-        if (!$this->album instanceof \App\Value\Album) {
-            /* @noinspection PhpUnhandledExceptionInspection */
-            throw new AlbumNotSpecifiedException();
-        }
-
         if (!$image->getFilePath() instanceof FilePath) {
             /* @noinspection PhpUnhandledExceptionInspection */
             throw new ObjectNotInitializedException('FilePath');
         }
 
-        // normal
-        $this->resize(
+        $this->convertFile(
             $image->getFilePath()->getRawRelativePath(),
             $image->getFilePath()->getImageRelativePath(),
+            $image->getFilePath()->getThumbRelativePath()
+        );
+    }
+
+    /**
+     * Generates the resized image and the thumbnail of the album set with {@see setAlbum()}.
+     */
+    public function convertFile(string $sourceFile, string $imageDestination, string $thumbDestination): void
+    {
+        if (!$this->album instanceof \App\Value\Album) {
+            /* @noinspection PhpUnhandledExceptionInspection */
+            throw new AlbumNotSpecifiedException();
+        }
+
+        // normal
+        $this->resize(
+            $sourceFile,
+            $imageDestination,
             $this->album->getImageHorizontalMaxWidth(),
             $this->album->getImageVerticalMaxHeight()
         );
 
         // thumb
         $this->resize(
-            $image->getFilePath()->getRawRelativePath(),
-            $image->getFilePath()->getThumbRelativePath(),
+            $sourceFile,
+            $thumbDestination,
             $this->album->getThumbHorizontalMaxWidth(),
             $this->album->getThumbVerticalMaxHeight()
         );

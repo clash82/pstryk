@@ -2,13 +2,18 @@
 
 namespace App\Manager;
 
+use App\Image\ImageConverter;
+use App\Image\PendingUploadedFile;
+use App\Provider\AlbumProvider;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * Keeps images uploaded one by one (by the drop zone) until the item form that references them is submitted.
  * Because every file travels in its own short request, neither max_file_uploads, post_max_size
- * nor max_input_time limit how many images can be added to an item.
+ * nor max_input_time limit how many images can be added to an item. The resized image and the thumbnail
+ * are generated right after the upload (see process()), so saving the item does not take longer
+ * with every image added.
  */
 class PendingUploadManager
 {
@@ -22,6 +27,8 @@ class PendingUploadManager
     public function __construct(
         #[Autowire('%kernel.project_dir%/var/pending_uploads')]
         private readonly string $directory,
+        private readonly ImageConverter $imageConverter,
+        private readonly AlbumProvider $albumProvider,
     ) {
     }
 
@@ -37,29 +44,66 @@ class PendingUploadManager
         }
 
         $token = bin2hex(random_bytes(16));
-        $file->move($this->directory, $this->getFilename($token));
+        $file->move($this->directory, \sprintf('%s.%s', $token, self::EXTENSION));
 
         return $token;
+    }
+
+    /**
+     * Generates the resized image and the thumbnail of the given album for the stored file. It can be called
+     * again for the same token, e.g. when another album has been chosen in the meantime.
+     *
+     * @throws \InvalidArgumentException when the token or the album is unknown
+     */
+    public function process(string $token, string $albumSlug): void
+    {
+        if (!$this->exists($token)) {
+            throw new \InvalidArgumentException('Nie znaleziono przesłanego pliku, dodaj go ponownie');
+        }
+
+        if (!$this->albumProvider->slugExists($albumSlug)) {
+            throw new \InvalidArgumentException('Nieznany album');
+        }
+
+        // the marker is removed first, so a half finished conversion can never be taken for a finished one
+        $marker = $this->getPath($token, 'album');
+
+        if (is_file($marker)) {
+            unlink($marker);
+        }
+
+        $this->imageConverter
+            ->setAlbum($this->albumProvider->getBySlug($albumSlug))
+            ->convertFile(
+                $this->getPath($token, self::EXTENSION),
+                $this->getPath($token, 'image.'.self::EXTENSION),
+                $this->getPath($token, 'thumb.'.self::EXTENSION)
+            );
+
+        file_put_contents($marker, $albumSlug);
     }
 
     /**
      * Returns the stored file as an upload that can be handled like a regular one, or null
      * when the token is malformed or the file does not exist (anymore).
      */
-    public function find(string $token): ?UploadedFile
+    public function find(string $token): ?PendingUploadedFile
     {
-        if (1 !== preg_match(self::TOKEN_PATTERN, $token)) {
+        if (!$this->exists($token)) {
             return null;
         }
 
-        $path = \sprintf('%s/%s', $this->directory, $this->getFilename($token));
+        $marker = $this->getPath($token, 'album');
+        $album = is_file($marker) ? trim((string) file_get_contents($marker)) : null;
 
-        if (!is_file($path)) {
-            return null;
-        }
-
-        // "test" mode lets the file be moved with rename() instead of move_uploaded_file()
-        return new UploadedFile($path, $this->getFilename($token), 'image/jpeg', null, true);
+        return new PendingUploadedFile(
+            $this->getPath($token, self::EXTENSION),
+            \sprintf('%s.%s', $token, self::EXTENSION),
+            $album,
+            $this->getPath($token, 'image.'.self::EXTENSION),
+            $this->getPath($token, 'thumb.'.self::EXTENSION),
+            $marker
+        );
     }
 
     public function purgeStale(): void
@@ -70,15 +114,20 @@ class PendingUploadManager
 
         $threshold = time() - self::STALE_AFTER;
 
-        foreach (glob(\sprintf('%s/*.%s', $this->directory, self::EXTENSION)) ?: [] as $path) {
+        foreach (glob(\sprintf('%s/*', $this->directory)) ?: [] as $path) {
             if (is_file($path) && filemtime($path) < $threshold) {
                 unlink($path);
             }
         }
     }
 
-    private function getFilename(string $token): string
+    private function exists(string $token): bool
     {
-        return \sprintf('%s.%s', $token, self::EXTENSION);
+        return 1 === preg_match(self::TOKEN_PATTERN, $token) && is_file($this->getPath($token, self::EXTENSION));
+    }
+
+    private function getPath(string $token, string $suffix): string
+    {
+        return \sprintf('%s/%s.%s', $this->directory, $token, $suffix);
     }
 }
