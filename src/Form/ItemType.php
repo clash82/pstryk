@@ -146,8 +146,9 @@ class ItemType extends AbstractType
             // by JavaScript only after the file has been chosen
             $hasFile = ($image['file'] ?? null) instanceof UploadedFile;
             $hasName = '' !== trim((string) ($image['name'] ?? ''));
+            $hasToken = '' !== trim((string) ($image['uploadToken'] ?? ''));
 
-            if (!$hasFile && !$hasName) {
+            if (!$hasFile && !$hasName && !$hasToken) {
                 unset($images[$key]);
             }
         }
