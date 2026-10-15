@@ -16,8 +16,19 @@ use Symfony\Component\Validator\Constraints\File;
 
 class ImageType extends AbstractType
 {
+    public const MAX_FILE_SIZE = '5M';
+
     public function buildForm(FormBuilderInterface $builder, array $options = []): void
     {
+        $fileConstraint = new File(
+            maxSize: self::MAX_FILE_SIZE,
+            mimeTypes: [
+                'image/jpeg',
+            ],
+            maxSizeMessage: 'Maksymalny rozmiar dla pliku to '.self::MAX_FILE_SIZE,
+            mimeTypesMessage: 'Możesz dodać wyłącznie pliki w formacie JPEG',
+        );
+
         $builder
             // tricky way to get thumbnail path in the form view, this value will not be saved
             ->add('filePath', null, [
@@ -59,16 +70,12 @@ class ImageType extends AbstractType
             ->add('file', CoreFileType::class, [
                 'label' => false,
                 'required' => false,
-                'constraints' => [
-                    new File(
-                        maxSize: '5M',
-                        mimeTypes: [
-                            'image/jpeg',
-                        ],
-                        maxSizeMessage: 'Maksymalny rozmiar dla pliku to 5M',
-                        mimeTypesMessage: 'Możesz dodać wyłącznie pliki w formacie JPEG',
-                    ),
+                // the same limit is used by the drop zone to reject too big files before they get added
+                'attr' => [
+                    'data-max-size' => $fileConstraint->maxSize,
+                    'data-max-size-message' => $fileConstraint->maxSizeMessage,
                 ],
+                'constraints' => [$fileConstraint],
             ]);
     }
 

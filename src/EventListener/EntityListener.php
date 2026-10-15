@@ -7,6 +7,7 @@ use App\Entity\Item;
 use App\Image\ImageConverter;
 use App\Provider\AlbumProvider;
 use App\Provider\StoragePathProvider;
+use App\Value\FilePath;
 use Doctrine\ORM\Event\PostLoadEventArgs;
 use Doctrine\ORM\Event\PostPersistEventArgs;
 use Doctrine\ORM\Event\PostRemoveEventArgs;
@@ -65,22 +66,25 @@ class EntityListener
     {
         // we should remove assigned files only after successful entity removal
         foreach ($this->filesToDelete as $file) {
-            // in some cases it might happen that file not exists (mostly in dev mode
-            // when performing tests) - should not occur in normal usage
-            if (!$file->getFilePath()->getRawRelativePath()) {
+            $filePath = $file->getFilePath();
+
+            // an image entity might exist without any uploaded file (no extension means no file path),
+            // and in some cases the file might be missing on the disk (mostly in dev mode when performing
+            // tests) - there is nothing to delete then
+            if (!$filePath instanceof FilePath || !$filePath->getRawRelativePath()) {
                 continue;
             }
 
-            if (file_exists($file->getFilePath()->getRawRelativePath())) {
-                unlink($file->getFilePath()->getRawRelativePath());
+            if (file_exists($filePath->getRawRelativePath())) {
+                unlink($filePath->getRawRelativePath());
             }
 
-            if (file_exists($file->getFilePath()->getThumbRelativePath())) {
-                unlink($file->getFilePath()->getThumbRelativePath());
+            if (file_exists($filePath->getThumbRelativePath())) {
+                unlink($filePath->getThumbRelativePath());
             }
 
-            if (file_exists($file->getFilePath()->getImageRelativePath())) {
-                unlink($file->getFilePath()->getImageRelativePath());
+            if (file_exists($filePath->getImageRelativePath())) {
+                unlink($filePath->getImageRelativePath());
             }
         }
 

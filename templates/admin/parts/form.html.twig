@@ -95,7 +95,12 @@
             // drop zone placed right above the list of attached images; every dropped file gets its own row
             (function () {
                 var $collection = $('.images-collection');
-                var maxSize = 5 * 1024 * 1024;
+                // the limit comes from the file constraint defined in ImageType (rendered into the prototype)
+                var $prototypeInput = $('<div>').html($collection.data('prototype') || '').find('input[type=file]').first();
+                var maxSize = parseInt($prototypeInput.attr('data-max-size'), 10) || 0;
+                var maxSizeMessage = $prototypeInput.attr('data-max-size-message') || 'Plik jest za duży';
+                // Symfony's "5M" means 5 000 000 bytes, so sizes are shown in decimal megabytes as well
+                var maxSizeLabel = (maxSize / 1000000).toFixed(maxSize % 1000000 ? 1 : 0) + ' MB';
                 var added = {};
 
                 if ($collection.length === 0 || typeof DataTransfer === 'undefined') {
@@ -105,11 +110,15 @@
                 var $zone = $(
                     '<div class="dropzone">' +
                         '<span class="fas fa-cloud-upload-alt dropzone-icon"></span>' +
-                        '<div>Przeciągnij tutaj zdjęcia (JPEG, maks. 5 MB)</div>' +
+                        '<div class="dropzone-hint"></div>' +
                         '<div class="dropzone-messages"></div>' +
                     '</div>'
                 ).insertBefore($collection);
                 var $messages = $zone.find('.dropzone-messages');
+
+                $zone.find('.dropzone-hint').text(
+                    'Przeciągnij tutaj zdjęcia (JPEG' + (maxSize ? ', maks. ' + maxSizeLabel : '') + ')'
+                );
 
                 function isEmptyRow($row) {
                     return $.trim($row.find('input[id$="_name"]').val() || '') === '';
@@ -160,8 +169,8 @@
 
                         if (file.type !== 'image/jpeg') {
                             errors.push(file.name + ': dozwolone są tylko pliki JPEG');
-                        } else if (file.size > maxSize) {
-                            errors.push(file.name + ': plik jest większy niż 5 MB');
+                        } else if (maxSize && file.size > maxSize) {
+                            errors.push(file.name + ': ' + maxSizeMessage + ' (' + (Math.ceil(file.size / 100000) / 10).toFixed(1) + ' MB)');
                         } else if (added[key]) {
                             errors.push(file.name + ': plik został już dodany');
                         } else if (addFile(file)) {
