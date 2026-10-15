@@ -21,7 +21,7 @@
         {% endif %}
 
         <div class="container frame-item-image-gallery">
-            {% for image in item.images %}
+            {% for image in item.publicImages %}
                 <div class="frame-item-thumb col-12 text-center">
                     <a href="{{ image.filePath.imagePublicPath }}">
                         <img src="{{ image.filePath.thumbPublicPath }}" class="img-fluid"

@@ -23,7 +23,7 @@
                 {% endif %}
 
                 {% if item.mainImage is not empty %}
-                    {% include 'album/rafal/image_' ~ (item.images|length > 4 ? 4 : item.images|length) ~ '.html.twig' %}
+                    {% include 'album/rafal/image_' ~ (item.publicImages|length > 4 ? 4 : item.publicImages|length) ~ '.html.twig' %}
                 {% endif %}
             </div>
         {% endfor %}

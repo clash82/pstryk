@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Image;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType as CoreFileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\RadioType;
@@ -41,6 +42,10 @@ class ImageType extends AbstractType
              ])
             ->add('isMain', RadioType::class, [
                 'label' => 'To zdjęcie jest również okładką',
+                'required' => false,
+            ])
+            ->add('isPublic', CheckboxType::class, [
+                'label' => 'Publiczny',
                 'required' => false,
             ])
             ->add('position', HiddenType::class, [
