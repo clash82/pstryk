@@ -16,16 +16,19 @@ use Symfony\Component\Validator\Constraints\File;
 
 class ImageType extends AbstractType
 {
-    public const MAX_FILE_SIZE = '5M';
+    /** used only when the upload_max_filesize ini value cannot be read or is unlimited */
+    private const FALLBACK_MAX_FILE_SIZE = '5M';
 
     public function buildForm(FormBuilderInterface $builder, array $options = []): void
     {
+        $maxFileSize = $this->getMaxFileSize();
+
         $fileConstraint = new File(
-            maxSize: self::MAX_FILE_SIZE,
+            maxSize: $maxFileSize,
             mimeTypes: [
                 'image/jpeg',
             ],
-            maxSizeMessage: 'Maksymalny rozmiar dla pliku to '.self::MAX_FILE_SIZE,
+            maxSizeMessage: 'Maksymalny rozmiar dla pliku to '.$maxFileSize,
             mimeTypesMessage: 'Możesz dodać wyłącznie pliki w formacie JPEG',
         );
 
@@ -77,6 +80,22 @@ class ImageType extends AbstractType
                 ],
                 'constraints' => [$fileConstraint],
             ]);
+    }
+
+    /**
+     * The limit is taken from PHP's upload_max_filesize (e.g. "5M"), so the form validation,
+     * the drop zone and the server never disagree about the allowed size.
+     */
+    private function getMaxFileSize(): string
+    {
+        $limit = trim((string) \ini_get('upload_max_filesize'));
+
+        // "0" / "-1" mean unlimited and anything else non-numeric cannot be handled by the constraint
+        if (!preg_match('/^[1-9]\d*[KMG]?$/i', $limit)) {
+            return self::FALLBACK_MAX_FILE_SIZE;
+        }
+
+        return $limit;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
