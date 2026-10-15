@@ -81,7 +81,11 @@
                 'after_init': function () {
                     onInit();
                 },
-                'after_add': function () {
+                'after_add': function (collection, element) {
+                    // the collection prototype is rendered without entity data, so the new row's
+                    // "Publiczny" checkbox has to be checked by hand to match the entity default
+                    $(element).find('input[type=checkbox]').prop('checked', true);
+
                     onInit();
 
                     return true;
