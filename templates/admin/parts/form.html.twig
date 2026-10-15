@@ -128,8 +128,9 @@
                     if ($last.length) {
                         $last.find('.collection-add').first().trigger('click');
                     } else {
-                        // with no rows left the plugin only renders its "rescue" add button
-                        $collection.find('.collection-rescue-add').first().trigger('click');
+                        // with no rows left the plugin only renders its "rescue" add button; its class is
+                        // prefixed with the generated collection id, so it can only be matched by suffix
+                        $collection.find('[class*="collection-rescue-add"]').first().trigger('click');
                     }
 
                     return $collection.find('.form-images-container').last();
