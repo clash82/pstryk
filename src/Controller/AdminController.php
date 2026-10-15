@@ -5,22 +5,26 @@ namespace App\Controller;
 use App\Controller\Helper\ParametersHelper;
 use App\Controller\Helper\RedirectHelper;
 use App\Entity\Item;
+use App\Form\ImageType;
 use App\Form\ItemType;
 use App\Manager\AdminSettingsManager;
 use App\Manager\ItemManager;
+use App\Manager\PendingUploadManager;
 use App\Provider\AdminSettingsProvider;
 use App\Provider\AlbumProvider;
 use App\Provider\ItemProvider;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class AdminController extends AbstractController
 {
-    public function __construct(private readonly ItemProvider $itemProvider, private readonly ItemManager $itemManager, private readonly AlbumProvider $albumProvider, private readonly ParametersHelper $parametersHelper, private readonly RedirectHelper $redirectHelper, private readonly AdminSettingsProvider $adminSettingsProvider, private readonly AdminSettingsManager $adminSettingsManager)
+    public function __construct(private readonly ItemProvider $itemProvider, private readonly ItemManager $itemManager, private readonly AlbumProvider $albumProvider, private readonly ParametersHelper $parametersHelper, private readonly RedirectHelper $redirectHelper, private readonly AdminSettingsProvider $adminSettingsProvider, private readonly AdminSettingsManager $adminSettingsManager, private readonly PendingUploadManager $pendingUploadManager, private readonly ValidatorInterface $validator)
     {
     }
 
@@ -111,6 +115,55 @@ class AdminController extends AbstractController
         return $this->render('admin/parts/form.html.twig', [
             'title' => 'Dodaj zestaw zdjęć',
             'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * Receives a single image from the drop zone. Files are sent one per request, so the number of images
+     * in the item is not limited by max_file_uploads, post_max_size or max_input_time. The item form
+     * refers to the stored file by the returned token.
+     */
+    #[Route('/zaplecze/item/upload-image', name: 'app_admin_item_upload_image', methods: ['POST'], condition: 'request.isXmlHttpRequest()')]
+    public function uploadImage(Request $request): JsonResponse
+    {
+        $file = $request->files->get('file');
+
+        if (!$file instanceof UploadedFile) {
+            // typically means that the file was bigger than post_max_size and PHP dropped the whole request
+            return new JsonResponse([
+                'errorCode' => 1,
+                'errorDescription' => 'Nie otrzymano pliku',
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        if (!$file->isValid()) {
+            return new JsonResponse([
+                'errorCode' => 1,
+                'errorDescription' => $file->getErrorMessage(),
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $violations = $this->validator->validate($file, ImageType::createFileConstraint());
+
+        if (\count($violations) > 0) {
+            return new JsonResponse([
+                'errorCode' => 1,
+                'errorDescription' => $violations->get(0)->getMessage(),
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        try {
+            $token = $this->pendingUploadManager->store($file);
+        } catch (Exception $exception) {
+            return new JsonResponse([
+                'errorCode' => 2,
+                'errorDescription' => $exception->getMessage(),
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        return new JsonResponse([
+            'errorCode' => 0,
+            'token' => $token,
         ]);
     }
 

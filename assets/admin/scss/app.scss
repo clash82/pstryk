@@ -175,9 +175,24 @@ footer {
     font-size: 2em;
   }
 
+  .dropzone-status {
+    margin-top: 0.5em;
+    font-size: 0.85em;
+  }
+
   .dropzone-error {
     margin-top: 0.5em;
     font-size: 0.85em;
+    color: #ed0000;
+  }
+}
+
+.upload-status {
+  margin-top: 0.3em;
+  font-size: 0.8em;
+  color: #0f896f;
+
+  &.upload-failed {
     color: #ed0000;
   }
 }

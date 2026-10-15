@@ -111,6 +111,7 @@
                     '<div class="dropzone">' +
                         '<span class="fas fa-cloud-upload-alt dropzone-icon"></span>' +
                         '<div class="dropzone-hint"></div>' +
+                        '<div class="dropzone-status"></div>' +
                         '<div class="dropzone-messages"></div>' +
                     '</div>'
                 ).insertBefore($collection);
@@ -145,46 +146,210 @@
                     return $collection.find('.form-images-container').last();
                 }
 
-                function addFile(file) {
-                    var $row = nextRow();
-                    var $input = $row.find('input[type=file]');
+                // Every dropped file is sent in its own request (up to "maxParallel" at a time), so the number
+                // of files is not limited by max_file_uploads, post_max_size or max_input_time. The form only
+                // gets a token of the stored file, which is why it cannot be submitted before the queue is empty.
+                var uploadUrl = '{{ path('app_admin_item_upload_image')|e('js') }}';
+                var maxParallel = 3;
+                var maxAttempts = 4;
+                var queue = [];
+                var active = 0;
+                var pending = 0;
+                var finished = 0;
+                var total = 0;
+                var submitAfterUploads = false;
+                var $form = $collection.closest('form');
+                var $status = $zone.find('.dropzone-status');
 
-                    if ($input.length === 0) {
+                function showError(message) {
+                    $('<div class="dropzone-error"></div>').text(message).appendTo($messages);
+                }
+
+                function updateStatus() {
+                    if (pending === 0) {
+                        $status.text(total > 0 ? 'Przesłano wszystkie pliki (' + finished + ')' : '');
+                        $zone.removeClass('uploading');
+                        total = finished = 0;
+
+                        return;
+                    }
+
+                    $zone.addClass('uploading');
+                    $status.text('Przesyłanie plików: ' + finished + ' z ' + total + '…');
+                }
+
+                function setRowStatus(task, text, failed) {
+                    task.$status.text(text).toggleClass('upload-failed', !!failed);
+                }
+
+                function finishTask(task, ok) {
+                    active--;
+                    pending--;
+                    finished++;
+
+                    if (!ok) {
+                        // the entry cannot be saved without its file, so it is taken off the list
+                        delete added[task.key];
+                        task.$row.find('.collection-remove').first().trigger('click');
+                    }
+
+                    updateStatus();
+                    pump();
+
+                    if (pending === 0 && submitAfterUploads) {
+                        submitAfterUploads = false;
+                        $form.find(':submit').first().trigger('click');
+                    }
+                }
+
+                function upload(task) {
+                    var xhr = new XMLHttpRequest();
+                    var data = new FormData();
+
+                    task.attempt++;
+                    data.append('file', task.file, task.file.name);
+
+                    xhr.open('POST', uploadUrl);
+                    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+
+                    xhr.upload.onprogress = function (e) {
+                        if (e.lengthComputable) {
+                            setRowStatus(task, 'Przesyłanie… ' + Math.round(e.loaded / e.total * 100) + '%');
+                        }
+                    };
+
+                    xhr.onload = function () {
+                        var response = null;
+
+                        try {
+                            response = JSON.parse(xhr.responseText);
+                        } catch (e) {
+                            // not JSON, e.g. the login page after the session has expired
+                        }
+
+                        if (xhr.status === 200 && response && response.errorCode === 0 && response.token) {
+                            task.$token.val(response.token);
+                            setRowStatus(task, 'Przesłano');
+                            finishTask(task, true);
+
+                            return;
+                        }
+
+                        // the server understood the request and rejected the file, so a retry would not help
+                        if (xhr.status === 422) {
+                            showError(task.file.name + ': ' + (response && response.errorDescription
+                                ? response.errorDescription
+                                : 'serwer odrzucił plik'));
+                            finishTask(task, false);
+
+                            return;
+                        }
+
+                        // an answer that is not the expected JSON (e.g. the login page) or a client error
+                        // means a lost session or a wrong request - retrying would not change anything
+                        if ((xhr.status === 200 && !response) || (xhr.status >= 400 && xhr.status < 500 && xhr.status !== 408 && xhr.status !== 429)) {
+                            showError(task.file.name + ': serwer odrzucił plik (' + xhr.status + '), być może sesja wygasła - odśwież stronę');
+                            finishTask(task, false);
+
+                            return;
+                        }
+
+                        retryOrFail(task, 'błąd serwera (' + xhr.status + ')');
+                    };
+
+                    xhr.onerror = xhr.ontimeout = function () {
+                        retryOrFail(task, 'przerwane połączenie');
+                    };
+
+                    xhr.send(data);
+                }
+
+                function retryOrFail(task, reason) {
+                    if (task.attempt >= maxAttempts) {
+                        showError(task.file.name + ': nie udało się przesłać pliku (' + reason + ')');
+                        finishTask(task, false);
+
+                        return;
+                    }
+
+                    setRowStatus(task, 'Ponawianie… (' + task.attempt + '/' + (maxAttempts - 1) + ')', true);
+                    setTimeout(function () { upload(task); }, task.attempt * 1500);
+                }
+
+                function pump() {
+                    while (active < maxParallel && queue.length > 0) {
+                        active++;
+                        setRowStatus(queue[0], 'Przesyłanie…');
+                        upload(queue.shift());
+                    }
+                }
+
+                function addFile(file, key) {
+                    var $row = nextRow();
+                    var $nameInput = $row.find('input[id$="_name"]');
+                    var $token = $row.find('input[id$="_uploadToken"]');
+                    var $fileInput = $row.find('input[type=file]');
+
+                    if ($fileInput.length === 0 || $token.length === 0) {
                         return false;
                     }
 
-                    var transfer = new DataTransfer();
-                    transfer.items.add(file);
-                    $input.get(0).files = transfer.files;
-                    $input.trigger('change');
+                    var fieldId = $fileInput.attr('id').match(/\d+/)[0];
+                    var previewUrl = URL.createObjectURL(file);
+                    var $rowStatus = $row.find('.upload-status');
+
+                    if ($rowStatus.length === 0) {
+                        $rowStatus = $('<div class="upload-status"></div>').insertAfter($nameInput);
+                    }
+
+                    // the same things the regular file input change handler does
+                    $nameInput.val(file.name);
+                    $('#item_image_' + fieldId + '_thumb').attr('src', previewUrl).parent().attr('href', previewUrl);
+                    $token.val('');
+
+                    queue.push({file: file, key: key, $row: $row, $token: $token, $status: $rowStatus, attempt: 0});
+                    pending++;
+                    total++;
+                    updateStatus();
+                    pump();
 
                     return true;
                 }
 
                 function handleFiles(files) {
-                    var errors = [];
+                    $messages.empty();
 
                     $.each(files, function (i, file) {
                         var key = [file.name, file.size, file.lastModified].join('|');
 
                         if (file.type !== 'image/jpeg') {
-                            errors.push(file.name + ': dozwolone są tylko pliki JPEG');
+                            showError(file.name + ': dozwolone są tylko pliki JPEG');
                         } else if (maxSize && file.size > maxSize) {
-                            errors.push(file.name + ': ' + maxSizeMessage + ' (' + (Math.ceil(file.size / 100000) / 10).toFixed(1) + ' MB)');
+                            showError(file.name + ': ' + maxSizeMessage + ' (' + (Math.ceil(file.size / 100000) / 10).toFixed(1) + ' MB)');
                         } else if (added[key]) {
-                            errors.push(file.name + ': plik został już dodany');
-                        } else if (addFile(file)) {
+                            showError(file.name + ': plik został już dodany');
+                        } else if (addFile(file, key)) {
                             added[key] = true;
                         } else {
-                            errors.push(file.name + ': nie udało się dodać pliku do listy');
+                            showError(file.name + ': nie udało się dodać pliku do listy');
                         }
                     });
-
-                    $messages.empty();
-                    $.each(errors, function (i, message) {
-                        $('<div class="dropzone-error"></div>').text(message).appendTo($messages);
-                    });
                 }
+
+                // the form must not be sent before every dropped file has reached the server
+                $form.on('submit', function (e) {
+                    if (pending > 0) {
+                        e.preventDefault();
+                        submitAfterUploads = true;
+                        $status.text('Formularz zostanie zapisany po przesłaniu wszystkich plików (' + finished + ' z ' + total + ')…');
+                    }
+                });
+
+                $(window).on('beforeunload', function () {
+                    if (pending > 0) {
+                        return 'Trwa przesyłanie plików.';
+                    }
+                });
 
                 function hasFiles(event) {
                     var types = event.originalEvent.dataTransfer && event.originalEvent.dataTransfer.types;

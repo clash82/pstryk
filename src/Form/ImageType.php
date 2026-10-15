@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Image;
+use App\Manager\PendingUploadManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType as CoreFileType;
@@ -11,6 +12,9 @@ use Symfony\Component\Form\Extension\Core\Type\RadioType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
 
@@ -19,11 +23,18 @@ class ImageType extends AbstractType
     /** used only when the upload_max_filesize ini value cannot be read or is unlimited */
     private const FALLBACK_MAX_FILE_SIZE = '5M';
 
-    public function buildForm(FormBuilderInterface $builder, array $options = []): void
+    public function __construct(private readonly PendingUploadManager $pendingUploadManager)
     {
-        $maxFileSize = $this->getMaxFileSize();
+    }
 
-        $fileConstraint = new File(
+    /**
+     * Shared by the form and by the endpoint that receives files one by one, so both enforce the same rules.
+     */
+    public static function createFileConstraint(): File
+    {
+        $maxFileSize = self::getMaxFileSize();
+
+        return new File(
             maxSize: $maxFileSize,
             mimeTypes: [
                 'image/jpeg',
@@ -31,6 +42,11 @@ class ImageType extends AbstractType
             maxSizeMessage: 'Maksymalny rozmiar dla pliku to '.$maxFileSize,
             mimeTypesMessage: 'Możesz dodać wyłącznie pliki w formacie JPEG',
         );
+    }
+
+    public function buildForm(FormBuilderInterface $builder, array $options = []): void
+    {
+        $fileConstraint = self::createFileConstraint();
 
         $builder
             // tricky way to get thumbnail path in the form view, this value will not be saved
@@ -70,6 +86,12 @@ class ImageType extends AbstractType
                     'class' => 'image-position',
                 ],
             ])
+            // set by the drop zone: identifies a file that has already been uploaded in a separate request
+            ->add('uploadToken', HiddenType::class, [
+                'label' => false,
+                'required' => false,
+                'mapped' => false,
+            ])
             ->add('file', CoreFileType::class, [
                 'label' => false,
                 'required' => false,
@@ -80,13 +102,29 @@ class ImageType extends AbstractType
                 ],
                 'constraints' => [$fileConstraint],
             ]);
+
+        // a file uploaded earlier by the drop zone replaces the (empty) file input of the entry
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event): void {
+            $data = $event->getData();
+
+            if (!\is_array($data) || ($data['file'] ?? null) instanceof UploadedFile) {
+                return;
+            }
+
+            $file = $this->pendingUploadManager->find((string) ($data['uploadToken'] ?? ''));
+
+            if ($file instanceof UploadedFile) {
+                $data['file'] = $file;
+                $event->setData($data);
+            }
+        });
     }
 
     /**
      * The limit is taken from PHP's upload_max_filesize (e.g. "5M"), so the form validation,
      * the drop zone and the server never disagree about the allowed size.
      */
-    private function getMaxFileSize(): string
+    private static function getMaxFileSize(): string
     {
         $limit = trim((string) \ini_get('upload_max_filesize'));
 
