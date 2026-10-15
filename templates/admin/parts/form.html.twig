@@ -147,9 +147,12 @@
                 }
 
                 // Every dropped file is sent in its own request (up to "maxParallel" at a time), so the number
-                // of files is not limited by max_file_uploads, post_max_size or max_input_time. The form only
-                // gets a token of the stored file, which is why it cannot be submitted before the queue is empty.
+                // of files is not limited by max_file_uploads, post_max_size or max_input_time. The server also
+                // generates the resized image and the thumbnail right away (they depend on the chosen album),
+                // so saving the form is quick and only has to move the ready files. The form gets just a token
+                // of the stored file, which is why it cannot be submitted before the queue is empty.
                 var uploadUrl = '{{ path('app_admin_item_upload_image')|e('js') }}';
+                var processUrl = '{{ path('app_admin_item_process_image')|e('js') }}';
                 var maxParallel = 3;
                 var maxAttempts = 4;
                 var queue = [];
@@ -160,6 +163,11 @@
                 var submitAfterUploads = false;
                 var $form = $collection.closest('form');
                 var $status = $zone.find('.dropzone-status');
+                var $album = $('#item_album');
+
+                function currentAlbum() {
+                    return $album.val() || '';
+                }
 
                 function showError(message) {
                     $('<div class="dropzone-error"></div>').text(message).appendTo($messages);
@@ -167,7 +175,7 @@
 
                 function updateStatus() {
                     if (pending === 0) {
-                        $status.text(total > 0 ? 'Przesłano wszystkie pliki (' + finished + ')' : '');
+                        $status.text(total > 0 ? 'Przesłano i przetworzono wszystkie pliki (' + finished + ')' : '');
                         $zone.removeClass('uploading');
                         total = finished = 0;
 
@@ -175,22 +183,38 @@
                     }
 
                     $zone.addClass('uploading');
-                    $status.text('Przesyłanie plików: ' + finished + ' z ' + total + '…');
+                    $status.text('Przesyłanie i przetwarzanie plików: ' + finished + ' z ' + total + '…');
                 }
 
                 function setRowStatus(task, text, failed) {
                     task.$status.text(text).toggleClass('upload-failed', !!failed);
                 }
 
+                function enqueue(task) {
+                    queue.push(task);
+                    pending++;
+                    total++;
+                    updateStatus();
+                    pump();
+                }
+
                 function finishTask(task, ok) {
                     active--;
                     pending--;
                     finished++;
+                    task.$row.data('busy', false);
 
-                    if (!ok) {
+                    if (!ok && task.type === 'upload') {
                         // the entry cannot be saved without its file, so it is taken off the list
                         delete added[task.key];
                         task.$row.find('.collection-remove').first().trigger('click');
+                    }
+
+                    if (ok) {
+                        task.$row.data('album', task.album);
+
+                        // another album has been chosen while this file was being handled
+                        syncAlbum(task.$row);
                     }
 
                     updateStatus();
@@ -202,20 +226,48 @@
                     }
                 }
 
-                function upload(task) {
+                // converts an already uploaded file again when its album is not the one chosen in the form
+                function syncAlbum($row) {
+                    var album = currentAlbum();
+                    var $token = $row.find('input[id$="_uploadToken"]');
+
+                    if (!album || !$token.val() || $row.data('busy') || $row.data('album') === album) {
+                        return;
+                    }
+
+                    $row.data('busy', true);
+                    enqueue({
+                        type: 'process', file: {name: $row.find('input[id$="_name"]').val()}, $row: $row,
+                        $token: $token, $status: $row.find('.upload-status'), album: album, attempt: 0
+                    });
+                }
+
+                function send(task) {
                     var xhr = new XMLHttpRequest();
                     var data = new FormData();
 
                     task.attempt++;
-                    data.append('file', task.file, task.file.name);
+                    task.album = currentAlbum();
+                    data.append('album', task.album);
 
-                    xhr.open('POST', uploadUrl);
+                    if (task.type === 'upload') {
+                        data.append('file', task.file, task.file.name);
+                    } else {
+                        data.append('token', task.$token.val());
+                    }
+
+                    xhr.open('POST', task.type === 'upload' ? uploadUrl : processUrl);
                     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 
                     xhr.upload.onprogress = function (e) {
                         if (e.lengthComputable) {
                             setRowStatus(task, 'Przesyłanie… ' + Math.round(e.loaded / e.total * 100) + '%');
                         }
+                    };
+
+                    // the whole file has been sent, now the server converts it
+                    xhr.upload.onload = function () {
+                        setRowStatus(task, 'Przetwarzanie…');
                     };
 
                     xhr.onload = function () {
@@ -227,9 +279,12 @@
                             // not JSON, e.g. the login page after the session has expired
                         }
 
-                        if (xhr.status === 200 && response && response.errorCode === 0 && response.token) {
-                            task.$token.val(response.token);
-                            setRowStatus(task, 'Przesłano');
+                        if (xhr.status === 200 && response && response.errorCode === 0 && (response.token || task.type === 'process')) {
+                            if (task.type === 'upload') {
+                                task.$token.val(response.token);
+                            }
+
+                            setRowStatus(task, 'Gotowe');
                             finishTask(task, true);
 
                             return;
@@ -273,14 +328,14 @@
                     }
 
                     setRowStatus(task, 'Ponawianie… (' + task.attempt + '/' + (maxAttempts - 1) + ')', true);
-                    setTimeout(function () { upload(task); }, task.attempt * 1500);
+                    setTimeout(function () { send(task); }, task.attempt * 1500);
                 }
 
                 function pump() {
                     while (active < maxParallel && queue.length > 0) {
                         active++;
                         setRowStatus(queue[0], 'Przesyłanie…');
-                        upload(queue.shift());
+                        send(queue.shift());
                     }
                 }
 
@@ -306,18 +361,21 @@
                     $nameInput.val(file.name);
                     $('#item_image_' + fieldId + '_thumb').attr('src', previewUrl).parent().attr('href', previewUrl);
                     $token.val('');
+                    $row.data('album', null).data('busy', true);
 
-                    queue.push({file: file, key: key, $row: $row, $token: $token, $status: $rowStatus, attempt: 0});
-                    pending++;
-                    total++;
-                    updateStatus();
-                    pump();
+                    enqueue({type: 'upload', file: file, key: key, $row: $row, $token: $token, $status: $rowStatus, attempt: 0});
 
                     return true;
                 }
 
                 function handleFiles(files) {
                     $messages.empty();
+
+                    if (!currentAlbum()) {
+                        showError('Wybierz album, zanim dodasz zdjęcia (rozmiar i znak wodny zależą od albumu)');
+
+                        return;
+                    }
 
                     $.each(files, function (i, file) {
                         var key = [file.name, file.size, file.lastModified].join('|');
@@ -335,6 +393,13 @@
                         }
                     });
                 }
+
+                // images that are already on the server have to be converted again for the new album
+                $album.on('change', function () {
+                    $collection.find('.form-images-container').each(function () {
+                        syncAlbum($(this));
+                    });
+                });
 
                 // the form must not be sent before every dropped file has reached the server
                 $form.on('submit', function (e) {

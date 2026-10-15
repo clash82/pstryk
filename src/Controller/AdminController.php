@@ -152,18 +152,58 @@ class AdminController extends AbstractController
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
+        $album = (string) $request->request->get('album');
+
+        if (!$this->albumProvider->slugExists($album)) {
+            return new JsonResponse([
+                'errorCode' => 1,
+                'errorDescription' => 'Wybierz album, zanim dodasz zdjęcia',
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
         try {
             $token = $this->pendingUploadManager->store($file);
+            // converting right away keeps saving the item fast, no matter how many images it has
+            $this->pendingUploadManager->process($token, $album);
         } catch (Exception $exception) {
+            // most likely a damaged image, so repeating the request would not help
             return new JsonResponse([
                 'errorCode' => 2,
-                'errorDescription' => $exception->getMessage(),
-            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+                'errorDescription' => 'Nie udało się przetworzyć obrazu: '.$exception->getMessage(),
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         return new JsonResponse([
             'errorCode' => 0,
             'token' => $token,
+        ]);
+    }
+
+    /**
+     * Converts an already uploaded image again, for another album (the album defines sizes and watermark).
+     */
+    #[Route('/zaplecze/item/process-image', name: 'app_admin_item_process_image', methods: ['POST'], condition: 'request.isXmlHttpRequest()')]
+    public function processImage(Request $request): JsonResponse
+    {
+        try {
+            $this->pendingUploadManager->process(
+                (string) $request->request->get('token'),
+                (string) $request->request->get('album')
+            );
+        } catch (\InvalidArgumentException $exception) {
+            return new JsonResponse([
+                'errorCode' => 1,
+                'errorDescription' => $exception->getMessage(),
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        } catch (Exception $exception) {
+            return new JsonResponse([
+                'errorCode' => 2,
+                'errorDescription' => 'Nie udało się przetworzyć obrazu: '.$exception->getMessage(),
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        return new JsonResponse([
+            'errorCode' => 0,
         ]);
     }
 

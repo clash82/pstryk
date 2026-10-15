@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Entity\Traits\Id;
 use App\Image\ImageConverter;
+use App\Image\PendingUploadedFile;
 use App\Provider\StoragePathProvider;
 use App\Repository\ImageRepository;
 use App\Value\FilePath;
@@ -94,7 +95,9 @@ class Image implements \Stringable
             return;
         }
 
-        $this->file->move(
+        $uploadedFile = $this->file;
+
+        $uploadedFile->move(
             $this->storagePathProvider->getRelativeDir(StoragePathProvider::PATH_RAW),
             \sprintf('%s.%s', $this->filename, $this->extension)
         );
@@ -104,8 +107,16 @@ class Image implements \Stringable
         // we have to recreate object to generate new file paths
         $this->filePath = new FilePath($this->storagePathProvider, $this->filename, $this->extension);
 
-        /* @noinspection PhpUnhandledExceptionInspection */
-        $this->imageConverter->convert($this);
+        if ($uploadedFile instanceof PendingUploadedFile && $uploadedFile->isProcessedFor($this->item->getAlbum())) {
+            // the image was already converted when it was dropped on the form, no need to do it again
+            $uploadedFile->moveProcessed(
+                $this->filePath->getImageRelativePath(),
+                $this->filePath->getThumbRelativePath()
+            );
+        } else {
+            /* @noinspection PhpUnhandledExceptionInspection */
+            $this->imageConverter->convert($this);
+        }
 
         // we're overriding existing file so file id is being regenerated, now we should remove old files
         foreach ($this->filesToRemove as $oldFile) {
