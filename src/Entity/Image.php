@@ -11,6 +11,7 @@ use App\Value\ImageDetails;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 #[ORM\Table(name: 'pstryk_image')]
 #[ORM\Index(columns: ['name'], name: 'name_idx')]
@@ -22,7 +23,8 @@ class Image implements \Stringable
     #[ORM\Column(name: 'name', type: 'string', length: 191, nullable: false)]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 191)]
-    private string $name;
+    #[Assert\NotBlank(message: 'Dodaj plik ze zdjęciem lub usuń pusty wpis przed zapisaniem.')]
+    private string $name = '';
 
     #[ORM\Column(name: 'description', type: 'string', length: 255, nullable: true)]
     #[Assert\Type(type: 'string')]
@@ -32,7 +34,7 @@ class Image implements \Stringable
     #[ORM\Column(name: 'filename', type: 'string', length: 40, unique: true, nullable: true)]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 40)]
-    private string $filename;
+    private ?string $filename = null;
 
     #[ORM\Column(name: 'extension', type: 'string', length: 3, nullable: true)]
     #[Assert\Type(type: 'string')]
@@ -117,6 +119,21 @@ class Image implements \Stringable
         }
     }
 
+    /**
+     * Every image entry must have a file: either freshly uploaded or already stored.
+     */
+    #[Assert\Callback]
+    public function validateFile(ExecutionContextInterface $context): void
+    {
+        if ($this->file instanceof UploadedFile || $this->filename) {
+            return;
+        }
+
+        $context->buildViolation('Dodaj plik ze zdjęciem lub usuń pusty wpis przed zapisaniem.')
+            ->atPath('file')
+            ->addViolation();
+    }
+
     public function getFile(): ?UploadedFile
     {
         return $this->file;
@@ -199,7 +216,7 @@ class Image implements \Stringable
         return $this;
     }
 
-    public function getFilename(): string
+    public function getFilename(): ?string
     {
         return $this->filename;
     }
@@ -211,7 +228,7 @@ class Image implements \Stringable
         return $this;
     }
 
-    public function getExtension(): string
+    public function getExtension(): ?string
     {
         return $this->extension;
     }
