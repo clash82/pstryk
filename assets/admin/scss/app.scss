@@ -152,3 +152,32 @@ footer {
     transform: rotate(360deg);
   }
 }
+
+.dropzone {
+  margin-bottom: 1em;
+  padding: 1.5em 1em;
+  border: 2px dashed #adb5bd;
+  border-radius: 0.3em;
+  background: #fafafa;
+  color: #6c757d;
+  text-align: center;
+  transition: background 0.15s, border-color 0.15s;
+
+  &.dragover {
+    border-color: #0f896f;
+    background: #e6f5f1;
+    color: #0f896f;
+  }
+
+  .dropzone-icon {
+    display: block;
+    margin-bottom: 0.3em;
+    font-size: 2em;
+  }
+
+  .dropzone-error {
+    margin-top: 0.5em;
+    font-size: 0.85em;
+    color: #ed0000;
+  }
+}
