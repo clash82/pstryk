@@ -25,7 +25,7 @@ class PendingUploadManager
     private const int STALE_AFTER = 86400;
 
     public function __construct(
-        #[Autowire('%kernel.project_dir%/var/pending_uploads')]
+        #[Autowire('/tmp/pstryk_pending_uploads')]
         private readonly string $directory,
         private readonly ImageConverter $imageConverter,
         private readonly AlbumProvider $albumProvider,
@@ -39,7 +39,7 @@ class PendingUploadManager
     {
         $this->purgeStale();
 
-        if (!is_dir($this->directory) && !mkdir($this->directory, 0775, true) && !is_dir($this->directory)) {
+        if (!is_dir($this->directory) && !mkdir($this->directory, 0700, true) && !is_dir($this->directory)) {
             throw new \RuntimeException(\sprintf('Cannot create directory "%s".', $this->directory));
         }
 
