@@ -5,7 +5,6 @@ namespace App\Manager;
 use App\Image\ImageConverter;
 use App\Image\PendingUploadedFile;
 use App\Provider\AlbumProvider;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
@@ -24,12 +23,17 @@ class PendingUploadManager
     /** files never attached to a submitted form are removed after this time (in seconds) */
     private const int STALE_AFTER = 86400;
 
+    private readonly string $directory;
+
+    /**
+     * @param string|null $directory defaults to a folder inside the system temp directory (sys_get_temp_dir())
+     */
     public function __construct(
-        #[Autowire('/tmp/pstryk_pending_uploads')]
-        private readonly string $directory,
         private readonly ImageConverter $imageConverter,
         private readonly AlbumProvider $albumProvider,
+        ?string $directory = null,
     ) {
+        $this->directory = rtrim($directory ?? \sprintf('%s/pstryk_pending_uploads', sys_get_temp_dir()), '/');
     }
 
     /**
