@@ -1,0 +1,5 @@
+{# Shown only to administrators: marks items that are not visible to regular visitors. #}
+{% if show_hidden|default(false) and not item.isActive %}
+    <span class="badge-hidden" title="Ten album jest niewidoczny dla odwiedzających"
+          style="display:inline-block;padding:.1em .5em;margin-left:.4em;border:1px solid currentColor;border-radius:.25em;font-size:.65em;font-weight:normal;letter-spacing:.05em;text-transform:uppercase;vertical-align:middle;opacity:.8">prywatny</span>
+{% endif %}

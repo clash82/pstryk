@@ -27,7 +27,8 @@ class SitemapController extends AbstractController
         }
 
         // administrators also see inactive (hidden) items in the HTML sitemap
-        $items = $this->getAllItems($album, !$this->isGranted('ROLE_ADMIN'));
+        $showHidden = $this->isGranted('ROLE_ADMIN');
+        $items = $this->getAllItems($album, !$showHidden);
 
         $history = [];
         foreach ($items as $item) {
@@ -38,6 +39,7 @@ class SitemapController extends AbstractController
         /* @noinspection PhpUnhandledExceptionInspection */
         return $this->render(\sprintf('album/%s/sitemap.html.twig', $album->getSlug()), [
             'history' => $history,
+            'show_hidden' => $showHidden,
             'album' => $album,
         ]);
     }

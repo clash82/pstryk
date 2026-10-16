@@ -7,7 +7,7 @@
 {% block body %}
     <div class="row frame-item">
         <div class="frame-item-title col-12 text-center">
-            {{ item.title }}
+            {{ item.title }}{{ include('album/parts/hidden_badge.html.twig') }}
         </div>
 
         <div class="frame-item-date col-12 text-center" data-date="{{ item.date|date('r') }}" title="{{ item.date|date('Y . m . d') }}">

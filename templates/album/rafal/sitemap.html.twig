@@ -17,7 +17,7 @@
                             {{ year }}
                             <ul class="frame-history-items">
                                 {% for item in items %}
-                                    <li><a href="{{ getRoute(item.slug) }}">{{ item.title }}</a></li>
+                                    <li><a href="{{ getRoute(item.slug) }}">{{ item.title }}</a>{{ include('album/parts/hidden_badge.html.twig') }}</li>
                                 {% endfor %}
                             </ul>
                         </li>
