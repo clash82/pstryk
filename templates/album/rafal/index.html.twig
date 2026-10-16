@@ -9,7 +9,7 @@
         {% for item in items %}
             <div class="row frame">
                 <div class="frame-title col-12 text-center">
-                    <a href="{{ getRoute(item.slug) }}">{{ item.title }}</a>{{ include('album/parts/hidden_badge.html.twig') }}
+                    <a href="{{ getRoute(item.slug) }}">{{ item.title }}{{ include('album/parts/hidden_badge.html.twig') }}</a>
                 </div>
 
                 <div class="frame-date col-12 text-center" data-date="{{ item.date|date('r') }}" title="{{ item.date|date('Y . m . d') }}">
