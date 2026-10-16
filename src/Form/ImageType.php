@@ -21,7 +21,7 @@ use Symfony\Component\Validator\Constraints\File;
 class ImageType extends AbstractType
 {
     /** used only when the upload_max_filesize ini value cannot be read or is unlimited */
-    private const FALLBACK_MAX_FILE_SIZE = '5M';
+    private const string FALLBACK_MAX_FILE_SIZE = '5M';
 
     public function __construct(private readonly PendingUploadManager $pendingUploadManager)
     {
@@ -120,6 +120,19 @@ class ImageType extends AbstractType
         });
     }
 
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => Image::class,
+            'creation_type' => null,
+        ]);
+    }
+
+    public function getBlockPrefix(): string
+    {
+        return 'image';
+    }
+
     /**
      * The limit is taken from PHP's upload_max_filesize (e.g. "5M"), so the form validation,
      * the drop zone and the server never disagree about the allowed size.
@@ -134,18 +147,5 @@ class ImageType extends AbstractType
         }
 
         return $limit;
-    }
-
-    public function configureOptions(OptionsResolver $resolver): void
-    {
-        $resolver->setDefaults([
-            'data_class' => Image::class,
-            'creation_type' => null,
-        ]);
-    }
-
-    public function getBlockPrefix(): string
-    {
-        return 'image';
     }
 }

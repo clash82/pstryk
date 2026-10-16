@@ -36,15 +36,15 @@ class PendingUploadedFile extends UploadedFile
 
     public function moveProcessed(string $imageTarget, string $thumbTarget): void
     {
-        self::relocate($this->processedImagePath, $imageTarget);
-        self::relocate($this->processedThumbPath, $thumbTarget);
+        $this->relocate($this->processedImagePath, $imageTarget);
+        $this->relocate($this->processedThumbPath, $thumbTarget);
 
         if (is_file($this->albumMarkerPath)) {
             unlink($this->albumMarkerPath);
         }
     }
 
-    private static function relocate(string $from, string $to): void
+    private function relocate(string $from, string $to): void
     {
         // rename() does not work between different file systems, e.g. mounted volumes
         if (@rename($from, $to)) {
