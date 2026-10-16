@@ -26,7 +26,9 @@ class SitemapController extends AbstractController
             return $this->redirectToRoute('app_album_index');
         }
 
-        $items = $this->getAllItems($album);
+        // administrators also see inactive (hidden) items in the HTML sitemap
+        $showHidden = $this->isGranted('ROLE_ADMIN');
+        $items = $this->getAllItems($album, !$showHidden);
 
         $history = [];
         foreach ($items as $item) {
@@ -37,6 +39,7 @@ class SitemapController extends AbstractController
         /* @noinspection PhpUnhandledExceptionInspection */
         return $this->render(\sprintf('album/%s/sitemap.html.twig', $album->getSlug()), [
             'history' => $history,
+            'show_hidden' => $showHidden,
             'album' => $album,
         ]);
     }
@@ -57,12 +60,13 @@ class SitemapController extends AbstractController
         ]);
     }
 
-    private function getAllItems(Album $album): PaginationInterface
+    private function getAllItems(Album $album, bool $activeOnly = true): PaginationInterface
     {
         return $this->itemProvider->getAllPaginated(
             $album->getSlug(),
             1,
-            \PHP_INT_MAX
+            \PHP_INT_MAX,
+            activeOnly: $activeOnly
         );
     }
 }

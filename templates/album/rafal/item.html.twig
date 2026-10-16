@@ -2,12 +2,12 @@
 
 {% block title %}{{ item.title }}{% endblock %}
 {% block description %}{{ item.description }}{%  endblock %}
-{% block image %}{% if item.mainImage is defined and item.mainImage is not empty %}{{ getRoute(null) }}/{{ item.mainImage.filePath.thumbPublicPath }}{% endif %}{%  endblock %}
+{% block image %}{% if item.getMainImage(show_hidden|default(false)) is defined and item.getMainImage(show_hidden|default(false)) is not empty %}{{ getRoute(null) }}/{{ item.getMainImage(show_hidden|default(false)).filePath.thumbPublicPath }}{% endif %}{%  endblock %}
 
 {% block body %}
     <div class="row frame-item">
         <div class="frame-item-title col-12 text-center">
-            {{ item.title }}
+            {{ item.title }}{{ include('album/parts/hidden_badge.html.twig') }}
         </div>
 
         <div class="frame-item-date col-12 text-center" data-date="{{ item.date|date('r') }}" title="{{ item.date|date('Y . m . d') }}">
@@ -21,7 +21,7 @@
         {% endif %}
 
         <div class="container frame-item-image-gallery">
-            {% for image in item.publicImages %}
+            {% for image in item.getVisibleImages(show_hidden|default(false)) %}
                 <div class="frame-item-thumb col-12 text-center">
                     <a href="{{ image.filePath.imagePublicPath }}">
                         <img src="{{ image.filePath.thumbPublicPath }}" class="img-fluid"

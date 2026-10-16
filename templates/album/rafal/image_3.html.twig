@@ -1,26 +1,26 @@
 <div class="frame-thumb frame-thumb-left col-4 text-center vcenter">
     <a href="{{ getRoute(item.slug) }}">
-        <img src="{{ item.publicImages[0].filePath.thumbPublicPath }}" class="img-fluid"
-             width="{{ item.publicImages[0].imageDetails.thumbWidth }}"
-             height="{{ item.publicImages[0].imageDetails.thumbHeight }}"
+        <img src="{{ images[0].filePath.thumbPublicPath }}" class="img-fluid"
+             width="{{ images[0].imageDetails.thumbWidth }}"
+             height="{{ images[0].imageDetails.thumbHeight }}"
              alt="{{ item.title }}">
     </a>
 </div>
 
 <div class="frame-thumb col-4 text-center vcenter">
     <a href="{{ getRoute(item.slug) }}">
-        <img src="{{ item.publicImages[1].filePath.thumbPublicPath }}" class="img-fluid"
-             width="{{ item.publicImages[1].imageDetails.thumbWidth }}"
-             height="{{ item.publicImages[1].imageDetails.thumbHeight }}"
+        <img src="{{ images[1].filePath.thumbPublicPath }}" class="img-fluid"
+             width="{{ images[1].imageDetails.thumbWidth }}"
+             height="{{ images[1].imageDetails.thumbHeight }}"
              alt="{{ item.title }}">
     </a>
 </div>
 
 <div class="frame-thumb frame-thumb-right col-4 text-center vcenter">
     <a href="{{ getRoute(item.slug) }}">
-        <img src="{{ item.publicImages[2].filePath.thumbPublicPath }}" class="img-fluid"
-             width="{{ item.publicImages[2].imageDetails.thumbWidth }}"
-             height="{{ item.publicImages[2].imageDetails.thumbHeight }}"
+        <img src="{{ images[2].filePath.thumbPublicPath }}" class="img-fluid"
+             width="{{ images[2].imageDetails.thumbWidth }}"
+             height="{{ images[2].imageDetails.thumbHeight }}"
              alt="{{ item.title }}">
     </a>
 </div>

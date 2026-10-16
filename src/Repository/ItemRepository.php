@@ -49,16 +49,19 @@ class ItemRepository extends ServiceEntityRepository
     /**
      * @return Item[]
      */
-    public function getAllByAlbum(string $album): array
+    public function getAllByAlbum(string $album, bool $activeOnly = true): array
     {
-        return $this
+        $query = $this
             ->createQueryBuilder('i')
             ->where('i.album = :album')
-            ->andWhere('i.isActive = 1')
             ->setParameter('album', $album)
-            ->orderBy('i.date', 'DESC')
-            ->getQuery()
-            ->getResult();
+            ->orderBy('i.date', 'DESC');
+
+        if ($activeOnly) {
+            $query->andWhere('i.isActive = 1');
+        }
+
+        return $query->getQuery()->getResult();
     }
 
     public function getTotalCountByAlbum(string $album): int
@@ -88,17 +91,20 @@ class ItemRepository extends ServiceEntityRepository
         return $item;
     }
 
-    public function getBySlug(string $albumSlug, string $itemSlug): Item
+    public function getBySlug(string $albumSlug, string $itemSlug, bool $activeOnly = true): Item
     {
-        /* @noinspection PhpUnhandledExceptionInspection */
-        $item = $this->createQueryBuilder('i')
+        $query = $this->createQueryBuilder('i')
             ->where('i.slug = :slug')
             ->andWhere('i.album = :album')
-            ->andWhere('i.isActive = 1')
             ->setParameter('album', $albumSlug)
-            ->setParameter('slug', $itemSlug)
-            ->getQuery()
-            ->getOneOrNullResult();
+            ->setParameter('slug', $itemSlug);
+
+        if ($activeOnly) {
+            $query->andWhere('i.isActive = 1');
+        }
+
+        /* @noinspection PhpUnhandledExceptionInspection */
+        $item = $query->getQuery()->getOneOrNullResult();
 
         if (!$item) {
             /* @noinspection PhpUnhandledExceptionInspection */
@@ -108,34 +114,40 @@ class ItemRepository extends ServiceEntityRepository
         return $item;
     }
 
-    public function getNext(Item $item): ?Item
+    public function getNext(Item $item, bool $activeOnly = true): ?Item
     {
-        /* @noinspection PhpUnhandledExceptionInspection */
-        return $this->createQueryBuilder('i')
+        $query = $this->createQueryBuilder('i')
             ->where($this->createQueryBuilder('i')->expr()->gt('i.date', ':date'))
             ->andWhere('i.album = :album')
-            ->andWhere('i.isActive = 1')
             ->setParameter('date', $item->getDate())
             ->setParameter('album', $item->getAlbum())
             ->orderBy('i.date', 'asc')
-            ->setMaxResults(1)
-            ->getQuery()
-            ->getOneOrNullResult();
+            ->setMaxResults(1);
+
+        if ($activeOnly) {
+            $query->andWhere('i.isActive = 1');
+        }
+
+        /* @noinspection PhpUnhandledExceptionInspection */
+        return $query->getQuery()->getOneOrNullResult();
     }
 
-    public function getPrevious(Item $item): ?Item
+    public function getPrevious(Item $item, bool $activeOnly = true): ?Item
     {
-        /* @noinspection PhpUnhandledExceptionInspection */
-        return $this->createQueryBuilder('i')
+        $query = $this->createQueryBuilder('i')
             ->where($this->createQueryBuilder('i')->expr()->lt('i.date', ':date'))
             ->andWhere('i.album = :album')
-            ->andWhere('i.isActive = 1')
             ->setParameter('date', $item->getDate())
             ->setParameter('album', $item->getAlbum())
             ->orderBy('i.date', 'desc')
-            ->setMaxResults(1)
-            ->getQuery()
-            ->getOneOrNullResult();
+            ->setMaxResults(1);
+
+        if ($activeOnly) {
+            $query->andWhere('i.isActive = 1');
+        }
+
+        /* @noinspection PhpUnhandledExceptionInspection */
+        return $query->getQuery()->getOneOrNullResult();
     }
 
     public function deleteById(int $itemId): void
