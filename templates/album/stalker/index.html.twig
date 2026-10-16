@@ -2,7 +2,7 @@
 
 {% block title %}Rafał Toborek{% endblock %}
 {% block description %}Inspiracją do stworzenia tego albumu była książka braci Strugackich pt. <a href="https://pl.wikipedia.org/wiki/Piknik_na_skraju_drogi" target="_blank">Piknik na skraju drogi</a>. To właśnie do tej książki odsyłam cię jeśli chcesz dowiedzieć się kim są stalkerzy i czym się zajmują.{% endblock %}
-{% block image %}{% if items[0] is defined and items[0].mainImage is not empty %}{{ getRoute(null) }}/{{ items[0].mainImage.filePath.thumbPublicPath }}{% endif %}{% endblock %}
+{% block image %}{% if items[0] is defined and items[0].getMainImage(show_hidden|default(false)) is not empty %}{{ getRoute(null) }}/{{ items[0].getMainImage(show_hidden|default(false)).filePath.thumbPublicPath }}{% endif %}{% endblock %}
 
 {% block body %}
     {% if items is defined %}
@@ -18,10 +18,10 @@
 
                 <div class="frame-thumb col-12 text-center">
                     <a href="{{ getRoute(item.slug) }}">
-                        {% if item.mainImage is not empty %}
-                            <img src="{{ item.mainImage.filePath.thumbPublicPath }}" class="img-fluid"
-                                 width="{{ item.mainImage.imageDetails.thumbWidth }}"
-                                 height="{{ item.mainImage.imageDetails.thumbHeight }}"
+                        {% if item.getMainImage(show_hidden|default(false)) is not empty %}
+                            <img src="{{ item.getMainImage(show_hidden|default(false)).filePath.thumbPublicPath }}" class="img-fluid"
+                                 width="{{ item.getMainImage(show_hidden|default(false)).imageDetails.thumbWidth }}"
+                                 height="{{ item.getMainImage(show_hidden|default(false)).imageDetails.thumbHeight }}"
                                  alt="{{ item.title }}">
                         {% endif %}
                     </a>

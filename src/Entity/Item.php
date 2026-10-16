@@ -90,17 +90,25 @@ class Item
         return $this->images->filter(static fn (Image $image): bool => $image->getIsPublic())->getValues();
     }
 
-    public function getMainImage(): ?Image
+    /**
+     * @return Image[]
+     */
+    public function getVisibleImages(bool $includeHidden = false): array
     {
-        $publicImages = $this->getPublicImages();
+        return $includeHidden ? $this->images->getValues() : $this->getPublicImages();
+    }
 
-        foreach ($publicImages as $image) {
+    public function getMainImage(bool $includeHidden = false): ?Image
+    {
+        $images = $this->getVisibleImages($includeHidden);
+
+        foreach ($images as $image) {
             if ($image->getIsMain()) {
                 return $image;
             }
         }
 
-        return $publicImages[0] ?? null;
+        return $images[0] ?? null;
     }
 
     public function setAlbum(string $album): self

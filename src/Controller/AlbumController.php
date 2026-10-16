@@ -25,16 +25,20 @@ class AlbumController extends AbstractController
 
         $this->counterHelper->increment($album->getSlug());
 
+        $activeOnly = $this->isActiveOnly();
+
         /* @noinspection PhpUnhandledExceptionInspection */
         $items = $this->itemProvider->getAllPaginated(
             $album->getSlug(),
             $page,
-            $this->albumProvider->getBySlug($album->getSlug())->getPaginationLimit()
+            $this->albumProvider->getBySlug($album->getSlug())->getPaginationLimit(),
+            activeOnly: $activeOnly
         );
 
         /* @noinspection PhpUnhandledExceptionInspection */
         return $this->render(\sprintf('album/%s/index.html.twig', $album->getSlug()), [
             'items' => $items,
+            'show_hidden' => !$activeOnly,
             'album' => $this->albumProvider->getBySlug($album->getSlug()),
         ]);
     }
@@ -45,8 +49,10 @@ class AlbumController extends AbstractController
         /* @noinspection PhpUnhandledExceptionInspection */
         $album = $this->domainHelper->getCurrentAlbum();
 
+        $activeOnly = $this->isActiveOnly();
+
         try {
-            $item = $this->itemProvider->getBySlug($album->getSlug(), $itemSlug);
+            $item = $this->itemProvider->getBySlug($album->getSlug(), $itemSlug, $activeOnly);
         } catch (RecordNotFoundException) {
             return $this->redirectToRoute('app_album_index');
         }
@@ -56,9 +62,18 @@ class AlbumController extends AbstractController
         /* @noinspection PhpUnhandledExceptionInspection */
         return $this->render(\sprintf('album/%s/item.html.twig', $album->getSlug()), [
             'item' => $item,
-            'next_item' => $this->itemProvider->getNext($item),
-            'prev_item' => $this->itemProvider->getPrevious($item),
+            'show_hidden' => !$activeOnly,
+            'next_item' => $this->itemProvider->getNext($item, $activeOnly),
+            'prev_item' => $this->itemProvider->getPrevious($item, $activeOnly),
             'album' => $this->albumProvider->getBySlug($album->getSlug()),
         ]);
+    }
+
+    /**
+     * Administrators also see inactive (hidden) items and images on the front pages.
+     */
+    private function isActiveOnly(): bool
+    {
+        return !$this->isGranted('ROLE_ADMIN');
     }
 }

@@ -2,7 +2,7 @@
 
 {% block title %}Rafał Toborek{% endblock %}
 {% block description %}Tutaj opowiadam coś o sobie.{% endblock %}
-{% block image %}{% if items[0] is defined and items[0].mainImage is not empty %}{{ getRoute(null) }}/{{ items[0].mainImage.filePath.thumbPublicPath }}{% endif %}{% endblock %}
+{% block image %}{% if items[0] is defined and items[0].getMainImage(show_hidden|default(false)) is not empty %}{{ getRoute(null) }}/{{ items[0].getMainImage(show_hidden|default(false)).filePath.thumbPublicPath }}{% endif %}{% endblock %}
 
 {% block body %}
     {% if items is defined %}
@@ -22,8 +22,9 @@
                     </div>
                 {% endif %}
 
-                {% if item.mainImage is not empty %}
-                    {% include 'album/rafal/image_' ~ (item.publicImages|length > 4 ? 4 : item.publicImages|length) ~ '.html.twig' %}
+                {% if item.getMainImage(show_hidden|default(false)) is not empty %}
+                    {% set images = item.getVisibleImages(show_hidden|default(false)) %}
+                    {% include 'album/rafal/image_' ~ (images|length > 4 ? 4 : images|length) ~ '.html.twig' %}
                 {% endif %}
             </div>
         {% endfor %}
