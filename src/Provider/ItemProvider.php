@@ -56,21 +56,30 @@ class ItemProvider
         return $this->itemRepository->getById($itemId);
     }
 
-    public function getBySlug(string $albumSlug, string $itemSlug): Item
+    /**
+     * @SuppressWarnings("PHPMD.BooleanArgumentFlag")
+     */
+    public function getBySlug(string $albumSlug, string $itemSlug, bool $activeOnly = true): Item
     {
         /* @noinspection PhpUnhandledExceptionInspection */
-        return $this->itemRepository->getBySlug($albumSlug, $itemSlug);
+        return $this->itemRepository->getBySlug($albumSlug, $itemSlug, $activeOnly);
     }
 
-    public function getNext(Item $item): ?Item
+    /**
+     * @SuppressWarnings("PHPMD.BooleanArgumentFlag")
+     */
+    public function getNext(Item $item, bool $activeOnly = true): ?Item
     {
         /* @noinspection PhpUnhandledExceptionInspection */
-        return $this->itemRepository->getNext($item);
+        return $this->itemRepository->getNext($item, $activeOnly);
     }
 
-    public function getPrevious(Item $item): ?Item
+    /**
+     * @SuppressWarnings("PHPMD.BooleanArgumentFlag")
+     */
+    public function getPrevious(Item $item, bool $activeOnly = true): ?Item
     {
         /* @noinspection PhpUnhandledExceptionInspection */
-        return $this->itemRepository->getPrevious($item);
+        return $this->itemRepository->getPrevious($item, $activeOnly);
     }
 }

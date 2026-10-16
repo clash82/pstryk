@@ -21,11 +21,11 @@
 
                     <div class="row">
                         <div class="frame-thumb col-12 text-center">
-                            {% if item.mainImage is not empty %}
-                                <a href="{{ item.mainImage.filePath.imagePublicPath }}">
-                                    <img src="{{ item.mainImage.filePath.thumbPublicPath }}" class="img-fluid"
-                                         width="{{ item.mainImage.imageDetails.thumbWidth }}"
-                                         height="{{ item.mainImage.imageDetails.thumbHeight }}"
+                            {% if item.getMainImage(show_hidden|default(false)) is not empty %}
+                                <a href="{{ item.getMainImage(show_hidden|default(false)).filePath.imagePublicPath }}">
+                                    <img src="{{ item.getMainImage(show_hidden|default(false)).filePath.thumbPublicPath }}" class="img-fluid"
+                                         width="{{ item.getMainImage(show_hidden|default(false)).imageDetails.thumbWidth }}"
+                                         height="{{ item.getMainImage(show_hidden|default(false)).imageDetails.thumbHeight }}"
                                          alt="{{ item.title }}">
                                 </a>
                             {% endif %}
