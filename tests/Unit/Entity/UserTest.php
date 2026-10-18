@@ -9,7 +9,7 @@ class UserTest extends TestCase
 {
     public function testEveryAccountHasUserRole(): void
     {
-        $user = (new User())->setRoles([]);
+        $user = new User()->setRoles([]);
 
         $this->assertSame([User::ROLE_USER], $user->getRoles());
         $this->assertFalse($user->isAdmin());
@@ -17,7 +17,7 @@ class UserTest extends TestCase
 
     public function testAdministratorIsAlsoRegularUser(): void
     {
-        $user = (new User())->setRoles([User::ROLE_ADMIN]);
+        $user = new User()->setRoles([User::ROLE_ADMIN]);
 
         $this->assertTrue($user->isAdmin());
         $this->assertSame([User::ROLE_ADMIN, User::ROLE_USER], $user->getRoles());

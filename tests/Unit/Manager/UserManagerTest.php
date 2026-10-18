@@ -38,7 +38,7 @@ class UserManagerTest extends TestCase
 
     public function testSaveKeepsPasswordWhenNoneGiven(): void
     {
-        $user = (new User())->setPassword('old-hash');
+        $user = new User()->setPassword('old-hash');
 
         $this->hasher->expects($this->never())->method('hashPassword');
         $this->repository->expects($this->once())->method('update')->with($user);
@@ -86,9 +86,9 @@ class UserManagerTest extends TestCase
      */
     private function createUser(int $id, array $roles): User
     {
-        $user = (new User())->setRoles($roles);
+        $user = new User()->setRoles($roles);
 
-        (new \ReflectionProperty(User::class, 'id'))->setValue($user, $id);
+        new \ReflectionProperty(User::class, 'id')->setValue($user, $id);
 
         return $user;
     }

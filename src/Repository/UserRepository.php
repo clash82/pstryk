@@ -42,10 +42,15 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     public function countAdmins(): int
     {
         // roles are kept as JSON, so they are checked in PHP (there are only a few accounts anyway)
-        return \count(array_filter(
-            $this->findAll(),
-            static fn (User $user): bool => $user->isAdmin()
-        ));
+        $admins = 0;
+
+        foreach ($this->findAll() as $user) {
+            if ($user instanceof User && $user->isAdmin()) {
+                ++$admins;
+            }
+        }
+
+        return $admins;
     }
 
     public function update(User $user): void
