@@ -3,17 +3,65 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use App\Exception\RecordNotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 
 class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, private readonly PaginatorInterface $paginator)
     {
         parent::__construct($registry, User::class);
+    }
+
+    public function getAllPaginated(int $page, int $usersPerPage): PaginationInterface
+    {
+        $query = $this
+            ->createQueryBuilder('u')
+            ->orderBy('u.email', 'ASC');
+
+        return $this->paginator->paginate($query->getQuery(), $page, $usersPerPage);
+    }
+
+    public function getById(int $userId): User
+    {
+        $user = $this->find($userId);
+
+        if (!$user instanceof User) {
+            throw new RecordNotFoundException(\sprintf('No user found for id [%d]', $userId));
+        }
+
+        return $user;
+    }
+
+    public function countAdmins(): int
+    {
+        // roles are kept as JSON, so they are checked in PHP (there are only a few accounts anyway)
+        return \count(array_filter(
+            $this->findAll(),
+            static fn (User $user): bool => $user->isAdmin()
+        ));
+    }
+
+    public function update(User $user): void
+    {
+        /* @noinspection PhpUnhandledExceptionInspection */
+        $this->getEntityManager()->persist($user);
+        /* @noinspection PhpUnhandledExceptionInspection */
+        $this->getEntityManager()->flush();
+    }
+
+    public function delete(User $user): void
+    {
+        /* @noinspection PhpUnhandledExceptionInspection */
+        $this->getEntityManager()->remove($user);
+        /* @noinspection PhpUnhandledExceptionInspection */
+        $this->getEntityManager()->flush();
     }
 
     /**

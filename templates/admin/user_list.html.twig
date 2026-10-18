@@ -1,0 +1,71 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Użytkownicy{% endblock %}
+
+{% block body %}
+    {% include 'admin/parts/delete_dialog.html.twig' with {
+        'objectType': 'user',
+        'endpoint': path('app_admin_user_delete')
+    } %}
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title text-center">Konta użytkowników</div>
+                </div>
+                <div class="card-body">
+                    {% if users|length %}
+                        <table class="table table-striped">
+                            <thead>
+                                <th class="text-center col-lg-6 col-md-5 col-5">E-mail</th>
+                                <th class="text-center col-lg-3 col-md-3 col-3">Typ konta</th>
+                                <th class="col-lg-3 col-md-4 col-4"></th>
+                            </thead>
+                            <tbody>
+                                {% for user in users %}
+                                    <tr>
+                                        <td class="text-center align-middle">{{ user.email }}</td>
+                                        <td class="text-center align-middle">
+                                            {% if user.isAdmin %}
+                                                <span class="badge badge-danger">Administrator</span>
+                                            {% else %}
+                                                <span class="badge badge-secondary">Użytkownik</span>
+                                            {% endif %}
+                                        </td>
+                                        <td class="text-center align-middle">
+                                            <a href="{{ path('app_admin_user_edit', {'userId': user.id}) }}" class="btn btn-primary" role="button">
+                                                <span class="fas fa-pencil-alt"></span>
+                                            </a>
+                                            {% if user.id == current_user_id %}
+                                                <button class="btn btn-danger" disabled title="Nie możesz usunąć własnego konta">
+                                                    <span class="fas fa-trash-alt"></span>
+                                                </button>
+                                            {% else %}
+                                                <button class="btn btn-danger action-delete"
+                                                        data-id="{{ user.id }}"
+                                                        data-title="{{ user.email }}"
+                                                        data-toggle="modal"
+                                                        data-target="#confirm-delete">
+                                                    <span class="fas fa-trash-alt"></span>
+                                                </button>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <div class="col-lg-12 text-center">sory, ale nic tu nie ma</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row paginator">
+        <div class="col-lg-12">
+            {{ knp_pagination_render(users, viewParams = {'align': 'center'}) }}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block body %}
+    <script>
+        $(document).ready(function() {
+            $('.btn-return').click(function() {
+                location.href = '{{ path('app_admin_user_list')|e('js') }}';
+            });
+        });
+    </script>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title text-center">{{ title }}</div>
+                </div>
+                <div class="card-body">
+                    {% import 'admin/parts/form_layout.html.twig' as editForm %}
+                    {% form_theme form with ['admin/parts/form_fields.html.twig'] %}
+
+                    {{ editForm.display_form(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
