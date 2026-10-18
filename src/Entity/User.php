@@ -5,23 +5,28 @@ namespace App\Entity;
 use App\Entity\Traits\Id;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Table(name: 'pstryk_user')]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[UniqueEntity(fields: ['email'], message: 'Konto z takim adresem e-mail już istnieje')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     use Id;
 
+    final public const string ROLE_USER = 'ROLE_USER';
+    final public const string ROLE_ADMIN = 'ROLE_ADMIN';
+
     #[ORM\Column(type: 'string', length: 180, unique: true)]
-    private string $email;
+    private string $email = '';
 
     #[ORM\Column(type: 'json')]
     private array $roles = [];
 
     #[ORM\Column(type: 'string')]
-    private string $password;
+    private string $password = '';
 
     public function getId(): ?int
     {
@@ -64,9 +69,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        $roles[] = self::ROLE_USER;
 
-        return array_unique($roles);
+        return array_values(array_unique($roles));
+    }
+
+    public function isAdmin(): bool
+    {
+        return \in_array(self::ROLE_ADMIN, $this->getRoles(), true);
     }
 
     public function setRoles(array $roles): self

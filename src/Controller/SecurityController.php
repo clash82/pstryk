@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use LogicException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,8 +14,8 @@ class SecurityController extends AbstractController
     #[Route('/zaplecze/login', name: 'app_admin_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        if ($this->getUser() instanceof \Symfony\Component\Security\Core\User\UserInterface) {
-            return $this->redirectToRoute('app_admin_item_list');
+        if ($this->getUser() instanceof User) {
+            return $this->redirectToRoute($this->isGranted(User::ROLE_ADMIN) ? 'app_admin_item_list' : 'app_album_index');
         }
 
         // get the login error if there is one

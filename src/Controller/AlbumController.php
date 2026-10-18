@@ -70,10 +70,10 @@ class AlbumController extends AbstractController
     }
 
     /**
-     * Administrators also see inactive (hidden) items and images on the front pages.
+     * Every logged in account (administrators included) also sees private (inactive) items and images on the front pages.
      */
     private function isActiveOnly(): bool
     {
-        return !$this->isGranted('ROLE_ADMIN');
+        return !$this->isGranted('ROLE_USER');
     }
 }

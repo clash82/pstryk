@@ -26,8 +26,8 @@ class SitemapController extends AbstractController
             return $this->redirectToRoute('app_album_index');
         }
 
-        // administrators also see inactive (hidden) items in the HTML sitemap
-        $showHidden = $this->isGranted('ROLE_ADMIN');
+        // every logged in account also sees private (inactive) items in the HTML sitemap
+        $showHidden = $this->isGranted('ROLE_USER');
         $items = $this->getAllItems($album, !$showHidden);
 
         $history = [];

@@ -2,6 +2,7 @@
 
 namespace App\Security;
 
+use App\Entity\User;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -60,6 +61,15 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
+        $user = $token->getUser();
+
+        // only administrators can enter the admin panel, everybody else goes straight to the front page
+        if (!$user instanceof User || !$user->isAdmin()) {
+            $this->removeTargetPath($request->getSession(), $firewallName);
+
+            return new RedirectResponse($this->urlGenerator->generate('app_album_index'));
+        }
+
         $targetPath = $this->getTargetPath($request->getSession(), $firewallName);
 
         if ($targetPath) {

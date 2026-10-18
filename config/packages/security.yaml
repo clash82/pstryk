@@ -11,6 +11,10 @@ security:
             entity:
                 class: App\Entity\User
                 property: email
+    # every administrator is also a regular user
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_USER
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -44,5 +48,6 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: '^/zaplecze/login$', roles: PUBLIC_ACCESS, requires_channel: https }
+        - { path: '^/zaplecze/logout$', roles: PUBLIC_ACCESS, requires_channel: https }
         - { path: '^/zaplecze', roles: ROLE_ADMIN, requires_channel: https }
         - { path: '^/', roles: PUBLIC_ACCESS, requires_channel: https }
