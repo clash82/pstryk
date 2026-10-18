@@ -90,7 +90,14 @@ class UserControllerTest extends WebTestCase
         $client->submit($crawler->selectButton('Dajesz')->form(['user[roles]' => User::ROLE_USER]));
 
         $this->assertResponseRedirects(\sprintf('https://%s/zaplecze/users', self::HOST));
-        $this->assertFalse(static::getContainer()->get(UserRepository::class)->find($target->getId())->isAdmin());
+
+        $updated = static::getContainer()->get(UserRepository::class)->find($target->getId());
+
+        if (!$updated instanceof User) {
+            $this->fail('The edited account should still exist');
+        }
+
+        $this->assertFalse($updated->isAdmin());
     }
 
     private function loginAs(KernelBrowser $client, string $role): void
@@ -103,7 +110,7 @@ class UserControllerTest extends WebTestCase
         /** @var UserRepository $repository */
         $repository = static::getContainer()->get(UserRepository::class);
 
-        $user = (new User())
+        $user = new User()
             ->setEmail(\sprintf('%s-%s@example.com', strtolower($role), bin2hex(random_bytes(4))))
             ->setPassword('not-used')
             ->setRoles([$role]);
