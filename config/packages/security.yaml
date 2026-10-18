@@ -24,6 +24,9 @@ security:
             provider: app_user_provider
             custom_authenticators:
                 - App\Security\LoginFormAuthenticator
+
+            # regular users opening the admin panel are redirected to the front page
+            access_denied_handler: App\Security\AccessDeniedHandler
             logout:
                 path: app_admin_logout
                 # where to redirect after logout

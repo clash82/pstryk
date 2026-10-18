@@ -45,14 +45,28 @@ class UserControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
     }
 
-    public function testRegularUserHasNoAccessToAdminPanel(): void
+    public function testRegularUserOpeningAdminPanelIsRedirectedToFrontPage(): void
     {
         $client = static::createClient();
         $this->loginAs($client, User::ROLE_USER);
 
         $client->request('GET', \sprintf('https://%s/zaplecze/users', self::HOST));
 
-        $this->assertResponseStatusCodeSame(403);
+        $this->assertResponseRedirects(\sprintf('https://%s/', self::HOST));
+    }
+
+    public function testLogoutFromFrontPageEndsOnMainPage(): void
+    {
+        $client = static::createClient();
+        $this->loginAs($client, User::ROLE_USER);
+
+        $client->request('GET', \sprintf('https://%s/zaplecze/logout?from=front', self::HOST));
+
+        $this->assertResponseRedirects(\sprintf('https://%s/', self::HOST));
+
+        // the session is gone, so the admin panel asks for logging in again
+        $client->request('GET', \sprintf('https://%s/zaplecze/users', self::HOST));
+        $this->assertResponseRedirects(\sprintf('https://%s/zaplecze/login', self::HOST));
     }
 
     public function testRegularUserCanSeeFrontPage(): void

@@ -35,6 +35,14 @@
             {{ knp_pagination_render(items, template = 'album/parts/pagination.html.twig', viewParams = {'align': 'center'}) }}
         </div>
     </div>
+
+    {% if app.user %}
+        <div class="row">
+            <div class="col-12 text-center">
+                <a href="{{ path('app_admin_logout', {'from': 'front'}) }}">Wyloguj</a>
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}
 
 {% block javascripts %}
