@@ -37,9 +37,9 @@
     </div>
 
     {% if app.user %}
-        <div class="row">
+        <div class="row logout">
             <div class="col-12 text-center">
-                <a href="{{ path('app_admin_logout', {'from': 'front'}) }}">Wyloguj</a>
+                <a href="{{ path('app_admin_logout', {'from': 'front'}) }}"><span class="fas fa-sign-out-alt"></span> Wyloguj</a>
             </div>
         </div>
     {% endif %}

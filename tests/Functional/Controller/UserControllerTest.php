@@ -79,7 +79,26 @@ class UserControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
     }
 
+    public function testAdministratorCanBeChangedBackToRegularUserWhenAnotherAdministratorExists(): void
+    {
+        $client = static::createClient();
+        // the logged in administrator is the "other" one that stays
+        $this->loginAs($client, User::ROLE_ADMIN);
+        $target = $this->createUser(User::ROLE_ADMIN);
+
+        $crawler = $client->request('GET', \sprintf('https://%s/zaplecze/user/edit/%d', self::HOST, $target->getId()));
+        $client->submit($crawler->selectButton('Dajesz')->form(['user[roles]' => User::ROLE_USER]));
+
+        $this->assertResponseRedirects(\sprintf('https://%s/zaplecze/users', self::HOST));
+        $this->assertFalse(static::getContainer()->get(UserRepository::class)->find($target->getId())->isAdmin());
+    }
+
     private function loginAs(KernelBrowser $client, string $role): void
+    {
+        $client->loginUser($this->createUser($role));
+    }
+
+    private function createUser(string $role): User
     {
         /** @var UserRepository $repository */
         $repository = static::getContainer()->get(UserRepository::class);
@@ -91,6 +110,6 @@ class UserControllerTest extends WebTestCase
 
         $repository->update($user);
 
-        $client->loginUser($user);
+        return $user;
     }
 }
