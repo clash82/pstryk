@@ -72,7 +72,9 @@ class UserController extends AbstractController
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $wasAdmin && !$user->isAdmin() && $this->userProvider->countAdmins() <= 1) {
+        // the submitted roles are already set on the (managed) entity, so it is no longer counted as an
+        // administrator here - what is counted are the administrators that would remain
+        if ($form->isSubmitted() && $wasAdmin && !$user->isAdmin() && 0 === $this->userProvider->countAdmins()) {
             $form->get('roles')->addError(new FormError('Nie możesz odebrać uprawnień ostatniemu administratorowi'));
         }
 
