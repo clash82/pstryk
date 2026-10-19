@@ -40,7 +40,7 @@ app:
         tysia:
             title: Tysia
             description: Album Zuzi.
-            pagination_limit: 5
+            pagination_limit: 60
             feed_limit: 10
             sitemap: false
 

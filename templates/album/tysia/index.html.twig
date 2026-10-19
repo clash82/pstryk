@@ -5,35 +5,37 @@
 
 {% block body %}
     {% if items is defined %}
-        {% for item in items %}
-            <div class="row">
-                <div class="frame col-10 offset-1">
-                    <div class="row">
-                        <div class="frame-title col-12 col-sm-7 text-center text-sm-left">
-                            {{ item.title }}
+        <div class="row frames">
+            {% for item in items %}
+                <div class="frame-column col-10 offset-1 col-md-4 offset-md-0">
+                    <div class="frame">
+                        <div class="row">
+                            <div class="frame-title col-12 text-center">
+                                {{ item.title }}
+                            </div>
+
+                            <div class="frame-date col-12 text-center"
+                                 data-date="{{ item.date|date('r') }}" title="{{ item.date|date('Y-m-d') }}">
+                                {{ item.date|date('Y-m-d') }}
+                            </div>
                         </div>
 
-                        <div class="frame-date col-12 col-sm-5 text-center text-sm-right"
-                             data-date="{{ item.date|date('r') }}" title="{{ item.date|date('Y-m-d') }}">
-                            {{ item.date|date('Y-m-d') }}
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="frame-thumb col-12 text-center">
-                            {% if item.getMainImage(show_hidden|default(false)) is not empty %}
-                                <a href="{{ item.getMainImage(show_hidden|default(false)).filePath.imagePublicPath }}">
-                                    <img src="{{ item.getMainImage(show_hidden|default(false)).filePath.thumbPublicPath }}" class="img-fluid"
-                                         width="{{ item.getMainImage(show_hidden|default(false)).imageDetails.thumbWidth }}"
-                                         height="{{ item.getMainImage(show_hidden|default(false)).imageDetails.thumbHeight }}"
-                                         alt="{{ item.title }}">
-                                </a>
-                            {% endif %}
+                        <div class="row">
+                            <div class="frame-thumb col-12 text-center">
+                                {% if item.mainImage is not empty %}
+                                    <a href="{{ item.mainImage.filePath.imagePublicPath }}">
+                                        <img src="{{ item.mainImage.filePath.thumbPublicPath }}" class="img-fluid"
+                                             width="{{ item.mainImage.imageDetails.thumbWidth }}"
+                                             height="{{ item.mainImage.imageDetails.thumbHeight }}"
+                                             alt="{{ item.title }}">
+                                    </a>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
     {% endif %}
 
     <div class="paginator">

@@ -2,6 +2,7 @@ $color-link: #2993d6;
 $color-font-frame: #6C6C6C;
 $color-frame-shadow: #cecece;
 $color-frame-background: #fff;
+$color-frame-background-hover: #ececec;
 $color-font-footer: #9B9B9B;
 $color-background: #f7f7f7;
 
@@ -28,11 +29,24 @@ body {
 main {
   margin: 2em 0;
 
+  // one column on mobile, three columns (Bootstrap col-md-4) on wider screens;
+  // the columns stretch, so frames in the same line always have equal height
+  .frame-column {
+    display: flex;
+    margin-bottom: 2em;
+  }
+
   .frame {
+    width: 100%;
     box-shadow: .2em .2em 2em $color-frame-shadow;
     background: $color-frame-background;
     padding: 1em;
-    margin-bottom: 2em;
+    border-radius: 1em;
+    transition: background-color .2s ease-in-out;
+
+    &:hover {
+      background: $color-frame-background-hover;
+    }
 
     .frame-title,
     .frame-date {
@@ -41,18 +55,11 @@ main {
     }
 
     .frame-thumb {
-      margin-top: .2em;
+      margin-top: .8em;
       img {
         border: 0.05em solid $color-font-frame;
+        border-radius: .4em;
       }
-    }
-  }
-}
-
-@media (min-width: 768px) {
-  main {
-    .frame {
-      padding: 6em;
     }
   }
 }
