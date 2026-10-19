@@ -1,14 +1,27 @@
 $font-main: 'Open Sans', sans-serif;
-$font-main-color: #ccc;
-$color-background: #485236;
-$color-frame-background: #55584D;
-$color-frame-border: #000;
+
+// synthwave / '80s palette
+$neon-pink: #ff2e97;
+$neon-pink-soft: #ff6ec7;
+$neon-cyan: #2de2e6;
+$sunset-orange: #ff9e3d;
+$sunset-yellow: #ffd319;
+$night-0: #0b0221;
+$night-1: #160535;
+$night-2: #2a0a4d;
+$panel: #1a0b3a;
+
+$font-main-color: #e6dcff;
+$font-muted-color: #a99bd1;
+$color-background: $night-1;
+$color-frame-background: $panel;
+$color-frame-border: $neon-cyan;
 
 // pagination
-$color-page-link-background: $color-frame-background;
-$color-page-link: #ccc;
-$color-page-link-active-background: #2e2e2e;
-$color-page-link-disabled-background: #43463B;
+$color-page-link-background: #24104d;
+$color-page-link: $font-main-color;
+$color-page-link-active-background: $neon-pink;
+$color-page-link-disabled-background: #150a30;
 
 @mixin font-pretty {
   font-family: 'Playfair Display', serif;
@@ -21,24 +34,54 @@ $color-page-link-disabled-background: #43463B;
 }
 
 body {
-  background: $color-background;
+  background: linear-gradient(180deg, $night-0 0%, $night-1 55%, $night-2 100%) fixed;
+  background-color: $color-background;
   padding-top: 3em;
+  min-height: 100vh;
+}
+
+// faint retro perspective grid along the bottom of the viewport
+body::before {
+  content: '';
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 38vh;
+  z-index: -1;
+  pointer-events: none;
+  opacity: .22;
+  background-image:
+    linear-gradient($neon-pink 1px, transparent 1px),
+    linear-gradient(90deg, $neon-pink 1px, transparent 1px);
+  background-size: 3.5em 3.5em;
+  transform-origin: bottom;
+  -webkit-mask-image: linear-gradient(to top, #000, transparent);
+  mask-image: linear-gradient(to top, #000, transparent);
 }
 
 header {
   margin-bottom: 3em;
+
+  img {
+    filter: drop-shadow(0 0 .35em rgba($neon-pink, .6)) drop-shadow(0 0 1em rgba($neon-cyan, .25));
+  }
 }
 
 .frame,
 .frame-item {
   padding: 1.5em 0;
   margin: 0 .2em 4em .2em;
-  background: $color-frame-background;
-  box-shadow: .1em .1em 1em #151515;
+  background: rgba($color-frame-background, .92);
+  border-top: .12em solid $neon-pink;
+  border-bottom: .12em solid $neon-cyan;
+  box-shadow: 0 0 1.6em rgba($neon-pink, .22), 0 .4em 1.5em rgba(0, 0, 0, .55);
 
   .frame-item-title {
     @include font-pretty();
     font-size: 2em;
+    color: $neon-pink-soft;
+    text-shadow: 0 0 .4em rgba($neon-pink, .55);
   }
 
   .frame-title {
@@ -46,12 +89,14 @@ header {
     a:visited {
       @include font-pretty;
       font-size: 2em;
-      color: inherit;
+      color: $neon-pink-soft;
+      text-shadow: 0 0 .4em rgba($neon-pink, .55);
       text-decoration: none;
     }
 
     a:hover {
-      color: #fff;
+      color: $neon-cyan;
+      text-shadow: 0 0 .5em rgba($neon-cyan, .6);
     }
   }
 
@@ -59,6 +104,8 @@ header {
   .frame-item-date {
     margin-bottom: 1em;
     font-size: .8em;
+    color: $sunset-orange;
+    letter-spacing: .12em;
   }
 
   .frame-thumb,
@@ -66,9 +113,18 @@ header {
     margin-bottom: 1em;
   }
 
+  // photos get a thin neon edge only - no overlay, tint or filter on the picture itself
   .frame-thumb img,
   .frame-item-thumb img {
     border: .1em solid $color-frame-border;
+    box-shadow: 0 0 .9em rgba($neon-cyan, .35);
+    transition: border-color .2s ease, box-shadow .2s ease;
+  }
+
+  .frame-thumb a:hover img,
+  .frame-item-thumb a:hover img {
+    border-color: $neon-pink;
+    box-shadow: 0 0 1.2em rgba($neon-pink, .7);
   }
 
   .frame-thumb-left {
@@ -111,12 +167,12 @@ header {
 
         a:link,
         a:visited {
-          color: #939393;
+          color: $font-muted-color;
           text-decoration: none;
         }
 
         a:hover {
-          color: #d1d1d1;
+          color: $neon-cyan;
         }
       }
     }
@@ -133,13 +189,13 @@ header {
   a:link,
   a:visited {
     @include font-pretty();
-    color: #eca152;
+    color: $sunset-orange;
     text-decoration: none;
     font-size: 1.1em;
   }
 
   a:hover {
-    color: #fff;
+    color: $neon-cyan;
   }
 
   // the global "* { color }" rule would otherwise paint the icon grey
@@ -153,12 +209,12 @@ header {
 
   a:link,
   a:visited {
-    color: #ccc;
+    color: $neon-pink-soft;
     text-decoration: none;
   }
 
   a:hover {
-    color: #fff;
+    color: $neon-cyan;
   }
 
   div {
@@ -170,17 +226,27 @@ header {
   background: $color-page-link-background;
   border-color: $color-page-link-background;
   color: $color-page-link;
+  box-shadow: 0 0 .5em rgba($neon-pink, .15);
+}
+
+a.page-link:hover {
+  background: $night-2;
+  border-color: $neon-cyan;
+  color: $neon-cyan;
 }
 
 .active .page-link {
   background: $color-page-link-active-background !important;
   border-color: $color-page-link-active-background !important;
+  color: #fff !important;
+  box-shadow: 0 0 .9em rgba($neon-pink, .6);
 }
 
 .disabled .page-link {
   background: $color-page-link-disabled-background !important;
   border-color: $color-page-link-disabled-background !important;
-  color: $color-page-link !important;
+  color: $font-muted-color !important;
+  box-shadow: none;
 }
 
 footer {
@@ -188,12 +254,12 @@ footer {
 
   a:link,
   a:visited {
-    color: #eca152;
+    color: $sunset-orange;
     text-decoration: none;
   }
 
   a:hover {
-    color: #fff;
+    color: $neon-cyan;
   }
 
   .row div {
