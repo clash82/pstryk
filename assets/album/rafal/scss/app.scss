@@ -1,18 +1,48 @@
 $font-main: 'Open Sans', sans-serif;
-$font-main-color: #ccc;
-$color-background: #485236;
-$color-frame-background: #55584D;
-$color-frame-border: #000;
+$font-exif: ui-monospace, 'SFMono-Regular', Menlo, Consolas, 'Courier New', monospace;
+
+$paper: #f4efe6;
+$paper-dark: #e9e1d1;
+$mat: #fffdf9;
+$ink: #2b2724;
+$font-main-color: #3b3631;
+$font-muted-color: #8a8174;
+$brass: #9a6a14;
+$shutter-red: #c8372d;
+$teal: #17797a;
+$coral: #d9532f;
+$plum: #7a4a8c;
+$olive: #6f7d1e;
+$hairline: #ddd4c2;
+
+$color-background: $paper;
+$color-frame-background: $mat;
+$color-frame-border: $hairline;
 
 // pagination
-$color-page-link-background: $color-frame-background;
-$color-page-link: #ccc;
-$color-page-link-active-background: #2e2e2e;
-$color-page-link-disabled-background: #43463B;
+$color-page-link-background: $mat;
+$color-page-link: $font-main-color;
+$color-page-link-active-background: $ink;
+$color-page-link-disabled-background: $paper-dark;
 
 @mixin font-pretty {
   font-family: 'Playfair Display', serif;
   font-style: italic;
+}
+
+@mixin film-strip($height: .85em) {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: $height;
+  pointer-events: none;
+  background-color: $ink;
+  background-image: linear-gradient(90deg, $paper 0, $paper .7em, transparent .7em);
+  background-size: 1.3em .4em;
+  background-position: .3em 50%;
+  background-repeat: repeat-x;
+  background-clip: border-box;
 }
 
 * {
@@ -21,24 +51,54 @@ $color-page-link-disabled-background: #43463B;
 }
 
 body {
-  background: $color-background;
+  background:
+    radial-gradient(60em 34em at 0% 0%, rgba($teal, .13), transparent 70%) fixed,
+    radial-gradient(54em 32em at 100% 12%, rgba($coral, .12), transparent 70%) fixed,
+    radial-gradient(60em 36em at 85% 100%, rgba($plum, .11), transparent 70%) fixed,
+    linear-gradient(180deg, $paper 0%, $paper-dark 100%) fixed;
+  background-color: $color-background;
   padding-top: 3em;
+  min-height: 100vh;
 }
 
 header {
   margin-bottom: 3em;
+
+  img {
+    filter: invert(1) brightness(.2);
+  }
 }
 
 .frame,
 .frame-item {
-  padding: 1.5em 0;
+  position: relative;
+  padding: 2.4em 0 1.5em 0;
   margin: 0 .2em 4em .2em;
   background: $color-frame-background;
-  box-shadow: .1em .1em 1em #151515;
+  border: 1px solid $hairline;
+  box-shadow: 0 .1em .2em rgba($ink, .06), 0 1em 2.2em -.6em rgba($ink, .25);
+  --accent: #{$brass};
+
+  &::before {
+    @include film-strip();
+    top: 0;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: .85em;
+    left: 0;
+    right: 0;
+    height: .22em;
+    background: var(--accent);
+    pointer-events: none;
+  }
 
   .frame-item-title {
     @include font-pretty();
     font-size: 2em;
+    color: $ink;
   }
 
   .frame-title {
@@ -46,19 +106,25 @@ header {
     a:visited {
       @include font-pretty;
       font-size: 2em;
-      color: inherit;
+      color: $ink;
       text-decoration: none;
+      background: linear-gradient(var(--accent), var(--accent)) no-repeat 0 100% / 0 .06em;
+      transition: background-size .25s ease, color .2s ease;
     }
 
     a:hover {
-      color: #fff;
+      color: var(--accent);
+      background-size: 100% .06em;
     }
   }
 
   .frame-date,
   .frame-item-date {
     margin-bottom: 1em;
-    font-size: .8em;
+    font-family: $font-exif;
+    font-size: .75em;
+    letter-spacing: .14em;
+    color: var(--accent);
   }
 
   .frame-thumb,
@@ -68,7 +134,17 @@ header {
 
   .frame-thumb img,
   .frame-item-thumb img {
-    border: .1em solid $color-frame-border;
+    padding: .35em;
+    background: #fff;
+    border: 1px solid $hairline;
+    box-shadow: 0 .15em .6em rgba($ink, .22);
+    transition: box-shadow .2s ease, transform .2s ease;
+  }
+
+  .frame-thumb a:hover img,
+  .frame-item-thumb a:hover img {
+    box-shadow: 0 .3em 1.2em rgba($ink, .35);
+    transform: translateY(-.15em);
   }
 
   .frame-thumb-left {
@@ -83,11 +159,13 @@ header {
   .frame-item-description {
     font-size: 1em;
     margin-bottom: 1em;
+    color: $font-main-color;
   }
 
   .frame-item-image-description {
     @include font-pretty();
     margin-bottom: 1.5em;
+    color: $font-muted-color;
   }
 
   .frame-item-image-description:last-child{
@@ -111,16 +189,28 @@ header {
 
         a:link,
         a:visited {
-          color: #939393;
+          color: $font-muted-color;
           text-decoration: none;
         }
 
         a:hover {
-          color: #d1d1d1;
+          color: $shutter-red;
         }
       }
     }
   }
+}
+
+.frame:nth-child(4n + 1) { --accent: #{$brass}; }
+.frame:nth-child(4n + 2) { --accent: #{$teal}; }
+.frame:nth-child(4n + 3) { --accent: #{$coral}; }
+.frame:nth-child(4n + 4) { --accent: #{$plum}; }
+.frame-item { --accent: #{$teal}; }
+
+.frame-item .frame-item-image-gallery {
+  max-width: none;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .paginator {
@@ -133,16 +223,15 @@ header {
   a:link,
   a:visited {
     @include font-pretty();
-    color: #eca152;
+    color: $brass;
     text-decoration: none;
     font-size: 1.1em;
   }
 
   a:hover {
-    color: #fff;
+    color: $shutter-red;
   }
 
-  // the global "* { color }" rule would otherwise paint the icon grey
   a span {
     color: inherit;
   }
@@ -153,12 +242,12 @@ header {
 
   a:link,
   a:visited {
-    color: #ccc;
+    color: $ink;
     text-decoration: none;
   }
 
   a:hover {
-    color: #fff;
+    color: $shutter-red;
   }
 
   div {
@@ -166,21 +255,69 @@ header {
   }
 }
 
-.page-link {
-  background: $color-page-link-background;
-  border-color: $color-page-link-background;
-  color: $color-page-link;
-}
+$page-color: $ink;
+$page-border: #cdc3ae;
 
-.active .page-link {
-  background: $color-page-link-active-background !important;
-  border-color: $color-page-link-active-background !important;
-}
+.paginator .pagination {
+  flex-wrap: wrap;
+  gap: .45em;
 
-.disabled .page-link {
-  background: $color-page-link-disabled-background !important;
-  border-color: $color-page-link-disabled-background !important;
-  color: $color-page-link !important;
+  .page-item .page-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.6em;
+    height: 2.6em;
+    padding: 0;
+    margin-left: 0;
+    border: 2px solid $page-border;
+    border-radius: 50%;
+    background: $mat;
+    color: $font-main-color;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    box-shadow: 0 .1em .25em rgba($ink, .08);
+    transition: background-color .18s ease, border-color .18s ease, color .18s ease,
+      transform .18s ease, box-shadow .18s ease;
+  }
+
+  .page-item .page-link span {
+    color: inherit;
+  }
+
+  .page-item a.page-link:hover,
+  .page-item a.page-link:focus {
+    background: $page-color;
+    border-color: $page-color;
+    color: $paper;
+    transform: translateY(-.15em);
+    box-shadow: 0 .35em .8em rgba($ink, .25);
+    outline: 0;
+  }
+
+  .page-item.active .page-link {
+    background: $brass;
+    border-color: $brass;
+    color: #fff;
+    box-shadow: 0 0 0 .2em $mat, 0 0 0 .3em $brass, 0 .4em .9em rgba($brass, .4);
+  }
+
+  .page-item.disabled div.page-link {
+    background: transparent;
+    border: 2px dashed $hairline;
+    color: #b3a995;
+    box-shadow: none;
+  }
+
+  .page-item.disabled span.page-link {
+    width: auto;
+    min-width: 1.4em;
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    color: $font-muted-color;
+    letter-spacing: .1em;
+  }
 }
 
 footer {
@@ -188,16 +325,21 @@ footer {
 
   a:link,
   a:visited {
-    color: #eca152;
+    color: $teal;
     text-decoration: none;
   }
 
   a:hover {
-    color: #fff;
+    color: $shutter-red;
   }
 
   .row div {
     margin-bottom: 2em;
+  }
+
+  .svg-story {
+    filter: invert(1) brightness(.35);
+    opacity: .85;
   }
 }
 
