@@ -2,6 +2,7 @@
 /public_html/storage/images/
 /public_html/storage/thumbs/
 /public_html/static/music/
+/config/reference.php
 .htaccess
 .htpasswd
 
