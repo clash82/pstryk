@@ -50,7 +50,8 @@ class LoginThrottle
         $now = time();
 
         $state = $item->isHit() ? (array) $item->get() : ['count' => 0, 'expires' => $now + $this->lockoutSeconds];
-        ++$state['count'];
+        $state['count'] = (int) $state['count'] + 1;
+        $state['expires'] = (int) $state['expires'];
 
         // reaching the limit starts the lockout period, which is counted from the last failed attempt
         if ($state['count'] >= $this->maxAttempts) {
