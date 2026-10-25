@@ -3,6 +3,10 @@ app:
     storage_images_path: storage/images
     storage_thumbs_path: storage/thumbs
 
+    login_throttle:
+        max_attempts: 5 # failed logins (from one IP address) after which login gets blocked
+        lockout_minutes: 15 # for how long login stays blocked
+
     albums:
         stalker:
             title: Stalker Photo

@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Http\Authenticator\AbstractLoginFormAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\CsrfTokenBadge;
@@ -28,12 +29,19 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 
     public function __construct(
         private readonly UserRepository $userRepository,
-        private readonly UrlGeneratorInterface $urlGenerator
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly LoginThrottle $loginThrottle
     ) {
     }
 
     public function authenticate(Request $request): Passport
     {
+        $remaining = $this->loginThrottle->getRemainingLockoutSeconds((string) $request->getClientIp());
+
+        if ($remaining > 0) {
+            throw new TooManyLoginAttemptsException($remaining);
+        }
+
         $email = (string) $request->request->get('email', '');
         $password = (string) $request->request->get('password', '');
 
@@ -59,8 +67,20 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         );
     }
 
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): Response
+    {
+        // attempts rejected because of the lockout must not extend it
+        if (!$exception instanceof TooManyLoginAttemptsException) {
+            $this->loginThrottle->registerFailure((string) $request->getClientIp());
+        }
+
+        return parent::onAuthenticationFailure($request, $exception);
+    }
+
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
+        $this->loginThrottle->reset((string) $request->getClientIp());
+
         $user = $token->getUser();
 
         // only administrators can enter the admin panel, everybody else goes straight to the front page

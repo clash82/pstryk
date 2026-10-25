@@ -9,7 +9,13 @@
                 <div class="card-title text-center">Podaj hasło przyjacielu i wejdź</div>
             </div>
             <div class="card-body">
-                {% if error %}
+                {% if lockout_minutes > 0 %}
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="alert alert-warning text-center">Zbyt wiele nieudanych prób logowania. Logowanie jest chwilowo niedostępne, spróbuj ponownie za {{ lockout_minutes }} min.</div>
+                        </div>
+                    </div>
+                {% elseif error %}
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="alert alert-danger text-center">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -20,13 +26,13 @@
                 <form method="post">
                     <div class="row">
                         <div class="col-lg-5">
-                            <input name="email" type="text" class="form-control" placeholder="e-mail" value="{{ last_username }}" required autofocus>
+                            <input name="email" type="text" class="form-control" placeholder="e-mail"{% if lockout_minutes > 0 %} disabled{% endif %} value="{{ last_username }}" required autofocus>
                         </div>
                         <div class="col-lg-5">
-                            <input name="password" type="password" class="form-control" placeholder="hasło" required>
+                            <input name="password" type="password" class="form-control" placeholder="hasło"{% if lockout_minutes > 0 %} disabled{% endif %} required>
                         </div>
                         <div class="col-lg-2">
-                            <button class="btn btn-success btn-block submit" type="submit">
+                            <button class="btn btn-success btn-block submit" type="submit"{% if lockout_minutes > 0 %} disabled{% endif %}>
                                 <span class="fas fa-chevron-right"></span>
                             </button>
                         </div>
