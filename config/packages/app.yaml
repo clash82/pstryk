@@ -76,7 +76,7 @@ app:
         rafal:
             title: Rafał Story
             description: Tutaj opowiadam o sobie.
-            pagination_limit: 3
+            pagination_limit: 5
             feed_limit: 10
             feed_url: http://feeds.feedburner.com/rafaltoborek
             sitemap: true

@@ -1,48 +1,21 @@
+// Plain, light theme: white page, near-black text, a single grey for secondary
+// text and hairlines. No accent colours - the photographs are the only colour on
+// the page. Colour / decoration only; the HTML layout is untouched.
+
 $font-main: 'Open Sans', sans-serif;
-$font-exif: ui-monospace, 'SFMono-Regular', Menlo, Consolas, 'Courier New', monospace;
 
-$paper: #f4efe6;
-$paper-dark: #e9e1d1;
-$mat: #fffdf9;
-$ink: #2b2724;
-$font-main-color: #3b3631;
-$font-muted-color: #8a8174;
-$brass: #9a6a14;
-$shutter-red: #c8372d;
-$teal: #17797a;
-$coral: #d9532f;
-$plum: #7a4a8c;
-$olive: #6f7d1e;
-$hairline: #ddd4c2;
+$ink: #222;
+$muted: #777;
+$line: #e4e4e4;
+$wash: #f3f3f3;
+$white: #fff;
 
-$color-background: $paper;
-$color-frame-background: $mat;
-$color-frame-border: $hairline;
-
-// pagination
-$color-page-link-background: $mat;
-$color-page-link: $font-main-color;
-$color-page-link-active-background: $ink;
-$color-page-link-disabled-background: $paper-dark;
+$font-main-color: $ink;
+$color-background: $white;
 
 @mixin font-pretty {
   font-family: 'Playfair Display', serif;
   font-style: italic;
-}
-
-@mixin film-strip($height: .85em) {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: $height;
-  pointer-events: none;
-  background-color: $ink;
-  background-image: linear-gradient(90deg, $paper 0, $paper .7em, transparent .7em);
-  background-size: 1.3em .4em;
-  background-position: .3em 50%;
-  background-repeat: repeat-x;
-  background-clip: border-box;
 }
 
 * {
@@ -51,54 +24,30 @@ $color-page-link-disabled-background: $paper-dark;
 }
 
 body {
-  background:
-    radial-gradient(60em 34em at 0% 0%, rgba($teal, .13), transparent 70%) fixed,
-    radial-gradient(54em 32em at 100% 12%, rgba($coral, .12), transparent 70%) fixed,
-    radial-gradient(60em 36em at 85% 100%, rgba($plum, .11), transparent 70%) fixed,
-    linear-gradient(180deg, $paper 0%, $paper-dark 100%) fixed;
-  background-color: $color-background;
+  background: $color-background;
   padding-top: 3em;
-  min-height: 100vh;
 }
 
 header {
   margin-bottom: 3em;
 
+  // the logo is a light-grey transparent PNG made for dark backgrounds;
+  // flip it to near-black so it reads on white
   img {
-    filter: invert(1) brightness(.2);
+    filter: invert(1) brightness(.15);
   }
 }
 
 .frame,
 .frame-item {
-  position: relative;
-  padding: 2.4em 0 1.5em 0;
-  margin: 0 .2em 4em .2em;
-  background: $color-frame-background;
-  border: 1px solid $hairline;
-  box-shadow: 0 .1em .2em rgba($ink, .06), 0 1em 2.2em -.6em rgba($ink, .25);
-  --accent: #{$brass};
-
-  &::before {
-    @include film-strip();
-    top: 0;
-  }
-
-  &::after {
-    content: '';
-    position: absolute;
-    top: .85em;
-    left: 0;
-    right: 0;
-    height: .22em;
-    background: var(--accent);
-    pointer-events: none;
-  }
+  padding: 0 0 2em 0;
+  margin: 0 .2em 3em .2em;
+  background: transparent;
+  border-bottom: 1px solid $line;
 
   .frame-item-title {
     @include font-pretty();
     font-size: 2em;
-    color: $ink;
   }
 
   .frame-title {
@@ -106,25 +55,22 @@ header {
     a:visited {
       @include font-pretty;
       font-size: 2em;
-      color: $ink;
+      color: inherit;
       text-decoration: none;
-      background: linear-gradient(var(--accent), var(--accent)) no-repeat 0 100% / 0 .06em;
-      transition: background-size .25s ease, color .2s ease;
     }
 
     a:hover {
-      color: var(--accent);
-      background-size: 100% .06em;
+      text-decoration: underline;
+      text-underline-offset: .15em;
+      text-decoration-thickness: 1px;
     }
   }
 
   .frame-date,
   .frame-item-date {
     margin-bottom: 1em;
-    font-family: $font-exif;
-    font-size: .75em;
-    letter-spacing: .14em;
-    color: var(--accent);
+    font-size: .8em;
+    color: $muted;
   }
 
   .frame-thumb,
@@ -132,19 +78,10 @@ header {
     margin-bottom: 1em;
   }
 
+  // photos get a thin black border and are otherwise untouched (no tint, filter or hover effect)
   .frame-thumb img,
   .frame-item-thumb img {
-    padding: .35em;
-    background: #fff;
-    border: 1px solid $hairline;
-    box-shadow: 0 .15em .6em rgba($ink, .22);
-    transition: box-shadow .2s ease, transform .2s ease;
-  }
-
-  .frame-thumb a:hover img,
-  .frame-item-thumb a:hover img {
-    box-shadow: 0 .3em 1.2em rgba($ink, .35);
-    transform: translateY(-.15em);
+    border: 1px solid #000;
   }
 
   .frame-thumb-left {
@@ -159,13 +96,12 @@ header {
   .frame-item-description {
     font-size: 1em;
     margin-bottom: 1em;
-    color: $font-main-color;
   }
 
   .frame-item-image-description {
     @include font-pretty();
     margin-bottom: 1.5em;
-    color: $font-muted-color;
+    color: $muted;
   }
 
   .frame-item-image-description:last-child{
@@ -189,24 +125,21 @@ header {
 
         a:link,
         a:visited {
-          color: $font-muted-color;
+          color: $muted;
           text-decoration: none;
         }
 
         a:hover {
-          color: $shutter-red;
+          color: $ink;
         }
       }
     }
   }
 }
 
-.frame:nth-child(4n + 1) { --accent: #{$brass}; }
-.frame:nth-child(4n + 2) { --accent: #{$teal}; }
-.frame:nth-child(4n + 3) { --accent: #{$coral}; }
-.frame:nth-child(4n + 4) { --accent: #{$plum}; }
-.frame-item { --accent: #{$teal}; }
-
+// The detail view wraps its images in an extra nested .container, which adds its own
+// padding and max-width and made those images 30px narrower than the list image.
+// Neutralise it so a full-width photo is the same size in both views.
 .frame-item .frame-item-image-gallery {
   max-width: none;
   padding-left: 0;
@@ -214,7 +147,68 @@ header {
 }
 
 .paginator {
-  margin-bottom: 4em;
+  margin-bottom: 3em;
+}
+
+// Pagination: small, flat and always on one line (also on a 320px screen).
+// Everything is sized in em from a small base so the whole row scales together.
+.paginator .pagination {
+  flex-wrap: nowrap;
+  justify-content: center;
+  gap: .15em;
+  font-size: .8rem;
+
+  // 4 classes: beats bootstrap's first-child / not(:first-child) rules
+  .page-item .page-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2em;
+    height: 2em;
+    padding: 0 .35em;
+    margin-left: 0;
+    border: 0;
+    border-radius: 1em;
+    background: transparent;
+    color: $ink;
+    font-size: 1em;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .page-item .page-link span {
+    color: inherit;
+    font-size: .9em;
+  }
+
+  .page-item a.page-link:hover,
+  .page-item a.page-link:focus {
+    background: $wash;
+    outline: 0;
+  }
+
+  // current page: solid dark disc
+  .page-item.active .page-link {
+    background: $ink;
+    color: $white;
+  }
+
+  // disabled arrow: faded
+  .page-item.disabled div.page-link {
+    color: #bbb;
+  }
+
+  // the "..." gap: no button, tighter
+  .page-item.disabled span.page-link {
+    min-width: 1em;
+    padding: 0;
+    color: $muted;
+  }
+
+  // very narrow phones: shrink a little further instead of wrapping
+  @media (max-width: 359px) {
+    font-size: .7rem;
+  }
 }
 
 .logout {
@@ -223,15 +217,16 @@ header {
   a:link,
   a:visited {
     @include font-pretty();
-    color: $brass;
+    color: $muted;
     text-decoration: none;
     font-size: 1.1em;
   }
 
   a:hover {
-    color: $shutter-red;
+    color: $ink;
   }
 
+  // the global "* { color }" rule would otherwise paint the icon grey
   a span {
     color: inherit;
   }
@@ -247,7 +242,8 @@ header {
   }
 
   a:hover {
-    color: $shutter-red;
+    text-decoration: underline;
+    text-underline-offset: .15em;
   }
 
   div {
@@ -255,91 +251,28 @@ header {
   }
 }
 
-$page-color: $ink;
-$page-border: #cdc3ae;
-
-.paginator .pagination {
-  flex-wrap: wrap;
-  gap: .45em;
-
-  .page-item .page-link {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 2.6em;
-    height: 2.6em;
-    padding: 0;
-    margin-left: 0;
-    border: 2px solid $page-border;
-    border-radius: 50%;
-    background: $mat;
-    color: $font-main-color;
-    font-weight: 600;
-    font-variant-numeric: tabular-nums;
-    box-shadow: 0 .1em .25em rgba($ink, .08);
-    transition: background-color .18s ease, border-color .18s ease, color .18s ease,
-      transform .18s ease, box-shadow .18s ease;
-  }
-
-  .page-item .page-link span {
-    color: inherit;
-  }
-
-  .page-item a.page-link:hover,
-  .page-item a.page-link:focus {
-    background: $page-color;
-    border-color: $page-color;
-    color: $paper;
-    transform: translateY(-.15em);
-    box-shadow: 0 .35em .8em rgba($ink, .25);
-    outline: 0;
-  }
-
-  .page-item.active .page-link {
-    background: $brass;
-    border-color: $brass;
-    color: #fff;
-    box-shadow: 0 0 0 .2em $mat, 0 0 0 .3em $brass, 0 .4em .9em rgba($brass, .4);
-  }
-
-  .page-item.disabled div.page-link {
-    background: transparent;
-    border: 2px dashed $hairline;
-    color: #b3a995;
-    box-shadow: none;
-  }
-
-  .page-item.disabled span.page-link {
-    width: auto;
-    min-width: 1.4em;
-    background: transparent;
-    border-color: transparent;
-    box-shadow: none;
-    color: $font-muted-color;
-    letter-spacing: .1em;
-  }
-}
-
 footer {
   @include font-pretty();
+  color: $muted;
 
   a:link,
   a:visited {
-    color: $teal;
+    color: $ink;
     text-decoration: none;
   }
 
   a:hover {
-    color: $shutter-red;
+    text-decoration: underline;
+    text-underline-offset: .15em;
   }
 
   .row div {
     margin-bottom: 2em;
   }
 
+  // the footer emblem is a light-grey SVG made for dark pages
   .svg-story {
-    filter: invert(1) brightness(.35);
-    opacity: .85;
+    filter: invert(1) brightness(.5);
   }
 }
 
