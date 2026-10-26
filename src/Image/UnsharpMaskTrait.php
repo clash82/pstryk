@@ -37,9 +37,6 @@ trait UnsharpMaskTrait
 
         $w = imagesx($image);
         $h = imagesy($image);
-
-        /** @var \GdImage $imgCanvas */
-        $imgCanvas = imagecreatetruecolor($w, $h);
         /** @var \GdImage $imgBlur */
         $imgBlur = imagecreatetruecolor($w, $h);
 
@@ -132,9 +129,6 @@ trait UnsharpMaskTrait
                 }
             }
         }
-
-        imagedestroy($imgCanvas);
-        imagedestroy($imgBlur);
 
         return $image;
     }
